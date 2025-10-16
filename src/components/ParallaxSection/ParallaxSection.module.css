@@ -1,0 +1,40 @@
+.parallaxSection {
+  position: relative;
+  will-change: transform;
+  transition: transform 0.1s ease-out;
+}
+
+.parallaxSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(203, 166, 247, 0.03) 0%,
+    rgba(137, 180, 250, 0.02) 50%,
+    rgba(245, 194, 231, 0.03) 100%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.parallaxSection:hover::before {
+  opacity: 1;
+}
+
+/* Optional: Add depth layers */
+.parallaxSection[data-speed="slow"] {
+  transform-origin: center center;
+}
+
+.parallaxSection[data-speed="medium"] {
+  transform-origin: center center;
+}
+
+.parallaxSection[data-speed="fast"] {
+  transform-origin: center center;
+}

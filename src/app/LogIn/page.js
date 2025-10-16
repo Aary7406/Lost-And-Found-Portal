@@ -188,6 +188,7 @@ const AuthPage = () => {
           </div>
         </div>
       </div>
+      </PageTransition>
     </ClientOnly>
   );
 };

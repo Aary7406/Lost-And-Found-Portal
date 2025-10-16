@@ -11,19 +11,19 @@ import styles from './styles/LandingPage.module.css';
 export default function LandingPage() {
   const containerRef = useRef(null);
 
-  // useEffect(() => {
-  //   // Add any global animations or effects here
-  //   const handleScroll = () => {
-  //     const scrolled = window.pageYOffset;
-  //     const parallax = containerRef.current?.querySelector(`.${styles.backgroundOverlay}`);
-  //     if (parallax) {
-  //       parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
-  //     }
-  //   };
+  useEffect(() => {
+    // Parallax effect for background overlay
+    const handleScroll = () => {
+      const scrolled = window.pageYOffset;
+      const parallax = containerRef.current?.querySelector(`.${styles.backgroundOverlay}`);
+      if (parallax) {
+        parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
+      }
+    };
 
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => window.removeEventListener('scroll', handleScroll);
-  // }, []);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div className={styles.container} ref={containerRef}>
