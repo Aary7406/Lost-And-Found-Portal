@@ -1,0 +1,226 @@
+/* components/Hero/Hero.module.css */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+  position: relative;
+  overflow: hidden;
+}
+
+.glowEffect {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(203, 166, 247, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 0;
+}
+
+.content {
+  flex: 1;
+  max-width: 600px;
+  z-index: 2;
+}
+
+.badge {
+  display: inline-block;
+  padding: 8px 20px;
+  background: rgba(203, 166, 247, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(203, 166, 247, 0.2);
+  border-radius: 50px;
+  margin-bottom: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.badge:hover {
+  background: rgba(203, 166, 247, 0.15);
+  border-color: rgba(203, 166, 247, 0.3);
+}
+
+.badgeText {
+  color: #cba6f7;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.title {
+  font-family: var(--font-comfortaa);
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  color: #cdd6f4;
+}
+
+.titleGradient {
+  background: linear-gradient(135deg, #cba6f7 0%, #89b4fa 50%, #f5c2e7 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.subtitle {
+  font-family: var(--font-jetbrains);
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: #bac2de;
+  margin-bottom: 40px;
+  opacity: 0.9;
+}
+
+.ctaGroup {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.primaryBtn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 32px;
+  background: linear-gradient(135deg, #cba6f7 0%, #89b4fa 100%);
+  color: #11111b;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(203, 166, 247, 0.3);
+}
+
+.primaryBtn:hover {
+  box-shadow: 0 8px 30px rgba(203, 166, 247, 0.4);
+  transform: translateY(-2px);
+}
+
+.secondaryBtn {
+  padding: 16px 32px;
+  background: rgba(205, 214, 244, 0.1);
+  backdrop-filter: blur(10px);
+  color: #cdd6f4;
+  font-size: 16px;
+  font-weight: 600;
+  border: 1px solid rgba(205, 214, 244, 0.2);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.secondaryBtn:hover {
+  background: rgba(205, 214, 244, 0.15);
+  border-color: rgba(205, 214, 244, 0.3);
+}
+
+.heroImage {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.imageContainer {
+  position: relative;
+  width: 400px;
+  height: 400px;
+}
+
+.floatingCard1,
+.floatingCard2,
+.floatingCard3 {
+  position: absolute;
+  padding: 16px 24px;
+  background: rgba(17, 17, 27, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(203, 166, 247, 0.2);
+  border-radius: 16px;
+  color: #cdd6f4;
+  font-weight: 500;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.floatingCard1 {
+  top: 20%;
+  left: 10%;
+  animation: float 3s ease-in-out infinite;
+}
+
+.floatingCard2 {
+  top: 60%;
+  right: 20%;
+  animation: float 3s ease-in-out infinite 1s;
+}
+
+.floatingCard3 {
+  bottom: 20%;
+  left: 30%;
+  animation: float 3s ease-in-out infinite 2s;
+}
+
+.cardContent {
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(1deg);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 80px 5% 40px;
+  }
+  
+  .content {
+    max-width: 100%;
+    margin-bottom: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .ctaGroup {
+    justify-content: center;
+  }
+  
+  .primaryBtn,
+  .secondaryBtn {
+    padding: 14px 24px;
+    font-size: 14px;
+  }
+  
+  .imageContainer {
+    width: 300px;
+    height: 300px;
+  }
+}

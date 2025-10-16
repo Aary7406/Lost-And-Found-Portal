@@ -1,0 +1,24 @@
+{
+  "name": "lost-and-found",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "seed:director": "node scripts/seedDirector.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.1",
+    "framer-motion": "^12.23.12",
+    "gsap": "^3.13.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.18.0",
+    "next": "15.4.6",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  }
+}

@@ -1,0 +1,150 @@
+/* AuthPage.module.css */
+
+/* Catppuccin Mocha Theme Colors */
+:root {
+  --background: #2e2a31; /* Background color */
+  --surface: #3c3a4e; /* Surface color */
+  --text: #d9d7e1; /* Text color */
+  --primary: #f5c2e7; /* Primary color */
+  --secondary: #f8c0c0; /* Secondary color */
+  --accent: #f5a97f; /* Accent color */
+  --border: #4c4a5a; /* Border color */
+}
+
+.authPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full height of the viewport */
+  background-color: var(--background);
+  color: var(--text);
+  position: relative;
+  overflow: hidden;
+}
+
+.container {
+  position: relative;
+  z-index: 1; /* Ensure the container is above the background */
+  padding: 2rem;
+  background-color: var(--surface);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.logoSection {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+.welcomeText {
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.formContainer {
+  margin-top: 1rem;
+}
+
+.userTypeSelector {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+}
+
+.typeBtn {
+  background: transparent;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+.typeBtn:hover {
+  background: var(--primary);
+  color: var(--background);
+}
+
+.active {
+  background: var(--primary);
+  color: var(--background);
+}
+
+.formWrapper {
+  margin-bottom: 1.5rem;
+}
+
+.authSwitch {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.switchText {
+  margin-bottom: 0.5rem;
+}
+
+.switchBtn {
+  background: var(--secondary);
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.switchBtn:hover {
+  background: var(--accent);
+}
+
+.socialSection {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.divider {
+  margin: 1rem 0;
+}
+
+.socialButtons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.socialBtn {
+  background: var(--primary);
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background 0.3s;
+}
+
+.socialBtn:hover {
+  background: var(--accent);
+}
+
+.featuresPreview {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2rem;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.featureIcon {
+  font-size: 1.5rem;
+}
