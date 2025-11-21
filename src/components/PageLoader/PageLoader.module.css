@@ -1,0 +1,180 @@
+/* PageLoader.module.css - Advanced Loading Animation */
+.loaderContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--ctp-base);
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.gradientBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Logo Container with 3D Transform */
+.logoContainer {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.logoRing {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.morphSvg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 20px rgba(203, 166, 247, 0.5));
+}
+
+.logoEmoji {
+  font-size: 48px;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+}
+
+/* Fibonacci Spiral Particles */
+.particleField {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(
+    circle,
+    rgba(203, 166, 247, 1),
+    rgba(137, 180, 250, 0.8),
+    transparent
+  );
+  border-radius: 50%;
+  box-shadow: 
+    0 0 10px rgba(203, 166, 247, 0.8),
+    0 0 20px rgba(137, 180, 250, 0.6);
+}
+
+/* Loading Text with Wave Animation */
+.textContainer {
+  position: absolute;
+  bottom: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.loadingText {
+  display: flex;
+  gap: 4px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.loadingText span {
+  display: inline-block;
+}
+
+/* Progress Bar with Gradient Fill */
+.progressBar {
+  width: 200px;
+  height: 4px;
+  background: rgba(205, 214, 244, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--ctp-mauve),
+    var(--ctp-blue),
+    var(--ctp-pink),
+    var(--ctp-mauve)
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite linear;
+  transform-origin: left;
+  border-radius: 10px;
+  box-shadow: 
+    0 0 10px rgba(203, 166, 247, 0.5),
+    0 0 20px rgba(137, 180, 250, 0.3);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Orbital Rings */
+.orbitalRing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid;
+  border-color: rgba(203, 166, 247, 0.1) rgba(137, 180, 250, 0.1) 
+                rgba(245, 194, 231, 0.1) transparent;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .logoContainer {
+    width: 100px;
+    height: 100px;
+  }
+
+  .logoEmoji {
+    font-size: 40px;
+  }
+
+  .loadingText {
+    font-size: 20px;
+  }
+
+  .progressBar {
+    width: 160px;
+  }
+}

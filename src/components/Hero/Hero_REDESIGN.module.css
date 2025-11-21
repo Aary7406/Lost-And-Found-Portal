@@ -95,39 +95,86 @@
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
 }
 
-/* Login Pill */
+/* Login Pill with Left-to-Right Fill Animation */
+.loginPillWrapper {
+  position: relative;
+  cursor: pointer;
+  transition: filter 0.3s ease;
+}
+
+.loginPillWrapper:hover {
+  filter: drop-shadow(0 0 12px rgba(203, 166, 247, 0.3));
+}
+
 .loginPill {
+  position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   padding: 10px 24px;
   background: rgba(30, 30, 46, 0.6);
   backdrop-filter: blur(24px) saturate(180%);
   border: 1px solid rgba(203, 166, 247, 0.3);
   border-radius: 100px;
-  color: var(--ctp-mauve);
   font-size: 14px;
   font-weight: 700;
   text-decoration: none;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 20px rgba(203, 166, 247, 0.15);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
+  overflow: hidden;
+  isolation: isolate;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
-.loginPill:hover {
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(203, 166, 247, 0.25);
-  transform: translateY(-2px);
-  background: rgba(30, 30, 46, 0.75);
-  border-color: rgba(203, 166, 247, 0.4);
+.loginPillWrapper:hover .loginPill {
+  border-color: rgba(203, 166, 247, 0.5);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25), 0 0 30px rgba(203, 166, 247, 0.25);
 }
 
-.loginArrow {
+/* Fill background that grows left to right */
+.fillBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(135deg, #cba6f7 0%, #89b4fa 100%);
+  z-index: 0;
+  border-radius: 100px;
+}
+
+/* Shimmer overlay for extra polish */
+.shimmerOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 30%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    transparent 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+  filter: blur(8px);
+}
+
+/* Content wrapper positioned above fill */
+.loginContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+
+.arrow {
   font-size: 16px;
-  transition: transform 0.3s ease;
-}
-
-.loginPill:hover .loginArrow {
-  transform: translateX(4px);
+  display: inline-block;
+  transform-origin: center;
 }
 
 /* Hero Content */
