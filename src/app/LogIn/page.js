@@ -1,196 +1,284 @@
-// app/LogIn/page.js - Simplified and Clean
-'use client'
-import { useState, useEffect, useCallback, useMemo } from 'react';
-import dynamic from 'next/dynamic';
-import ClientOnly from '../../components/ClientOnly';
-import PageTransition from '../../components/PageTransition/PageTransition';
+'use client';
 
-// Dynamic imports for better performance
-const LoginForm = dynamic(() => 
-  import('./../../components/pages/AuthPage/LoginForm'), {
-  ssr: false,
-  loading: () => <div className="loading-spinner">Loading...</div>
-});
-
-const SignupForm = dynamic(() => 
-  import('./../../components/pages/AuthPage/SignupForm'), {
-  ssr: false,
-  loading: () => <div className="loading-spinner">Loading...</div>
-});
-
-const BlobBackground = dynamic(() => 
-  import('../../components/pages/AuthPage/BlobBackground'), {
-  ssr: false,
-  loading: () => null
-});
-
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import styles from './LogIn.module.css';
 
-const AuthPage = () => {
-  const [isLogin, setIsLogin] = useState(true);
-  const [userType, setUserType] = useState('user');
-  const [isLoaded, setIsLoaded] = useState(false);
+const LoginPage = () => {
+  const router = useRouter();
+  const [userType, setUserType] = useState('student');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState({});
 
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    
+    const newErrors = {};
+    if (!username.trim()) newErrors.username = 'Username is required';
+    if (!password.trim()) newErrors.password = 'Password is required';
+    if (password.length < 6) newErrors.password = 'Password must be at least 6 characters';
+    
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) return;
 
-  // Memoized functions to prevent unnecessary re-renders
-  const switchUserType = useCallback((type) => {
-    setUserType(type);
-    if (type === 'admin') {
-      setIsLogin(true); // Admin can only login
-    }
-  }, []);
+    setIsLoading(true);
+    
+    setTimeout(() => {
+      setIsLoading(false);
+      console.log('Login:', { username, password, userType, rememberMe });
+      if (userType === 'admin') {
+        router.push('/AdminDashboard');
+      } else {
+        router.push('/StudentDashboard');
+      }
+    }, 1500);
+  };
 
-  const switchAuthMode = useCallback(() => {
-    if (userType === 'admin') {
-      setUserType('user'); // Switch to student when clicking auth switch from admin
-      setIsLogin(true);
-    } else {
-      setIsLogin(!isLogin);
-    }
-  }, [userType, isLogin]);
-
-  // Memoized welcome text
-  const welcomeText = useMemo(() => {
-    if (userType === 'admin') return 'Admin Portal';
-    return isLogin ? 'Welcome back!' : 'Join our community';
-  }, [userType, isLogin]);
-
-  // Memoized auth switch content
-  const authSwitchContent = useMemo(() => {
-    if (userType === 'admin') {
-      return { text: "Need student access?", buttonText: 'Student Portal' };
-    }
-    return {
-      text: isLogin ? "Don't have an account?" : "Already have an account?",
-      buttonText: isLogin ? 'Sign Up' : 'Login'
-    };
-  }, [userType, isLogin]);
-
-  if (!isLoaded) {
-    return (
-      <div className={styles.loadingContainer}>
-        <div className={styles.spinner}></div>
-        <p>Loading...</p>
-      </div>
-    );
-  }
+  const handleSignup = () => {
+    console.log('Navigate to signup');
+  };
 
   return (
-    <ClientOnly fallback={
-      <div className={styles.loadingContainer}>
-        <div className={styles.spinner}></div>
+    <div className={styles.loginPage}>
+      {/* Optimized Static Background */}
+      <div className={styles.backgroundWrapper}>
+        <div className={styles.gradientOrb1} />
+        <div className={styles.gradientOrb2} />
+        <div className={styles.gradientOrb3} />
       </div>
-    }>
-      <PageTransition>
-        <div className={styles.authPage}>
-          <BlobBackground />
-          
-          <div className={styles.container}>
-          {/* Logo Section */}
-          <div className={styles.logoSection}>
+
+      {/* Main Content */}
+      <div className={styles.contentWrapper}>
+        <motion.div
+          className={styles.loginContainer}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: [0.19, 1, 0.22, 1] }}
+        >
+          {/* Logo & Title - Compact */}
+          <div className={styles.header}>
             <div className={styles.logo}>
               <span className={styles.logoIcon}>🎓</span>
               <span className={styles.logoText}>Lost & Found</span>
+              {/* Features moved here as badges */}
+              <div className={styles.featureBadges}>
+                <span className={styles.badge} title="Secure Login">🔒</span>
+                <span className={styles.badge} title="Fast Access">⚡</span>
+                <span className={styles.badge} title="Mobile Friendly">📱</span>
+              </div>
             </div>
-            <p className={styles.welcomeText}>{welcomeText}</p>
+            <h1 className={styles.title}>Welcome Back</h1>
           </div>
 
-          {/* Main Form Container */}
-          <div className={styles.formContainer}>
+          {/* Login Card */}
+          <div className={styles.loginCard}>
             {/* User Type Selector */}
             <div className={styles.userTypeSelector}>
-              <div 
-                className={`${styles.selectorIndicator} ${userType === 'admin' ? styles.admin : ''}`}
+              <motion.div
+                className={styles.selectorBackground}
+                animate={{
+                  x: userType === 'student' ? '0%' : '100%',
+                }}
+                transition={{
+                  type: 'spring',
+                  stiffness: 250,
+                  damping: 25,
+                }}
               />
               
-              <button 
-                className={`${styles.typeBtn} ${userType === 'user' ? styles.active : ''}`}
-                onClick={() => switchUserType('user')}
+              <button
                 type="button"
+                className={`${styles.selectorButton} ${userType === 'student' ? styles.active : ''}`}
+                onClick={() => setUserType('student')}
               >
-                <span className={styles.typeIcon}>👨‍🎓</span>
+                <span className={styles.selectorIcon}>👨‍🎓</span>
                 <span>Student</span>
               </button>
-              <button 
-                className={`${styles.typeBtn} ${userType === 'admin' ? styles.active : ''}`}
-                onClick={() => switchUserType('admin')}
+              
+              <button
                 type="button"
+                className={`${styles.selectorButton} ${userType === 'admin' ? styles.active : ''}`}
+                onClick={() => setUserType('admin')}
               >
-                <span className={styles.typeIcon}>👨‍💼</span>
+                <span className={styles.selectorIcon}>👨‍💼</span>
                 <span>Admin</span>
               </button>
             </div>
 
-            {/* Auth Forms */}
-            <div className={styles.formWrapper}>
-              {userType === 'admin' ? (
-                <LoginForm userType={userType} />
-              ) : (
-                isLogin ? (
-                  <LoginForm userType={userType} />
-                ) : (
-                  <SignupForm userType={userType} />
-                )
+            {/* Login Form */}
+            <form onSubmit={handleLogin} className={styles.form}>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={userType}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 10 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {/* Username Input */}
+                  <div className={styles.inputGroup}>
+                    <label className={styles.label}>Username</label>
+                    <div className={styles.inputWrapper}>
+                      <span className={styles.inputIcon}>👤</span>
+                      <input
+                        type="text"
+                        value={username}
+                        onChange={(e) => {
+                          setUsername(e.target.value);
+                          setErrors({ ...errors, username: '' });
+                        }}
+                        placeholder={userType === 'admin' ? 'admin_username' : 'student_username'}
+                        className={styles.input}
+                      />
+                    </div>
+                    {errors.username && (
+                      <motion.span
+                        className={styles.error}
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        {errors.username}
+                      </motion.span>
+                    )}
+                  </div>
+
+                  {/* Password Input */}
+                  <div className={styles.inputGroup}>
+                    <label className={styles.label}>Password</label>
+                    <div className={styles.inputWrapper}>
+                      <span className={styles.inputIcon}>🔒</span>
+                      <input
+                        type={showPassword ? 'text' : 'password'}
+                        value={password}
+                        onChange={(e) => {
+                          setPassword(e.target.value);
+                          setErrors({ ...errors, password: '' });
+                        }}
+                        placeholder="Enter your password"
+                        className={styles.input}
+                      />
+                      <button
+                        type="button"
+                        className={styles.togglePassword}
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? '👁️' : '👁️‍🗨️'}
+                      </button>
+                    </div>
+                    {errors.password && (
+                      <motion.span
+                        className={styles.error}
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        {errors.password}
+                      </motion.span>
+                    )}
+                  </div>
+
+                  {/* Remember Me & Forgot Password */}
+                  <div className={styles.formOptions}>
+                    <label className={styles.checkboxLabel}>
+                      <input
+                        type="checkbox"
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                        className={styles.checkbox}
+                      />
+                      <span>Remember me</span>
+                    </label>
+                    
+                    <button
+                      type="button"
+                      className={styles.forgotPassword}
+                    >
+                      Forgot password?
+                    </button>
+                  </div>
+
+                  {/* Login Button */}
+                  <motion.button
+                    type="submit"
+                    className={styles.loginButton}
+                    disabled={isLoading}
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
+                  >
+                    <motion.div
+                      className={styles.buttonFill}
+                      initial={false}
+                      animate={{
+                        width: isLoading ? '100%' : '0%',
+                      }}
+                      transition={{ duration: 1.5, ease: 'linear' }}
+                    />
+                    <span className={styles.buttonContent}>
+                      {isLoading ? (
+                        <>
+                          <motion.span
+                            className={styles.spinner}
+                            animate={{ rotate: 360 }}
+                            transition={{
+                              duration: 1,
+                              repeat: Infinity,
+                              ease: 'linear',
+                            }}
+                          >
+                            ⭐
+                          </motion.span>
+                          Signing in...
+                        </>
+                      ) : (
+                        <>
+                          Sign In
+                          <span>→</span>
+                        </>
+                      )}
+                    </span>
+                  </motion.button>
+                </motion.div>
+              </AnimatePresence>
+            </form>
+
+            {/* Sign Up Section - Only for Students */}
+            <AnimatePresence>
+              {userType === 'student' && (
+                <motion.div
+                  className={styles.signupSection}
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.25 }}
+                >
+                  <div className={styles.divider}>
+                    <span>or</span>
+                  </div>
+                  
+                  <motion.button
+                    type="button"
+                    className={styles.signupButton}
+                    onClick={handleSignup}
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
+                  >
+                    <span>Create Student Account</span>
+                    <span>✨</span>
+                  </motion.button>
+                </motion.div>
               )}
-            </div>
-
-            {/* Switch Auth Mode */}
-            <div className={styles.authSwitch}>
-              <p className={styles.switchText}>
-                {authSwitchContent.text}
-              </p>
-              <button 
-                className={styles.switchBtn}
-                onClick={switchAuthMode}
-                type="button"
-              >
-                {authSwitchContent.buttonText}
-              </button>
-            </div>
-
-            {/* Social Login Options - Only for students */}
-            {userType !== 'admin' && (
-              <div className={styles.socialSection}>
-                <div className={styles.divider}>
-                  <span>or continue with</span>
-                </div>
-                <div className={styles.socialButtons}>
-                  <button className={styles.socialBtn} type="button">
-                    <span className={styles.socialIcon}>🎓</span>
-                    College ID
-                  </button>
-                  <button className={styles.socialBtn} type="button">
-                    <span className={styles.socialIcon}>📧</span>
-                    Google
-                  </button>
-                </div>
-              </div>
-            )}
+            </AnimatePresence>
           </div>
-
-          {/* Features Preview */}
-          <div className={styles.featuresPreview}>
-            <div className={styles.featureItem}>
-              <span className={styles.featureIcon}>🔍</span>
-              <span>Smart Search</span>
-            </div>
-            <div className={styles.featureItem}>
-              <span className={styles.featureIcon}>📱</span>
-              <span>Real-time Alerts</span>
-            </div>
-            <div className={styles.featureItem}>
-              <span className={styles.featureIcon}>✅</span>
-              <span>Quick Reporting</span>
-            </div>
-          </div>
-        </div>
+        </motion.div>
       </div>
-      </PageTransition>
-    </ClientOnly>
+    </div>
   );
 };
 
-export default AuthPage;
+export default LoginPage;
