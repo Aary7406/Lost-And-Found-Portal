@@ -84,7 +84,9 @@ const StatCard = ({ stat, index, isInView }) => {
       whileHover={{ y: -8, transition: { duration: 0.3 } }}
     >
       <div className={styles.statNumber}>
-        {count}
+        <span data-stat-number data-target={stat.number}>
+          {count}
+        </span>
         <span className={styles.suffix}>{stat.suffix}</span>
       </div>
       <div className={styles.statLabel}>{stat.label}</div>

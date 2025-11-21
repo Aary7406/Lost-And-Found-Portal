@@ -80,6 +80,7 @@ const Features = () => {
               key={index}
               className={styles.card}
               variants={cardVariants}
+              data-feature-card
               whileHover={{ 
                 y: -10,
                 transition: { duration: 0.3 }

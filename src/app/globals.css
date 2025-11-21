@@ -27,6 +27,14 @@
   --ctp-base: #1e1e2e;
   --ctp-mantle: #181825;
   --ctp-crust: #11111b;
+  --radius-lg: 24px;
+  --radius-md: 14px;
+  --radius-sm: 8px;
+  --space-xxl: 64px;
+  --space-xl: 48px;
+  --space-lg: 32px;
+  --space-md: 20px;
+  --space-sm: 12px;
 }
 
 * {
@@ -153,5 +161,15 @@ select {
   body {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+}
+
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }

@@ -23,11 +23,13 @@ export const jetbrainsMono = JetBrains_Mono({
   variable: '--font-jetbrains',
 });
 export const comfortaa = Comfortaa({
+  weight: ['300', '400', '500', '600', '700'],
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-comfortaa',
 });
 export const roboto = Roboto({
+  weight: ['300', '400', '500', '700'],
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-roboto',

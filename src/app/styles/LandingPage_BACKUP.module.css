@@ -1,0 +1,341 @@
+.main {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  background: var(--ctp-base);
+}
+
+/* Animated Background Layers */
+.backgroundLayer1,
+.backgroundLayer2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.backgroundLayer1 {
+  background: 
+    radial-gradient(ellipse at 10% 20%, rgba(203, 166, 247, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 80%, rgba(137, 180, 250, 0.12) 0%, transparent 50%);
+  filter: blur(60px);
+}
+
+.backgroundLayer2 {
+  background: 
+    radial-gradient(circle at 50% 50%, rgba(245, 194, 231, 0.08) 0%, transparent 60%),
+    linear-gradient(180deg, transparent 0%, rgba(30, 30, 46, 0.5) 100%);
+  filter: blur(40px);
+}
+
+/* Gradient Orbs */
+.gradientOrb1,
+.gradientOrb2,
+.gradientOrb3 {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.gradientOrb1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--ctp-mauve) 0%, transparent 70%);
+  top: 10%;
+  left: -10%;
+  animation: float 20s ease-in-out infinite;
+}
+
+.gradientOrb2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--ctp-blue) 0%, transparent 70%);
+  top: 60%;
+  right: -5%;
+  animation: float 25s ease-in-out infinite reverse;
+}
+
+.gradientOrb3 {
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, var(--ctp-pink) 0%, transparent 70%);
+  bottom: 20%;
+  left: 50%;
+  animation: float 30s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -40px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 30px) scale(0.9);
+  }
+}
+
+/* Content Container */
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Section Dividers */
+.divider {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(203, 166, 247, 0.2) 20%,
+    rgba(137, 180, 250, 0.2) 50%,
+    rgba(245, 194, 231, 0.2) 80%,
+    transparent 100%
+  );
+  margin: 0;
+  position: relative;
+}
+
+.divider::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 40px;
+  background: radial-gradient(ellipse, rgba(203, 166, 247, 0.15) 0%, transparent 70%);
+  filter: blur(10px);
+}
+
+/* Footer */
+.footer {
+  position: relative;
+  margin-top: 120px;
+  padding: 80px 0 40px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(17, 17, 27, 0.6) 20%,
+    rgba(17, 17, 27, 0.9) 100%
+  );
+  border-top: 1px solid rgba(69, 71, 90, 0.3);
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(203, 166, 247, 0.3) 50%,
+    transparent 100%
+  );
+}
+
+.footerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 5%;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 60px;
+}
+
+.footerBrand {
+  max-width: 350px;
+}
+
+.footerLogo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--ctp-mauve) 0%, var(--ctp-blue) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+
+.footerTagline {
+  font-size: 1rem;
+  color: var(--ctp-subtext0);
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.footerLinks {
+  display: contents;
+}
+
+.footerColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.footerColumn h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ctp-text);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.85rem;
+}
+
+.footerColumn a {
+  color: var(--ctp-subtext0);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  position: relative;
+  width: fit-content;
+}
+
+.footerColumn a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--ctp-mauve), var(--ctp-blue));
+  transition: width 0.3s ease;
+}
+
+.footerColumn a:hover {
+  color: var(--ctp-text);
+  transform: translateX(4px);
+}
+
+.footerColumn a:hover::after {
+  width: 100%;
+}
+
+.footerBottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 5% 0;
+  border-top: 1px solid rgba(69, 71, 90, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footerBottom p {
+  color: var(--ctp-subtext0);
+  font-size: 0.9rem;
+}
+
+.footerSocials {
+  display: flex;
+  gap: 20px;
+}
+
+.footerSocials a {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(205, 214, 244, 0.05);
+  border: 1px solid rgba(205, 214, 244, 0.1);
+  border-radius: 12px;
+  color: var(--ctp-subtext0);
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.footerSocials a:hover {
+  background: rgba(203, 166, 247, 0.15);
+  border-color: rgba(203, 166, 247, 0.3);
+  color: var(--ctp-mauve);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(203, 166, 247, 0.2);
+}
+
+/* Scroll Progress Indicator */
+.scrollProgress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--ctp-mauve) 0%, var(--ctp-blue) 50%, var(--ctp-pink) 100%);
+  transform-origin: 0%;
+  z-index: 9999;
+  box-shadow: 0 0 16px rgba(203, 166, 247, 0.6);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .footerContent {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  
+  .footerBrand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .gradientOrb1,
+  .gradientOrb2,
+  .gradientOrb3 {
+    width: 300px;
+    height: 300px;
+  }
+  
+  .footer {
+    margin-top: 80px;
+    padding: 60px 0 32px;
+  }
+  
+  .footerContent {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-bottom: 40px;
+  }
+  
+  .footerBottom {
+    flex-direction: column;
+    gap: 24px;
+    text-align: center;
+  }
+  
+  .divider {
+    margin: 20px 0;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .gradientOrb1,
+  .gradientOrb2,
+  .gradientOrb3 {
+    animation: none;
+  }
+  
+  :global(*) {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

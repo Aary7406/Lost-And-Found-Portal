@@ -30,12 +30,12 @@ export default function Home() {
       <div className={styles.content}>
         <Hero />
         
-        <section id="impact" className={styles.section}>
-          <Stats />
+        <section className={styles.section}>
+          <Features />
         </section>
         
-        <section id="features" className={styles.section}>
-          <Features />
+        <section className={styles.section}>
+          <Stats />
         </section>
         
         <section className={styles.section}>

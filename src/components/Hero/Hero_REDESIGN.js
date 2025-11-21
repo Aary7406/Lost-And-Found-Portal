@@ -4,10 +4,21 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import SearchIcon from '../Icons/SearchIcon';
 import styles from './Hero_REDESIGN.module.css';
 
 const Hero = () => {
   const router = useRouter();
+  const [query, setQuery] = useState('');
+  const [category, setCategory] = useState('all');
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const params = new URLSearchParams();
+    if (query.trim()) params.set('q', query.trim());
+    if (category && category !== 'all') params.set('category', category);
+    router.push(`/search?${params.toString()}`);
+  };
 
   return (
     <section className={styles.hero}>
@@ -22,18 +33,15 @@ const Hero = () => {
           
           {/* Nav Pills */}
           <div className={styles.navPills}>
-            <button 
-              onClick={() => document.getElementById('impact')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              className={styles.navPill}
-            >
-              <span>Impact</span>
-            </button>
-            <button 
-              onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              className={styles.navPill}
-            >
+            <a href="#features" className={styles.navPill}>
               <span>Features</span>
-            </button>
+            </a>
+            <a href="#impact" className={styles.navPill}>
+              <span>Impact</span>
+            </a>
+            <a href="#contact" className={styles.navPill}>
+              <span>Contact</span>
+            </a>
           </div>
           
           {/* Login Pill Button */}
@@ -66,6 +74,36 @@ const Hero = () => {
           <p className={styles.subtitle}>
             Smart tracking system to reunite students with their belongings instantly
           </p>
+
+          {/* Search Bar */}
+          <form className={styles.searchContainer} onSubmit={handleSearch}>
+            <div className={styles.searchPill}>
+              <div className={styles.searchIcon}>
+                <SearchIcon size={20} />
+              </div>
+              <input
+                type="search"
+                placeholder="Search for lost items..."
+                className={styles.searchInput}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              <select
+                className={styles.categorySelect}
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <option value="all">All</option>
+                <option value="electronics">Electronics</option>
+                <option value="clothing">Clothing</option>
+                <option value="books">Books</option>
+                <option value="accessories">Accessories</option>
+              </select>
+              <button type="submit" className={styles.searchButton}>
+                Search
+              </button>
+            </div>
+          </form>
 
           {/* Quick Actions */}
           <div className={styles.quickActions}>
