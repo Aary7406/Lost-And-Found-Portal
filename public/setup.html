@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Director Setup Portal</title>
+  <link rel="stylesheet" href="/setup.css">
+</head>
+<body>
+  <div class="setup-page">
+    <!-- Background -->
+    <div class="background-gradient"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <div class="logo-pill">
+          <span class="logo-icon">🔐</span>
+          <span class="logo-text">Setup Portal</span>
+        </div>
+        <h1 class="title">Director Account Setup</h1>
+        <p class="subtitle">Create the main director account for the Lost & Found system</p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab active" data-tab="director">
+          <span>👨‍💼</span>
+          <span>Create Director</span>
+        </button>
+        <button class="tab" data-tab="test">
+          <span>🧪</span>
+          <span>Test APIs</span>
+        </button>
+        <button class="tab" data-tab="database">
+          <span>🗄️</span>
+          <span>Database Status</span>
+        </button>
+      </div>
+
+      <!-- Director Setup Tab -->
+      <div class="tab-content active" id="director-tab">
+        <div class="card">
+          <h2>Create Main Director Account</h2>
+          <p class="info">This account will have full system access and control.</p>
+          
+          <form id="director-form">
+            <div class="form-group">
+              <label>Setup Key</label>
+              <input type="password" id="setup-key" placeholder="Enter setup key" required>
+              <small>Default: setup-director-2024 (Change in .env)</small>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>First Name</label>
+                <input type="text" id="first-name" placeholder="John" required>
+              </div>
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" id="last-name" placeholder="Doe" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Username</label>
+              <input type="text" id="username" placeholder="director_admin" required>
+            </div>
+
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="email" placeholder="director@portal.com" required>
+            </div>
+
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" id="password" placeholder="Strong password" required minlength="8">
+              <small>Minimum 8 characters</small>
+            </div>
+
+            <button type="submit" class="btn-primary" id="create-director-btn">
+              <span>Create Director Account</span>
+              <span>→</span>
+            </button>
+          </form>
+
+          <div id="director-result" class="result"></div>
+        </div>
+      </div>
+
+      <!-- Test APIs Tab -->
+      <div class="tab-content" id="test-tab">
+        <div class="card">
+          <h2>API Testing</h2>
+          <p class="info">Test your API endpoints and connections</p>
+
+          <div class="api-tests">
+            <div class="test-item">
+              <button class="btn-test" data-endpoint="/api/health">
+                <span>🏥</span>
+                <span>Health Check</span>
+              </button>
+              <div class="test-result" id="test-health"></div>
+            </div>
+
+            <div class="test-item">
+              <button class="btn-test" data-endpoint="/api/ping">
+                <span>📡</span>
+                <span>Ping API</span>
+              </button>
+              <div class="test-result" id="test-ping"></div>
+            </div>
+
+            <div class="test-item">
+              <button class="btn-test" onclick="testSupabaseConnection()">
+                <span>🗄️</span>
+                <span>Supabase Connection</span>
+              </button>
+              <div class="test-result" id="test-supabase"></div>
+            </div>
+
+            <div class="test-item">
+              <button class="btn-test" data-endpoint="/api/auth/director/verify">
+                <span>🔐</span>
+                <span>Director Auth</span>
+              </button>
+              <div class="test-result" id="test-auth"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Database Status Tab -->
+      <div class="tab-content" id="database-tab">
+        <div class="card">
+          <h2>Database Status</h2>
+          <p class="info">Check Supabase connection and table status</p>
+
+          <button class="btn-primary" onclick="checkDatabaseStatus()">
+            <span>🔍</span>
+            <span>Check Database</span>
+          </button>
+
+          <div id="database-status" class="database-status"></div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p>⚠️ <strong>Security Notice:</strong> This setup page should be removed or secured in production</p>
+        <p>Access: <code>http://localhost:3000/setup.html</code></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Tab Switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const targetTab = tab.dataset.tab;
+        
+        // Update active tab
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        // Update active content
+        document.querySelectorAll('.tab-content').forEach(content => {
+          content.classList.remove('active');
+        });
+        document.getElementById(`${targetTab}-tab`).classList.add('active');
+      });
+    });
+
+    // Director Account Creation
+    document.getElementById('director-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const btn = document.getElementById('create-director-btn');
+      const result = document.getElementById('director-result');
+      
+      btn.disabled = true;
+      btn.innerHTML = '<span>Creating...</span><span>⏳</span>';
+      result.innerHTML = '';
+      
+      const data = {
+        setup_key: document.getElementById('setup-key').value,
+        first_name: document.getElementById('first-name').value,
+        last_name: document.getElementById('last-name').value,
+        username: document.getElementById('username').value,
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value
+      };
+      
+      try {
+        const response = await fetch('/api/setup/director', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        
+        const resultData = await response.json();
+        
+        if (response.ok) {
+          result.innerHTML = `
+            <div class="success">
+              <h3>✅ Success!</h3>
+              <p>${resultData.message}</p>
+              <div class="director-info">
+                <p><strong>Username:</strong> ${resultData.director.username}</p>
+                <p><strong>Email:</strong> ${resultData.director.email}</p>
+                <p><strong>Role:</strong> ${resultData.director.role}</p>
+              </div>
+              <a href="/LogIn" class="btn-link">Go to Login →</a>
+            </div>
+          `;
+          document.getElementById('director-form').reset();
+        } else {
+          throw new Error(resultData.error || 'Failed to create director account');
+        }
+      } catch (error) {
+        result.innerHTML = `
+          <div class="error">
+            <h3>❌ Error</h3>
+            <p>${error.message}</p>
+          </div>
+        `;
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>Create Director Account</span><span>→</span>';
+      }
+    });
+
+    // API Testing
+    document.querySelectorAll('.btn-test').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const endpoint = btn.dataset.endpoint;
+        if (!endpoint) return;
+        
+        const testId = 'test-' + endpoint.split('/').pop();
+        const resultDiv = document.getElementById(testId);
+        
+        resultDiv.innerHTML = '<div class="loading">Testing...</div>';
+        
+        try {
+          const response = await fetch(endpoint);
+          const data = await response.json();
+          
+          resultDiv.innerHTML = `
+            <div class="test-success">
+              <strong>Status:</strong> ${response.status} ${response.statusText}
+              <pre>${JSON.stringify(data, null, 2)}</pre>
+            </div>
+          `;
+        } catch (error) {
+          resultDiv.innerHTML = `
+            <div class="test-error">
+              <strong>Error:</strong> ${error.message}
+            </div>
+          `;
+        }
+      });
+    });
+
+    // Supabase Connection Test
+    async function testSupabaseConnection() {
+      const resultDiv = document.getElementById('test-supabase');
+      resultDiv.innerHTML = '<div class="loading">Testing Supabase connection...</div>';
+      
+      try {
+        // Test by checking if we can query users table
+        const response = await fetch('/api/director/stats');
+        
+        if (response.ok) {
+          const data = await response.json();
+          resultDiv.innerHTML = `
+            <div class="test-success">
+              <strong>✅ Supabase Connected</strong>
+              <p>Successfully connected to database</p>
+              <pre>${JSON.stringify(data, null, 2)}</pre>
+            </div>
+          `;
+        } else {
+          throw new Error('Failed to connect to Supabase');
+        }
+      } catch (error) {
+        resultDiv.innerHTML = `
+          <div class="test-error">
+            <strong>❌ Connection Failed</strong>
+            <p>${error.message}</p>
+            <p>Check your environment variables:</p>
+            <ul>
+              <li>NEXT_PUBLIC_SUPABASE_URL</li>
+              <li>SUPABASE_SERVICE_ROLE_KEY</li>
+            </ul>
+          </div>
+        `;
+      }
+    }
+
+    // Database Status Check
+    async function checkDatabaseStatus() {
+      const statusDiv = document.getElementById('database-status');
+      statusDiv.innerHTML = '<div class="loading">Checking database status...</div>';
+      
+      try {
+        const checks = [
+          { name: 'Users Table', endpoint: '/api/director/users' },
+          { name: 'Stats API', endpoint: '/api/director/stats' }
+        ];
+        
+        let html = '<div class="status-grid">';
+        
+        for (const check of checks) {
+          try {
+            const response = await fetch(check.endpoint);
+            const status = response.ok ? '✅' : '❌';
+            const statusClass = response.ok ? 'status-ok' : 'status-error';
+            
+            html += `
+              <div class="status-item ${statusClass}">
+                <span>${status}</span>
+                <span>${check.name}</span>
+                <span>${response.status}</span>
+              </div>
+            `;
+          } catch (error) {
+            html += `
+              <div class="status-item status-error">
+                <span>❌</span>
+                <span>${check.name}</span>
+                <span>Failed</span>
+              </div>
+            `;
+          }
+        }
+        
+        html += '</div>';
+        statusDiv.innerHTML = html;
+        
+      } catch (error) {
+        statusDiv.innerHTML = `
+          <div class="error">
+            <p>Error checking database: ${error.message}</p>
+          </div>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>

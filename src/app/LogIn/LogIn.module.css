@@ -70,13 +70,10 @@
 
 @keyframes float {
   0%, 100% {
-    transform: translate(0, 0) scale(1);
+    transform: translate(0, 0);
   }
-  33% {
-    transform: translate(30px, -30px) scale(1.1);
-  }
-  66% {
-    transform: translate(-20px, 20px) scale(0.9);
+  50% {
+    transform: translate(20px, -20px);
   }
 }
 
@@ -101,15 +98,17 @@
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: transform 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  outline: none;
+}
+
+.backPill:focus {
+  outline: none;
 }
 
 .backPill:hover {
-  background: rgba(30, 30, 46, 0.75);
-  border-color: rgba(203, 166, 247, 0.3);
   transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
 }
 
 /* Main Container */
@@ -191,6 +190,8 @@
   border-radius: 24px;
   padding: 24px 22px;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateZ(0);
+  will-change: auto;
 }
 
 /* Switcher Wrapper */
@@ -221,9 +222,10 @@
   height: calc(100% - 12px);
   border-radius: 100px;
   background: linear-gradient(135deg, var(--ctp-mauve), var(--ctp-blue));
-  box-shadow: 0 10px 25px rgba(203, 166, 247, 0.45), 0 0 20px rgba(203, 166, 247, 0.3);
+  box-shadow: 0 8px 20px rgba(203, 166, 247, 0.4);
   z-index: 0;
   will-change: transform;
+  pointer-events: none;
 }
 
 .switcherBtn {
@@ -238,9 +240,14 @@
   padding: 14px 20px;
   border-radius: 100px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: none;
   font-size: 15px;
   font-weight: 700;
+  outline: none;
+}
+
+.switcherBtn:focus {
+  outline: none;
 }
 
 .switcherBtn:disabled {
@@ -309,8 +316,7 @@
   border-color: rgba(203, 166, 247, 0.5);
   background: rgba(20, 20, 33, 0.7);
   backdrop-filter: blur(30px);
-  box-shadow: 0 0 0 4px rgba(203, 166, 247, 0.12), 0 8px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .inputIcon {
@@ -335,6 +341,10 @@
   outline: none;
 }
 
+.input:focus {
+  outline: none;
+}
+
 .input::placeholder {
   color: rgba(166, 173, 200, 0.6);
 }
@@ -352,8 +362,13 @@
   font-size: 16px;
   cursor: pointer;
   color: var(--ctp-overlay0);
-  transition: all 0.3s ease;
+  transition: color 0.2s ease;
   flex-shrink: 0;
+  outline: none;
+}
+
+.togglePasswordBtn:focus {
+  outline: none;
 }
 
 .togglePasswordBtn:hover:not(:disabled) {
@@ -396,6 +411,11 @@
   height: 18px;
   accent-color: var(--ctp-mauve);
   cursor: pointer;
+  outline: none;
+}
+
+.checkbox:focus {
+  outline: none;
 }
 
 .checkbox:disabled {
@@ -412,7 +432,12 @@
   cursor: pointer;
   padding: 6px 12px;
   border-radius: 50px;
-  transition: all 0.3s ease;
+  transition: color 0.2s ease;
+  outline: none;
+}
+
+.forgotBtn:focus {
+  outline: none;
 }
 
 .forgotBtn:hover:not(:disabled) {
@@ -436,15 +461,21 @@
   font-size: 15px;
   font-weight: 800;
   letter-spacing: 0.02em;
-  box-shadow: 0 18px 45px rgba(137, 180, 250, 0.35), 0 0 30px rgba(203, 166, 247, 0.2);
+  box-shadow: 0 12px 30px rgba(137, 180, 250, 0.3);
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
   overflow: hidden;
+  outline: none;
+}
+
+.submitBtnPill:focus {
+  outline: none;
 }
 
 .submitBtnPill:hover:not(:disabled) {
-  box-shadow: 0 22px 55px rgba(137, 180, 250, 0.45), 0 0 40px rgba(203, 166, 247, 0.3);
+  box-shadow: 0 16px 40px rgba(137, 180, 250, 0.4);
+  transform: translateY(-1px);
 }
 
 .submitBtnPill:disabled {
@@ -511,14 +542,17 @@
   justify-content: center;
   gap: 8px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transition: background 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  outline: none;
+}
+
+.signupBtnPill:focus {
+  outline: none;
 }
 
 .signupBtnPill:hover:not(:disabled) {
   background: rgba(203, 166, 247, 0.15);
-  border-color: rgba(203, 166, 247, 0.4);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
 }
 
 .signupBtnPill:disabled {

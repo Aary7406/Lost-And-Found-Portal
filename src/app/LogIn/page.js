@@ -9,7 +9,7 @@ import styles from './LogIn.module.css';
 export default function LoginPage() {
   const router = useRouter();
   const [userType, setUserType] = useState('student');
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -19,10 +19,10 @@ export default function LoginPage() {
   const validateForm = () => {
     const newErrors = {};
     
-    if (!email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = 'Please enter a valid email';
+    if (!username.trim()) {
+      newErrors.username = 'Username is required';
+    } else if (username.length < 3) {
+      newErrors.username = 'Username must be at least 3 characters';
     }
     
     if (!password.trim()) {
@@ -145,32 +145,33 @@ export default function LoginPage() {
                   transition={{ duration: 0.3 }}
                   className={styles.formContent}
                 >
-                  {/* Email Field */}
+                  {/* Username Field */}
                   <div className={styles.formGroup}>
-                    <label className={styles.label}>Email Address</label>
+                    <label className={styles.label}>Username</label>
                     <div className={styles.inputPill}>
-                      <span className={styles.inputIcon}>✉️</span>
+                      <span className={styles.inputIcon}>👤</span>
                       <input
-                        type="email"
-                        value={email}
+                        type="text"
+                        value={username}
                         onChange={(e) => {
-                          setEmail(e.target.value);
-                          setErrors({ ...errors, email: '' });
+                          setUsername(e.target.value);
+                          setErrors({ ...errors, username: '' });
                         }}
-                        placeholder={userType === 'admin' ? 'admin@portal.com' : 'student@university.edu'}
+                        placeholder={userType === 'admin' ? 'admin_username' : 'your_username'}
                         className={styles.input}
                         disabled={isLoading}
+                        autoComplete="username"
                       />
                     </div>
                     <AnimatePresence>
-                      {errors.email && (
+                      {errors.username && (
                         <motion.span
                           className={styles.errorText}
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                         >
-                          {errors.email}
+                          {errors.username}
                         </motion.span>
                       )}
                     </AnimatePresence>
