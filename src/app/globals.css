@@ -44,7 +44,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto; /* Disable native smooth scroll for Lenis */
 }
 
 body {

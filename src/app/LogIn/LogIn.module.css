@@ -190,8 +190,6 @@
   border-radius: 24px;
   padding: 24px 22px;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  transform: translateZ(0);
-  will-change: auto;
 }
 
 /* Switcher Wrapper */
@@ -224,8 +222,6 @@
   background: linear-gradient(135deg, var(--ctp-mauve), var(--ctp-blue));
   box-shadow: 0 8px 20px rgba(203, 166, 247, 0.4);
   z-index: 0;
-  will-change: transform;
-  pointer-events: none;
 }
 
 .switcherBtn {

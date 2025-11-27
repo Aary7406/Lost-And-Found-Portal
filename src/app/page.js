@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { useEffect, useState, useRef } from 'react';
+import { motion, useScroll, AnimatePresence } from 'framer-motion';
+import Lenis from 'lenis';
 import Hero from '@/components/Hero/Hero';
 import Features from '@/components/Features/Features';
 import Stats from '@/components/Stats/Stats';
@@ -10,27 +11,38 @@ import PageLoader from '@/components/PageLoader/PageLoader';
 import styles from './styles/LandingPage.module.css';
 
 export default function Home() {
-  const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(true);
   const [contentVisible, setContentVisible] = useState(false);
+  const lenisRef = useRef(null);
   const { scrollYProgress } = useScroll();
-  
-  // Optimized transforms with reduced calculations
-  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.5]);
 
   useEffect(() => {
-    setMounted(true);
-    // Always show loading animation on page load
+    // Initialize Lenis with optimized settings
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      syncTouch: true,
+    });
+
+    lenisRef.current = lenis;
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
   }, []);
 
   const handleLoadingComplete = () => {
-    setTimeout(() => {
-      setLoading(false);
-      setTimeout(() => setContentVisible(true), 50);
-    }, 100);
+    setLoading(false);
+    setTimeout(() => setContentVisible(true), 50);
   };
-
-  if (!mounted) return null;
 
   return (
     <>
