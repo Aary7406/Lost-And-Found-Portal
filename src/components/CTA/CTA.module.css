@@ -13,8 +13,10 @@
 .ctaCard {
   position: relative;
   padding: 60px 50px;
-  background: rgba(30, 30, 46, 0.4);
-  border: 1px solid rgba(203, 166, 247, 0.2);
+  background: rgba(30, 30, 46, 0.7);
+  backdrop-filter: blur(100px) saturate(200%);
+  -webkit-backdrop-filter: blur(100px) saturate(200%);
+  border: 1px solid rgba(203, 166, 247, 0.3);
   border-radius: 28px;
   overflow: hidden;
   display: flex;
@@ -22,11 +24,13 @@
   justify-content: space-between;
   gap: 50px;
   transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .ctaCard:hover {
-  border-color: rgba(203, 166, 247, 0.3);
-  background: rgba(30, 30, 46, 0.5);
+  border-color: rgba(203, 166, 247, 0.5);
+  background: rgba(30, 30, 46, 0.85);
+  box-shadow: 0 12px 48px rgba(203, 166, 247, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .backgroundPattern {

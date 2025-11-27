@@ -56,13 +56,16 @@
 .statCard {
   text-align: center;
   padding: 40px 24px;
-  background: rgba(30, 30, 46, 0.4);
-  border: 1px solid rgba(69, 71, 90, 0.4);
+  background: rgba(30, 30, 46, 0.7);
+  backdrop-filter: blur(100px) saturate(200%);
+  -webkit-backdrop-filter: blur(100px) saturate(200%);
+  border: 1px solid rgba(69, 71, 90, 0.5);
   border-radius: 24px;
   transition: all 0.3s ease;
   cursor: pointer;
   position: relative;
   will-change: transform;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .statCard::before {
@@ -82,9 +85,10 @@
 }
 
 .statCard:hover {
-  border-color: rgba(203, 166, 247, 0.3);
-  background: rgba(30, 30, 46, 0.6);
+  border-color: rgba(203, 166, 247, 0.4);
+  background: rgba(30, 30, 46, 0.85);
   transform: translateY(-4px);
+  box-shadow: 0 12px 48px rgba(203, 166, 247, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .statNumber {

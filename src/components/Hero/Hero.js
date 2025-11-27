@@ -16,10 +16,13 @@ const Hero = () => {
       <nav className={styles.navbar}>
         <div className={styles.navContainer}>
           {/* Logo Pill */}
-          <Link href="/" className={styles.logoPill}>
+          <button 
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className={styles.logoPill}
+          >
             <span className={styles.logoIcon}>🎓</span>
             <span className={styles.logoText}>Lost & Found</span>
-          </Link>
+          </button>
           
           {/* Nav Pills */}
           <div className={styles.navPills}>
@@ -38,73 +41,10 @@ const Hero = () => {
           </div>
           
           {/* Login Pill Button */}
-          <motion.div
-            className={styles.loginPillWrapper}
-            onHoverStart={() => setIsHovered(true)}
-            onHoverEnd={() => setIsHovered(false)}
-            whileHover={{ scale: 1.02, y: -2 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <Link href="/LogIn" className={styles.loginPill}>
-              {/* Animated fill background - slides left to right */}
-              <motion.div
-                className={styles.fillBackground}
-                initial={false}
-                animate={{
-                  width: isHovered ? '100%' : '0%'
-                }}
-                transition={{
-                  duration: 0.5,
-                  ease: [0.19, 1, 0.22, 1]
-                }}
-              />
-              
-              {/* Subtle shimmer overlay */}
-              {isHovered && (
-                <motion.div
-                  className={styles.shimmerOverlay}
-                  initial={{ x: '-100%', opacity: 0 }}
-                  animate={{ 
-                    x: '200%',
-                    opacity: [0, 0.6, 0]
-                  }}
-                  transition={{
-                    duration: 1.2,
-                    ease: 'easeInOut',
-                    repeat: Infinity,
-                    repeatDelay: 0.3
-                  }}
-                />
-              )}
-              
-              {/* Content wrapper */}
-              <span className={styles.loginContent}>
-                <motion.span
-                  animate={{
-                    color: isHovered ? '#1e1e2e' : '#cba6f7'
-                  }}
-                  transition={{ duration: 0.35, ease: [0.19, 1, 0.22, 1] }}
-                >
-                  Login
-                </motion.span>
-                <motion.span
-                  className={styles.arrow}
-                  animate={{
-                    x: isHovered ? 4 : 0,
-                    color: isHovered ? '#1e1e2e' : '#cba6f7',
-                    rotate: isHovered ? -10 : 0,
-                    scale: isHovered ? 1.1 : 1
-                  }}
-                  transition={{
-                    duration: 0.4,
-                    ease: [0.34, 1.56, 0.64, 1]
-                  }}
-                >
-                  →
-                </motion.span>
-              </span>
-            </Link>
-          </motion.div>
+          <Link href="/LogIn" className={styles.loginPill}>
+            <span>Login</span>
+            <span className={styles.loginArrow}>→</span>
+          </Link>
         </div>
       </nav>
 

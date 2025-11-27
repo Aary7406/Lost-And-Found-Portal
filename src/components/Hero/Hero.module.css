@@ -7,17 +7,17 @@
   padding-top: 80px;
 }
 
-/* MD3 Expressive Pill Navbar */
+/* MD3 Expressive Pill Navbar - Floating Transparent */
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  padding: 16px 5%;
-  backdrop-filter: blur(20px) saturate(180%);
-  background: rgba(30, 30, 46, 0.85);
-  border-bottom: 1px solid rgba(203, 166, 247, 0.08);
+  padding: 20px 5%;
+  background: transparent;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .navContainer {
@@ -29,24 +29,34 @@
   gap: 24px;
 }
 
-/* Logo Pill */
+/* Logo Pill - Enhanced Glassmorphism */
 .logoPill {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 20px;
-  background: linear-gradient(135deg, rgba(203, 166, 247, 0.12), rgba(137, 180, 250, 0.08));
-  border: 1px solid rgba(203, 166, 247, 0.2);
+  padding: 12px 24px;
+  background: rgba(30, 30, 46, 0.6);
+  backdrop-filter: blur(80px) saturate(200%);
+  -webkit-backdrop-filter: blur(80px) saturate(200%);
+  border: 1px solid rgba(203, 166, 247, 0.25);
   border-radius: 100px;
   text-decoration: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  outline: none;
 }
 
 .logoPill:hover {
-  background: linear-gradient(135deg, rgba(203, 166, 247, 0.18), rgba(137, 180, 250, 0.12));
-  border-color: rgba(203, 166, 247, 0.3);
+  background: rgba(30, 30, 46, 0.8);
+  border-color: rgba(203, 166, 247, 0.4);
   transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(203, 166, 247, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.logoPill:focus {
+  outline: none;
 }
 
 .logoIcon {
@@ -72,9 +82,11 @@
 }
 
 .navPill {
-  padding: 10px 20px;
-  background: rgba(205, 214, 244, 0.03);
-  border: 1px solid rgba(205, 214, 244, 0.08);
+  padding: 12px 24px;
+  background: rgba(30, 30, 46, 0.5);
+  backdrop-filter: blur(80px) saturate(200%);
+  -webkit-backdrop-filter: blur(80px) saturate(200%);
+  border: 1px solid rgba(205, 214, 244, 0.15);
   border-radius: 100px;
   color: var(--ctp-text);
   font-size: 14px;
@@ -82,33 +94,60 @@
   text-decoration: none;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .navPill:hover {
-  background: rgba(203, 166, 247, 0.1);
-  border-color: rgba(203, 166, 247, 0.2);
+  background: rgba(30, 30, 46, 0.75);
+  border-color: rgba(203, 166, 247, 0.3);
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(203, 166, 247, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-/* Login Pill */
+/* Login Pill - Redesigned with Sliding Animation */
 .loginPill {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 24px;
-  background: linear-gradient(135deg, var(--ctp-mauve), var(--ctp-blue));
+  padding: 12px 28px;
+  background: rgba(30, 30, 46, 0.7);
+  backdrop-filter: blur(80px) saturate(200%);
+  -webkit-backdrop-filter: blur(80px) saturate(200%);
+  border: 2px solid rgba(203, 166, 247, 0.4);
   border-radius: 100px;
-  color: var(--ctp-base);
+  color: var(--ctp-mauve);
   font-size: 14px;
   font-weight: 700;
   text-decoration: none;
-  box-shadow: 0 4px 16px rgba(203, 166, 247, 0.25);
+  box-shadow: 0 4px 20px rgba(203, 166, 247, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
+  overflow: hidden;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.loginPill::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--ctp-mauve) 0%, var(--ctp-blue) 50%, var(--ctp-pink) 100%);
+  transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+}
+
+.loginPill:hover::before {
+  left: 0;
 }
 
 .loginPill:hover {
-  box-shadow: 0 6px 24px rgba(203, 166, 247, 0.35);
+  color: var(--ctp-base);
+  border-color: rgba(203, 166, 247, 0.6);
+  box-shadow: 0 6px 32px rgba(203, 166, 247, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
 }
 
@@ -137,19 +176,22 @@
   max-width: 600px;
 }
 
-/* Badge Pill */
+/* Badge Pill - Glassmorphism */
 .badgePill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 18px;
-  background: rgba(137, 180, 250, 0.1);
-  border: 1px solid rgba(137, 180, 250, 0.2);
+  padding: 10px 20px;
+  background: rgba(137, 180, 250, 0.15);
+  backdrop-filter: blur(80px) saturate(200%);
+  -webkit-backdrop-filter: blur(80px) saturate(200%);
+  border: 1px solid rgba(137, 180, 250, 0.3);
   border-radius: 100px;
   color: var(--ctp-blue);
   font-size: 13px;
   font-weight: 600;
   margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(137, 180, 250, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .badgeIcon {
@@ -190,11 +232,13 @@
   align-items: center;
   gap: 12px;
   padding: 8px 8px 8px 18px;
-  background: rgba(30, 30, 46, 0.6);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(203, 166, 247, 0.15);
+  background: rgba(30, 30, 46, 0.7);
+  backdrop-filter: blur(100px) saturate(200%);
+  -webkit-backdrop-filter: blur(100px) saturate(200%);
+  border: 1px solid rgba(203, 166, 247, 0.2);
   border-radius: 100px;
   transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .searchPill:focus-within {
@@ -263,8 +307,10 @@
   align-items: center;
   gap: 8px;
   padding: 12px 20px;
-  background: rgba(205, 214, 244, 0.05);
-  border: 1px solid rgba(205, 214, 244, 0.1);
+  background: rgba(30, 30, 46, 0.6);
+  backdrop-filter: blur(80px) saturate(200%);
+  -webkit-backdrop-filter: blur(80px) saturate(200%);
+  border: 1px solid rgba(205, 214, 244, 0.15);
   border-radius: 100px;
   color: var(--ctp-text);
   font-size: 14px;
@@ -272,12 +318,14 @@
   text-decoration: none;
   transition: all 0.3s ease;
   will-change: transform;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .actionPill:hover {
-  background: rgba(203, 166, 247, 0.1);
-  border-color: rgba(203, 166, 247, 0.2);
+  background: rgba(30, 30, 46, 0.8);
+  border-color: rgba(203, 166, 247, 0.3);
   transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(203, 166, 247, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 /* Hero Visual */
@@ -300,18 +348,21 @@
   align-items: center;
   gap: 8px;
   padding: 24px 16px;
-  background: rgba(30, 30, 46, 0.6);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(203, 166, 247, 0.1);
+  background: rgba(30, 30, 46, 0.7);
+  backdrop-filter: blur(100px) saturate(200%);
+  -webkit-backdrop-filter: blur(100px) saturate(200%);
+  border: 1px solid rgba(203, 166, 247, 0.15);
   border-radius: 24px;
   transition: all 0.3s ease;
   will-change: transform;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .visualCard:hover {
-  background: rgba(30, 30, 46, 0.8);
-  border-color: rgba(203, 166, 247, 0.2);
+  background: rgba(30, 30, 46, 0.85);
+  border-color: rgba(203, 166, 247, 0.3);
   transform: translateY(-4px);
+  box-shadow: 0 12px 48px rgba(203, 166, 247, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .visualEmoji {

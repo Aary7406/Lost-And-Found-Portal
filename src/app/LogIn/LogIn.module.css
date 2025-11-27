@@ -13,8 +13,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  padding: 15px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  padding: 10px;
 }
 
 /* Background Gradient - Matching Landing Page */
@@ -116,11 +117,11 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 450px;
+  max-width: 440px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   margin: 0 auto;
 }
 
@@ -130,8 +131,8 @@
 .logoPill {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 18px;
+  gap: 8px;
+  padding: 6px 16px;
   background: rgba(30, 30, 46, 0.5);
   backdrop-filter: blur(40px) saturate(180%);
   border: 1px solid rgba(203, 166, 247, 0.35);
@@ -141,12 +142,12 @@
 }
 
 .logoIcon {
-  font-size: 24px;
+  font-size: 20px;
   line-height: 1;
 }
 
 .logoText {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   background: linear-gradient(135deg, var(--ctp-mauve), var(--ctp-blue));
   background-clip: text;
@@ -156,13 +157,14 @@
 
 /* Main Title */
 .mainTitle {
-  font-size: clamp(1.5rem, 4vw, 1.8rem);
-  font-weight: 800;
-  line-height: 1.1;
+  font-size: clamp(1.3rem, 4vw, 1.6rem);
+  font-weight: 700;
+  line-height: 1.2;
   color: var(--ctp-text);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   margin: 0;
   text-align: center;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
 }
 
 .titleGradient {
@@ -173,7 +175,7 @@
 }
 
 .mainSubtitle {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--ctp-subtext0);
   line-height: 1.4;
   margin: 0;
@@ -188,13 +190,13 @@
   backdrop-filter: blur(80px) saturate(180%);
   border: 1px solid rgba(203, 166, 247, 0.25);
   border-radius: 24px;
-  padding: 24px 22px;
+  padding: 20px 18px;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 /* Switcher Wrapper */
 .switcherWrapper {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 /* User Type Switcher with Smooth Sliding Animation */
@@ -232,14 +234,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 14px 20px;
+  gap: 8px;
+  padding: 12px 16px;
   border-radius: 100px;
   cursor: pointer;
   transition: none;
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
   outline: none;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
 }
 
 .switcherBtn:focus {
@@ -277,21 +280,22 @@
 .formContent {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .formGroup {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .label {
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--ctp-text);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
 }
 
 /* Input Pill */
@@ -303,7 +307,7 @@
   backdrop-filter: blur(20px);
   border: 1px solid rgba(137, 180, 250, 0.22);
   border-radius: 100px;
-  padding: 12px 18px;
+  padding: 10px 16px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
@@ -449,13 +453,13 @@
 /* Submit Button Pill */
 .submitBtnPill {
   width: 100%;
-  padding: 14px 28px;
+  padding: 12px 24px;
   border-radius: 100px;
   border: none;
   background: linear-gradient(135deg, var(--ctp-mauve), var(--ctp-blue));
   color: var(--ctp-base);
-  font-size: 15px;
-  font-weight: 800;
+  font-size: 14px;
+  font-weight: 700;
   letter-spacing: 0.02em;
   box-shadow: 0 12px 30px rgba(137, 180, 250, 0.3);
   cursor: pointer;
@@ -463,6 +467,7 @@
   position: relative;
   overflow: hidden;
   outline: none;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
 }
 
 .submitBtnPill:focus {
@@ -499,15 +504,16 @@
 .signupSection {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  overflow: hidden;
+  gap: 8px;
+  overflow: visible;
+  padding: 2px;
 }
 
 .divider {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin: 4px 0;
+  gap: 10px;
+  margin: 2px 0;
 }
 
 .dividerLine {
@@ -526,21 +532,23 @@
 
 .signupBtnPill {
   width: 100%;
-  padding: 10px 24px;
+  padding: 8px 20px;
   border-radius: 100px;
   border: 1px solid rgba(203, 166, 247, 0.3);
   background: rgba(203, 166, 247, 0.1);
   color: var(--ctp-mauve);
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   outline: none;
+  transform-origin: center;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
 }
 
 .signupBtnPill:focus {
@@ -549,6 +557,8 @@
 
 .signupBtnPill:hover:not(:disabled) {
   background: rgba(203, 166, 247, 0.15);
+  transform: scale(1.02);
+  box-shadow: 0 6px 16px rgba(203, 166, 247, 0.25);
 }
 
 .signupBtnPill:disabled {
