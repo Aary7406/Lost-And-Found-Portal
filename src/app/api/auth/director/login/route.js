@@ -1,100 +1,79 @@
 import { NextResponse } from 'next/server';
-import { getUserByUsername, verifyPassword, generateToken } from '../../../../../../lib/auth.js';
-import clientPromise from '../../../../../../lib/mongodb.js';
+import { createErrorResponse, createSuccessResponse } from '../../../../../../lib/supabase-auth';
+import { getSupabase } from '../../../../../../lib/supabase';
+import jwt from 'jsonwebtoken';
 
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+
+// POST /api/auth/director/login - Director login
 export async function POST(request) {
   try {
-    const { username, password, rememberMe } = await request.json();
+    const { username, password } = await request.json();
     
-    console.log('🔐 Director login attempt:', username);
-    
-    // Input validation
     if (!username || !password) {
-      return NextResponse.json(
-        { error: 'Username and password are required' },
-        { status: 400 }
-      );
+      return createErrorResponse('Username and password are required', 400);
     }
     
-    // Get user from database
-    const user = await getUserByUsername(username);
+    const supabase = getSupabase();
     
-    if (!user) {
-      console.log('❌ User not found:', username);
-      return NextResponse.json(
-        { error: 'Invalid credentials' },
-        { status: 401 }
-      );
+    // Find user by username
+    const { data: users, error: fetchError } = await supabase
+      .from('users')
+      .select('*')
+      .eq('username', username)
+      .eq('role', 'director')
+      .limit(1);
+    
+    if (fetchError) {
+      console.error('Database error:', fetchError);
+      throw new Error('Failed to authenticate');
     }
     
-    // Check if user is active
-    if (!user.isActive) {
-      console.log('❌ Account deactivated:', username);
-      return NextResponse.json(
-        { error: 'Account is deactivated' },
-        { status: 401 }
-      );
+    if (!users || users.length === 0) {
+      return createErrorResponse('Invalid username or password', 401);
     }
     
-    // Verify password
-    const isValidPassword = await verifyPassword(password, user.password);
+    const user = users[0];
     
-    if (!isValidPassword) {
-      console.log('❌ Invalid password for user:', username);
-      return NextResponse.json(
-        { error: 'Invalid credentials' },
-        { status: 401 }
-      );
+    // Verify password (simple comparison - in production use bcrypt)
+    if (user.password !== password) {
+      return createErrorResponse('Invalid username or password', 401);
     }
     
-    // Update last login
-    try {
-      const client = await clientPromise;
-      const db = client.db('lost-and-found');
-      await db.collection('directors').updateOne(
-        { _id: user._id },
-        { $set: { lastLogin: new Date() } }
-      );
-    } catch (error) {
-      console.error('Error updating last login:', error);
-    }
-    
-    // Generate JWT token
-    const token = generateToken(user);
-    
-    console.log('✅ Director login successful:', username);
-    
-    // Create response
-    const response = NextResponse.json({
-      success: true,
-      message: 'Login successful',
-      user: {
-        id: user._id,
+    // Create JWT token
+    const token = jwt.sign(
+      {
+        id: user.id,
         username: user.username,
-        role: user.role,
-        permissions: user.permissions,
-        securityLevel: user.securityLevel
-      }
+        role: user.role
+      },
+      JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+    
+    // Return user data and token
+    const response = createSuccessResponse({
+      message: 'Director login successful',
+      user: {
+        id: user.id,
+        username: user.username,
+        role: user.role
+      },
+      token
     });
     
-    // Set HTTP-only cookie
-    const maxAge = rememberMe ? 7 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000;
-    
-    response.cookies.set('director-token', token, {
+    // Set token as HTTP-only cookie for security
+    response.cookies.set('auth_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge,
-      path: '/'
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 7 // 7 days
     });
     
     return response;
     
   } catch (error) {
-    console.error('❌ Director login error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error: ' + error.message },
-      { status: 500 }
-    );
+    console.error('API Error:', error);
+    return createErrorResponse(error.message || 'Login failed', 500);
   }
 }

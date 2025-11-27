@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import styles from './Hero_REDESIGN.module.css';
+import styles from './Hero.module.css';
 
 const Hero = () => {
   const router = useRouter();
