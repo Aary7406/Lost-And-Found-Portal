@@ -493,6 +493,120 @@ body {
   color: var(--ctp-blue);
 }
 
+/* User Management Styles */
+.user-filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(69, 71, 90, 0.5);
+}
+
+.filter-btn {
+  padding: 10px 20px;
+  background: rgba(30, 30, 46, 0.6);
+  border: 1px solid rgba(137, 180, 250, 0.3);
+  border-radius: 100px;
+  color: var(--ctp-text);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+  background: rgba(137, 180, 250, 0.15);
+  border-color: var(--ctp-blue);
+  transform: translateY(-2px);
+}
+
+.filter-btn.active {
+  background: linear-gradient(135deg, var(--ctp-mauve), var(--ctp-blue));
+  border-color: transparent;
+  color: var(--ctp-base);
+}
+
+.users-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.user-card {
+  background: rgba(30, 30, 46, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(69, 71, 90, 0.6);
+  border-radius: 16px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.user-card:hover {
+  border-color: var(--ctp-mauve);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(203, 166, 247, 0.2);
+}
+
+.user-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.user-info h3 {
+  font-size: 16px;
+  color: var(--ctp-text);
+  margin: 0 0 8px 0;
+}
+
+.user-role {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.delete-btn {
+  background: rgba(243, 139, 168, 0.15);
+  border: 1px solid rgba(243, 139, 168, 0.3);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+  background: var(--ctp-red);
+  border-color: var(--ctp-red);
+  transform: scale(1.1);
+}
+
+.user-details {
+  font-size: 13px;
+  color: var(--ctp-subtext0);
+  line-height: 1.8;
+}
+
+.user-details p {
+  margin: 4px 0;
+}
+
+.user-details strong {
+  color: var(--ctp-text);
+  font-weight: 600;
+}
+
+.users-list {
+  min-height: 200px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .setup-page {
@@ -518,5 +632,17 @@ body {
 
   .title {
     font-size: 1.5rem;
+  }
+  
+  .users-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .user-filters {
+    flex-direction: column;
+  }
+  
+  .filter-btn {
+    width: 100%;
   }
 }

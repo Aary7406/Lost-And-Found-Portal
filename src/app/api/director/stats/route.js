@@ -24,10 +24,11 @@ export async function GET() {
       .select('role');
     
     if (usersError) {
-      throw new Error('Failed to fetch users');
+      console.error('Error fetching users for stats:', usersError);
+      return createErrorResponse(`Failed to fetch users: ${usersError.message}`, 500);
     }
     
-    const usersByRole = users.reduce((acc, user) => {
+    const usersByRole = (users || []).reduce((acc, user) => {
       acc[user.role] = (acc[user.role] || 0) + 1;
       return acc;
     }, {});
@@ -38,10 +39,11 @@ export async function GET() {
       .select('status');
     
     if (itemsError) {
-      throw new Error('Failed to fetch items');
+      console.error('Error fetching items for stats:', itemsError);
+      return createErrorResponse(`Failed to fetch items: ${itemsError.message}`, 500);
     }
     
-    const itemsByStatus = items.reduce((acc, item) => {
+    const itemsByStatus = (items || []).reduce((acc, item) => {
       acc[item.status] = (acc[item.status] || 0) + 1;
       return acc;
     }, {});
@@ -49,13 +51,13 @@ export async function GET() {
     // Calculate derived stats
     const stats = {
       users: {
-        total: users.length,
+        total: users ? users.length : 0,
         students: usersByRole.student || 0,
         admins: usersByRole.admin || 0,
         directors: usersByRole.director || 0
       },
       items: {
-        total: items.length,
+        total: items ? items.length : 0,
         adminPending: itemsByStatus.admin_pending || 0,
         lost: itemsByStatus.lost || 0,
         found: itemsByStatus.found || 0,

@@ -164,7 +164,7 @@
   letter-spacing: -0.01em;
   margin: 0;
   text-align: center;
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-family: 'Aptos', system-ui, -apple-system, sans-serif;
 }
 
 .titleGradient {
@@ -242,7 +242,7 @@
   font-size: 14px;
   font-weight: 600;
   outline: none;
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-family: 'Aptos', system-ui, -apple-system, sans-serif;
 }
 
 .switcherBtn:focus {
@@ -295,7 +295,7 @@
   letter-spacing: 0.08em;
   font-weight: 600;
   color: var(--ctp-text);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-family: 'Aptos', system-ui, -apple-system, sans-serif;
 }
 
 /* Input Pill */
@@ -467,7 +467,7 @@
   position: relative;
   overflow: hidden;
   outline: none;
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-family: 'Aptos', system-ui, -apple-system, sans-serif;
 }
 
 .submitBtnPill:focus {
@@ -548,7 +548,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   outline: none;
   transform-origin: center;
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-family: 'Aptos', system-ui, -apple-system, sans-serif;
 }
 
 .signupBtnPill:focus {

@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { comfortaa, playfair } from './utils/fonts';
+import PageTransition from '@/components/PageTransition/PageTransition';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,8 +21,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${comfortaa.variable} ${playfair.variable}`}>
+      <head>
+        <meta name="view-transition" content="same-origin" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <PageTransition>
+          {children}
+        </PageTransition>
       </body>
     </html>
   );

@@ -75,7 +75,7 @@ export async function POST(request) {
       .insert([itemData])
       .select(`
         *,
-        reporter:reported_by_user_id(id, username, email, first_name, last_name, student_id)
+        reporter:reported_by_user_id(id, username, email, first_name, last_name)
       `)
       .single();
     

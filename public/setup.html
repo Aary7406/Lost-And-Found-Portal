@@ -32,6 +32,10 @@
           <span>👨‍💼</span>
           <span>Create Director</span>
         </button>
+        <button class="tab" data-tab="users">
+          <span>👥</span>
+          <span>Manage Users</span>
+        </button>
         <button class="tab" data-tab="test">
           <span>🧪</span>
           <span>Test APIs</span>
@@ -50,30 +54,8 @@
           
           <form id="director-form">
             <div class="form-group">
-              <label>Setup Key</label>
-              <input type="password" id="setup-key" placeholder="Enter setup key" required>
-              <small>Default: setup-director-2024 (Change in .env)</small>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label>First Name</label>
-                <input type="text" id="first-name" placeholder="John" required>
-              </div>
-              <div class="form-group">
-                <label>Last Name</label>
-                <input type="text" id="last-name" placeholder="Doe" required>
-              </div>
-            </div>
-
-            <div class="form-group">
               <label>Username</label>
               <input type="text" id="username" placeholder="director_admin" required>
-            </div>
-
-            <div class="form-group">
-              <label>Email</label>
-              <input type="email" id="email" placeholder="director@portal.com" required>
             </div>
 
             <div class="form-group">
@@ -89,6 +71,88 @@
           </form>
 
           <div id="director-result" class="result"></div>
+        </div>
+      </div>
+
+      <!-- Manage Users Tab -->
+      <div class="tab-content" id="users-tab">
+        <div class="card">
+          <h2>User Management</h2>
+          <p class="info">View, create, and manage all users in the system</p>
+          
+          <!-- Filter -->
+          <div class="user-filters">
+            <button class="filter-btn active" data-role="all">All Users</button>
+            <button class="filter-btn" data-role="director">Directors</button>
+            <button class="filter-btn" data-role="admin">Admins</button>
+            <button class="filter-btn" data-role="student">Students</button>
+            <button class="btn-primary" onclick="showCreateUserForm()">+ Create New User</button>
+          </div>
+
+          <!-- Users List -->
+          <div id="users-list" class="users-list">
+            <div class="loading">Loading users...</div>
+          </div>
+
+          <!-- Create User Form (Hidden by default) -->
+          <div id="create-user-form" class="card" style="display: none; margin-top: 20px;">
+            <h3>Create New User</h3>
+            <form id="new-user-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>First Name *</label>
+                  <input type="text" id="new-first-name" required>
+                </div>
+                <div class="form-group">
+                  <label>Last Name *</label>
+                  <input type="text" id="new-last-name" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Username *</label>
+                  <input type="text" id="new-username" required>
+                </div>
+                <div class="form-group">
+                  <label>Email *</label>
+                  <input type="email" id="new-email" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Password *</label>
+                  <input type="password" id="new-password" required minlength="6">
+                </div>
+                <div class="form-group">
+                  <label>Role *</label>
+                  <select id="new-role" required>
+                    <option value="student">Student</option>
+                    <option value="admin">Admin</option>
+                    <option value="director">Director</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row" id="student-fields">
+                <div class="form-group">
+                  <label>Student ID</label>
+                  <input type="text" id="new-student-id">
+                </div>
+                <div class="form-group">
+                  <label>Phone</label>
+                  <input type="tel" id="new-phone">
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 10px;">
+                <button type="submit" class="btn-primary">Create User</button>
+                <button type="button" class="btn-test" onclick="hideCreateUserForm()">Cancel</button>
+              </div>
+            </form>
+            <div id="create-user-result" class="result"></div>
+          </div>
         </div>
       </div>
 
@@ -187,11 +251,7 @@
       result.innerHTML = '';
       
       const data = {
-        setup_key: document.getElementById('setup-key').value,
-        first_name: document.getElementById('first-name').value,
-        last_name: document.getElementById('last-name').value,
         username: document.getElementById('username').value,
-        email: document.getElementById('email').value,
         password: document.getElementById('password').value
       };
       
@@ -211,10 +271,9 @@
               <p>${resultData.message}</p>
               <div class="director-info">
                 <p><strong>Username:</strong> ${resultData.director.username}</p>
-                <p><strong>Email:</strong> ${resultData.director.email}</p>
                 <p><strong>Role:</strong> ${resultData.director.role}</p>
               </div>
-              <a href="/LogIn" class="btn-link">Go to Login →</a>
+              <a href="/Director" class="btn-link">Go to Director Login →</a>
             </div>
           `;
           document.getElementById('director-form').reset();
@@ -349,6 +408,183 @@
         `;
       }
     }
+
+    // User Management Functions
+    let currentRole = 'all';
+
+    async function loadUsers(role = 'all') {
+      currentRole = role;
+      const listDiv = document.getElementById('users-list');
+      listDiv.innerHTML = '<div class="loading">Loading users...</div>';
+      
+      try {
+        const url = role === 'all' ? '/api/director/users' : `/api/director/users?role=${role}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (!response.ok) throw new Error(data.error || 'Failed to load users');
+        
+        const users = data.users || [];
+        
+        if (users.length === 0) {
+          listDiv.innerHTML = '<div class="info">No users found.</div>';
+          return;
+        }
+        
+        let html = '<div class="users-grid">';
+        users.forEach(user => {
+          const roleColor = {
+            director: '#cba6f7',
+            admin: '#89b4fa',
+            student: '#a6e3a1'
+          }[user.role] || '#cdd6f4';
+          
+          html += `
+            <div class="user-card">
+              <div class="user-header">
+                <div class="user-info">
+                  <h3>${user.first_name} ${user.last_name}</h3>
+                  <span class="user-role" style="background: ${roleColor}20; color: ${roleColor}; border: 1px solid ${roleColor}40;">
+                    ${user.role.toUpperCase()}
+                  </span>
+                </div>
+                <button class="delete-btn" onclick="deleteUser('${user.id}', '${user.username}')" title="Delete user">
+                  🗑️
+                </button>
+              </div>
+              <div class="user-details">
+                <p><strong>Username:</strong> ${user.username}</p>
+                <p><strong>Email:</strong> ${user.email}</p>
+                ${user.student_id ? `<p><strong>Student ID:</strong> ${user.student_id}</p>` : ''}
+                ${user.phone ? `<p><strong>Phone:</strong> ${user.phone}</p>` : ''}
+                <p><strong>Created:</strong> ${new Date(user.created_at).toLocaleDateString()}</p>
+              </div>
+            </div>
+          `;
+        });
+        html += '</div>';
+        
+        listDiv.innerHTML = html;
+        
+      } catch (error) {
+        listDiv.innerHTML = `
+          <div class="error">
+            <p>Error loading users: ${error.message}</p>
+          </div>
+        `;
+      }
+    }
+
+    function showCreateUserForm() {
+      document.getElementById('create-user-form').style.display = 'block';
+      document.getElementById('create-user-result').innerHTML = '';
+    }
+
+    function hideCreateUserForm() {
+      document.getElementById('create-user-form').style.display = 'none';
+      document.getElementById('new-user-form').reset();
+      document.getElementById('create-user-result').innerHTML = '';
+    }
+
+    // Show/hide student fields based on role selection
+    document.getElementById('new-role')?.addEventListener('change', (e) => {
+      const studentFields = document.getElementById('student-fields');
+      studentFields.style.display = e.target.value === 'student' ? 'flex' : 'none';
+    });
+
+    // Create new user
+    document.getElementById('new-user-form')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const resultDiv = document.getElementById('create-user-result');
+      resultDiv.innerHTML = '<div class="loading">Creating user...</div>';
+      
+      const role = document.getElementById('new-role').value;
+      const userData = {
+        first_name: document.getElementById('new-first-name').value,
+        last_name: document.getElementById('new-last-name').value,
+        username: document.getElementById('new-username').value,
+        email: document.getElementById('new-email').value,
+        password: document.getElementById('new-password').value,
+        role: role
+      };
+      
+      if (role === 'student') {
+        userData.student_id = document.getElementById('new-student-id').value;
+        userData.phone = document.getElementById('new-phone').value;
+      }
+      
+      try {
+        const response = await fetch('/api/director/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(userData)
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) throw new Error(data.error || 'Failed to create user');
+        
+        resultDiv.innerHTML = `
+          <div class="success">
+            <h3>✅ User Created Successfully!</h3>
+            <p>${userData.first_name} ${userData.last_name} (${userData.role}) has been added to the system.</p>
+          </div>
+        `;
+        
+        document.getElementById('new-user-form').reset();
+        
+        // Reload users list
+        setTimeout(() => {
+          hideCreateUserForm();
+          loadUsers(currentRole);
+        }, 2000);
+        
+      } catch (error) {
+        resultDiv.innerHTML = `
+          <div class="error">
+            <h3>❌ Error</h3>
+            <p>${error.message}</p>
+          </div>
+        `;
+      }
+    });
+
+    async function deleteUser(userId, username) {
+      if (!confirm(`Are you sure you want to delete user "${username}"? This action cannot be undone.`)) {
+        return;
+      }
+      
+      try {
+        const response = await fetch(`/api/director/users/${userId}`, {
+          method: 'DELETE'
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) throw new Error(data.error || 'Failed to delete user');
+        
+        alert(`User "${username}" has been deleted successfully.`);
+        loadUsers(currentRole);
+        
+      } catch (error) {
+        alert(`Error deleting user: ${error.message}`);
+      }
+    }
+
+    // Filter buttons for users
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        loadUsers(btn.dataset.role);
+      });
+    });
+
+    // Auto-load users when Users tab is clicked
+    document.querySelector('[data-tab="users"]')?.addEventListener('click', () => {
+      loadUsers(currentRole);
+    });
   </script>
 </body>
 </html>

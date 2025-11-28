@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createErrorResponse, createSuccessResponse } from '../../../../../../lib/supabase-auth';
+import { createErrorResponse, createSuccessResponse, verifyPassword } from '../../../../../../lib/supabase-auth';
 import { getSupabase } from '../../../../../../lib/supabase';
 import jwt from 'jsonwebtoken';
 
@@ -35,8 +35,10 @@ export async function POST(request) {
     
     const user = users[0];
     
-    // Verify password (simple comparison - in production use bcrypt)
-    if (user.password !== password) {
+    // Verify password with bcrypt
+    const isValidPassword = await verifyPassword(password, user.password);
+    
+    if (!isValidPassword) {
       return createErrorResponse('Invalid username or password', 401);
     }
     

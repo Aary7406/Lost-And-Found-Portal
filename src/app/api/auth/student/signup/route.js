@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createErrorResponse, createSuccessResponse } from '../../../../../../lib/supabase-auth';
+import { createErrorResponse, createSuccessResponse, hashPassword } from '../../../../../../lib/supabase-auth';
 import { getSupabase } from '../../../../../../lib/supabase';
 import jwt from 'jsonwebtoken';
 
@@ -13,14 +13,12 @@ export async function POST(request) {
       email,
       password,
       first_name,
-      last_name,
-      student_id,
-      phone
+      last_name
     } = await request.json();
     
     // Validation
-    if (!username || !email || !password || !first_name || !last_name || !student_id) {
-      return createErrorResponse('Missing required fields: username, email, password, first_name, last_name, student_id', 400);
+    if (!username || !email || !password || !first_name || !last_name) {
+      return createErrorResponse('Missing required fields: username, email, password, first_name, last_name', 400);
     }
     
     // Validate email format
@@ -58,29 +56,17 @@ export async function POST(request) {
       return createErrorResponse('Email already exists', 409);
     }
     
-    // Check if student_id already exists
-    const { data: existingStudentId } = await supabase
-      .from('users')
-      .select('id')
-      .eq('student_id', student_id)
-      .limit(1);
-    
-    if (existingStudentId && existingStudentId.length > 0) {
-      return createErrorResponse('Student ID already registered', 409);
-    }
+    // Hash password
+    const hashedPassword = await hashPassword(password);
     
     // Create new user
     const userData = {
       username: username.trim(),
       email: email.trim().toLowerCase(),
-      password, // In production, hash this with bcrypt
+      password: hashedPassword,
       first_name: first_name.trim(),
       last_name: last_name.trim(),
-      student_id: student_id.trim(),
-      phone: phone?.trim() || null,
-      role: 'student',
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
+      role: 'student'
     };
     
     const { data: newUser, error } = await supabase
@@ -116,8 +102,6 @@ export async function POST(request) {
         email: newUser.email,
         first_name: newUser.first_name,
         last_name: newUser.last_name,
-        student_id: newUser.student_id,
-        phone: newUser.phone,
         role: newUser.role
       },
       token

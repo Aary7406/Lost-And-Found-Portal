@@ -7,6 +7,7 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['framer-motion', 'lenis'],
     scrollRestoration: true,
+    viewTransition: true,
   },
   
   // Image optimization

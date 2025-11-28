@@ -13,7 +13,7 @@ export async function GET(request) {
     
     let query = supabase
       .from('users')
-      .select('id, username, email, first_name, last_name, student_id, phone, role, created_at, updated_at')
+      .select('id, username, email, first_name, last_name, role, created_at, updated_at')
       .order('created_at', { ascending: false });
     
     if (role && role !== 'all') {

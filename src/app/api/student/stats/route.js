@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { verifyToken } from '../../../../../lib/auth.js';
+import { verifyToken } from '../../../../../lib/supabase-auth.js';
 import { getSupabase } from '../../../../../lib/supabase.js';
 import { cache, CACHE_KEYS, CACHE_TTL } from '../../../../../lib/cache';
 

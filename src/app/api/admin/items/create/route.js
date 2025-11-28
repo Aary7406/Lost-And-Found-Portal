@@ -70,8 +70,8 @@ export async function POST(request) {
       .insert([itemData])
       .select(`
         *,
-        owner:owner_user_id(id, username, email, first_name, last_name, student_id),
-        finder:finder_user_id(id, username, email, first_name, last_name, student_id)
+        owner:owner_user_id(id, username, email, first_name, last_name),
+        finder:finder_user_id(id, username, email, first_name, last_name)
       `)
       .single();
     

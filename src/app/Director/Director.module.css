@@ -38,6 +38,7 @@
   justify-content: center;
   overflow: hidden;
   background: linear-gradient(135deg, var(--ctp-crust) 0%, var(--ctp-mantle) 50%, var(--ctp-base) 100%);
+  font-family: 'Aptos', system-ui, -apple-system, sans-serif;
 }
 
 /* Premium Animated Background */

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createErrorResponse, createSuccessResponse } from '../../../../../lib/supabase-auth';
+import { createErrorResponse, createSuccessResponse, hashPassword } from '../../../../../lib/supabase-auth';
 import { getSupabase } from '../../../../../lib/supabase';
 
 // GET /api/director/users - Get all users for director management
@@ -12,7 +12,7 @@ export async function GET(request) {
     
     let query = supabase
       .from('users')
-      .select('id, username, email, first_name, last_name, student_id, phone, role, created_at, updated_at')
+      .select('id, username, email, first_name, last_name, role, created_at, updated_at')
       .order('created_at', { ascending: false });
     
     if (role && role !== 'all') {
@@ -22,17 +22,18 @@ export async function GET(request) {
     const { data: users, error } = await query;
     
     if (error) {
-      console.error('Database error:', error);
-      throw new Error('Failed to fetch users');
+      console.error('Database error fetching users:', error);
+      return createErrorResponse(`Database error: ${error.message}`, 500);
     }
     
+    // Return empty array if no users found instead of error
     return createSuccessResponse({
-      users,
-      total: users.length
+      users: users || [],
+      total: users ? users.length : 0
     });
     
   } catch (error) {
-    console.error('API Error:', error);
+    console.error('API Error in GET /api/director/users:', error);
     return createErrorResponse(error.message || 'Failed to fetch users', 500);
   }
 }
@@ -47,9 +48,7 @@ export async function POST(request) {
       password,
       first_name,
       last_name,
-      role,
-      student_id,
-      phone
+      role
     } = body;
     
     // Validation
@@ -74,20 +73,19 @@ export async function POST(request) {
       return createErrorResponse('Username already exists', 409);
     }
     
+    // Hash password
+    const hashedPassword = await hashPassword(password);
+    
     // Create user
     const { data: newUser, error } = await supabase
       .from('users')
       .insert([{
         username,
         email,
-        password, // In production, hash this
+        password: hashedPassword,
         first_name,
         last_name,
-        role,
-        student_id: student_id || null,
-        phone: phone || null,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        role
       }])
       .select()
       .single();

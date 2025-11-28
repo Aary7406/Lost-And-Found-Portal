@@ -1,28 +1,18 @@
 import { NextResponse } from 'next/server';
-import { createErrorResponse, createSuccessResponse } from '../../../../../../lib/supabase-auth';
-import { getSupabase } from '../../../../../../lib/supabase';
+import { createErrorResponse, createSuccessResponse, hashPassword } from '../../../../../lib/supabase-auth';
+import { getSupabase } from '../../../../../lib/supabase';
 
 // POST /api/setup/director - Initial director account setup
 export async function POST(request) {
   try {
     const {
       username,
-      email,
-      password,
-      first_name,
-      last_name,
-      setup_key
+      password
     } = await request.json();
     
     // Validation
-    if (!username || !email || !password || !first_name || !last_name) {
-      return createErrorResponse('Missing required fields', 400);
-    }
-    
-    // Check setup key (in production, use a secure setup key from environment)
-    const SETUP_KEY = process.env.DIRECTOR_SETUP_KEY || 'setup-director-2024';
-    if (setup_key !== SETUP_KEY) {
-      return createErrorResponse('Invalid setup key', 403);
+    if (!username || !password) {
+      return createErrorResponse('Username and password are required', 400);
     }
     
     const supabase = getSupabase();
@@ -48,18 +38,19 @@ export async function POST(request) {
       return createErrorResponse('Username already exists', 409);
     }
     
+    // Hash password
+    const hashedPassword = await hashPassword(password);
+    
     // Create director account
     const { data: newDirector, error } = await supabase
       .from('users')
       .insert([{
         username: username.trim(),
-        email: email.trim().toLowerCase(),
-        password, // In production, hash this with bcrypt
-        first_name: first_name.trim(),
-        last_name: last_name.trim(),
-        role: 'director',
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        email: `${username.trim()}@director.local`,
+        password: hashedPassword,
+        first_name: 'Director',
+        last_name: 'Admin',
+        role: 'director'
       }])
       .select()
       .single();
@@ -79,6 +70,11 @@ export async function POST(request) {
     
   } catch (error) {
     console.error('API Error:', error);
+    console.error('Error details:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name
+    });
     return createErrorResponse(error.message || 'Failed to setup director account', 500);
   }
 }

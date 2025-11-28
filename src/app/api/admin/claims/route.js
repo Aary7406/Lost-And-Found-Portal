@@ -47,9 +47,9 @@ export async function GET(request) {
         reported_by_user_id,
         created_at,
         updated_at,
-        owner:owner_user_id(id, username, email, first_name, last_name, student_id),
-        finder:finder_user_id(id, username, email, first_name, last_name, student_id),
-        reporter:reported_by_user_id(id, username, email, first_name, last_name, student_id)
+        owner:owner_user_id(id, username, email, first_name, last_name),
+        finder:finder_user_id(id, username, email, first_name, last_name),
+        reporter:reported_by_user_id(id, username, email, first_name, last_name)
       `)
       .order('updated_at', { ascending: false });
     

@@ -50,9 +50,9 @@ export async function GET(request) {
         reported_by_user_id,
         created_at,
         updated_at,
-        owner:owner_user_id(id, username, email, first_name, last_name, student_id, phone),
-        finder:finder_user_id(id, username, email, first_name, last_name, student_id, phone),
-        reporter:reported_by_user_id(id, username, email, first_name, last_name, student_id, phone)
+        owner:owner_user_id(id, username, email, first_name, last_name),
+        finder:finder_user_id(id, username, email, first_name, last_name),
+        reporter:reported_by_user_id(id, username, email, first_name, last_name)
       `);
     
     // Apply filters

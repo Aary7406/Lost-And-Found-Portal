@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import TransitionLink from '@/components/TransitionLink/TransitionLink';
 import styles from './Hero.module.css';
 
 const Hero = () => {
@@ -41,10 +41,10 @@ const Hero = () => {
           </div>
           
           {/* Login Pill Button */}
-          <Link href="/LogIn" className={styles.loginPill}>
+          <TransitionLink href="/LogIn" className={styles.loginPill}>
             <span>Login</span>
             <span className={styles.loginArrow}>→</span>
-          </Link>
+          </TransitionLink>
         </div>
       </nav>
 
@@ -73,14 +73,14 @@ const Hero = () => {
 
           {/* Quick Actions */}
           <div className={styles.quickActions}>
-            <Link href="/LogIn" className={styles.actionPill}>
+            <TransitionLink href="/LogIn" className={styles.actionPill}>
               <span>📱</span>
               <span>Report Lost Item</span>
-            </Link>
-            <Link href="/search" className={styles.actionPill}>
+            </TransitionLink>
+            <TransitionLink href="/search" className={styles.actionPill}>
               <span>🔍</span>
               <span>Browse Found Items</span>
-            </Link>
+            </TransitionLink>
           </div>
         </motion.div>
 
