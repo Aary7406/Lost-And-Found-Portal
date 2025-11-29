@@ -21,14 +21,10 @@ export default function LoginPage() {
     
     if (!username.trim()) {
       newErrors.username = 'Username is required';
-    } else if (username.length < 3) {
-      newErrors.username = 'Username must be at least 3 characters';
     }
     
     if (!password.trim()) {
       newErrors.password = 'Password is required';
-    } else if (password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
     }
     
     setErrors(newErrors);
@@ -42,14 +38,32 @@ export default function LoginPage() {
     
     setIsLoading(true);
     
-    setTimeout(() => {
-      setIsLoading(false);
-      if (userType === 'admin') {
-        router.push('/AdminDashboard');
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Redirect based on user role from database
+        const roleRedirects = {
+          director: '/DirectorDashboard',
+          admin: '/AdminDashboard',
+          student: '/StudentDashboard'
+        };
+
+        router.push(roleRedirects[data.user.role] || '/');
       } else {
-        router.push('/StudentDashboard');
+        setErrors({ password: data.error || 'Login failed' });
+        setIsLoading(false);
       }
-    }, 1500);
+    } catch (error) {
+      setErrors({ password: 'Network error. Please try again.' });
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -293,36 +307,6 @@ export default function LoginPage() {
                       )}
                     </AnimatePresence>
                   </motion.button>
-
-                  {/* Student Signup Section */}
-                  <AnimatePresence>
-                    {userType === 'student' && (
-                      <motion.div
-                        className={styles.signupSection}
-                        initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                        animate={{ opacity: 1, height: 'auto', marginTop: 20 }}
-                        exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                        transition={{ duration: 0.3, ease: [0.19, 1, 0.22, 1] }}
-                      >
-                        <div className={styles.divider}>
-                          <span className={styles.dividerLine} />
-                          <span className={styles.dividerText}>or</span>
-                          <span className={styles.dividerLine} />
-                        </div>
-                        
-                        <motion.button
-                          type="button"
-                          className={styles.signupBtnPill}
-                          whileHover={{ scale: 1.02, y: -2 }}
-                          whileTap={{ scale: 0.98 }}
-                          disabled={isLoading}
-                        >
-                          <span>Create New Account</span>
-                          <span>✨</span>
-                        </motion.button>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
                 </motion.div>
               </AnimatePresence>
             </form>

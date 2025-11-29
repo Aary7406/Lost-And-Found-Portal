@@ -1,45 +1,36 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import styles from './Toast.module.css';
 
-export default function Toast({ message, type = 'info', duration = 3000, onClose }) {
-  const [isVisible, setIsVisible] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-      setTimeout(onClose, 300);
-    }, duration);
-
-    return () => clearTimeout(timer);
-  }, [duration, onClose]);
-
-  const bgColor = {
-    success: '#51cf66',
-    error: '#ff6b6b',
-    info: '#cba6f7',
-    warning: '#ffd43b'
-  }[type] || '#cba6f7';
+export default function Toast({ message, type = 'info', isVisible, onClose }) {
+  const icons = {
+    success: '✅',
+    error: '❌',
+    warning: '⚠️',
+    info: 'ℹ️'
+  };
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        top: '20px',
-        right: '20px',
-        padding: '16px 24px',
-        background: bgColor,
-        color: '#11111b',
-        borderRadius: '12px',
-        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)',
-        fontWeight: 600,
-        zIndex: 9999,
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'translateY(0)' : 'translateY(-20px)',
-        transition: 'all 0.3s ease'
-      }}
-    >
-      {message}
-    </div>
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          className={`${styles.toast} ${styles[type]}`}
+          initial={{ opacity: 0, y: -50, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -20, scale: 0.9 }}
+          transition={{
+            type: 'spring',
+            damping: 25,
+            stiffness: 300,
+            mass: 0.8
+          }}
+        >
+          <span className={styles.icon}>{icons[type]}</span>
+          <span className={styles.message}>{message}</span>
+          <button className={styles.closeBtn} onClick={onClose}>×</button>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

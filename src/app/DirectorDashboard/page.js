@@ -1,7 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ANIMATIONS } from '../../../lib/animations';
+import Toast from '../../components/Toast/Toast';
 import styles from './DirectorDashboard.module.css';
 
 export default function DirectorDashboard() {
@@ -15,6 +18,19 @@ export default function DirectorDashboard() {
   const [filterStatus, setFilterStatus] = useState('all');
   const [editingUser, setEditingUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [modalOrigin, setModalOrigin] = useState({ x: 0, y: 0 });
+  const buttonRefs = useRef({});
+  
+  // Toast notification state
+  const [toast, setToast] = useState({ isVisible: false, message: '', type: 'info' });
+
+  // Show toast notification
+  const showToast = (message, type = 'info') => {
+    setToast({ isVisible: true, message, type });
+    setTimeout(() => {
+      setToast(prev => ({ ...prev, isVisible: false }));
+    }, 5000);
+  };
 
   // Fetch stats
   const fetchStats = async () => {
@@ -26,6 +42,7 @@ export default function DirectorDashboard() {
       }
     } catch (error) {
       console.error('Error fetching stats:', error);
+      showToast('Failed to load statistics', 'error');
     }
   };
 
@@ -40,7 +57,10 @@ export default function DirectorDashboard() {
       }
     } catch (error) {
       console.error('Error fetching users:', error);
+      showToast('Failed to load users', 'error');
     }
+    // Refresh stats to update counts
+    await fetchStats();
   };
 
   // Fetch items
@@ -53,7 +73,10 @@ export default function DirectorDashboard() {
       }
     } catch (error) {
       console.error('Error fetching items:', error);
+      showToast('Failed to load items', 'error');
     }
+    // Refresh stats to update counts
+    await fetchStats();
   };
 
   // Create/Update user
@@ -77,11 +100,18 @@ export default function DirectorDashboard() {
         setEditingUser(null);
         fetchUsers(filterRole);
         fetchStats();
+        showToast(
+          editingUser ? 'User updated successfully!' : 'User created successfully!',
+          'success'
+        );
       } else {
-        alert(data.error || 'Failed to save user');
+        const errorMsg = data.error || data.message || 'Failed to save user';
+        console.error('Failed to save user:', data);
+        showToast(errorMsg, 'error');
       }
     } catch (error) {
-      alert('Error saving user: ' + error.message);
+      console.error('Error saving user:', error);
+      showToast('Network error: ' + error.message, 'error');
     }
   };
 
@@ -99,11 +129,12 @@ export default function DirectorDashboard() {
       if (data.success) {
         fetchUsers(filterRole);
         fetchStats();
+        showToast('User deleted successfully', 'success');
       } else {
-        alert(data.error || 'Failed to delete user');
+        showToast(data.error || 'Failed to delete user', 'error');
       }
     } catch (error) {
-      alert('Error deleting user: ' + error.message);
+      showToast('Error: ' + error.message, 'error');
     }
   };
 
@@ -122,10 +153,34 @@ export default function DirectorDashboard() {
     return () => clearInterval(interval);
   }, []);
 
+  // Open modal with morph animation from button position
+  const openModal = (buttonKey, user = null) => {
+    const button = buttonRefs.current[buttonKey];
+    if (button) {
+      const rect = button.getBoundingClientRect();
+      const viewportCenterX = window.innerWidth / 2;
+      const viewportCenterY = window.innerHeight / 2;
+      
+      setModalOrigin({
+        x: rect.left + rect.width / 2 - viewportCenterX,
+        y: rect.top + rect.height / 2 - viewportCenterY
+      });
+    }
+    setEditingUser(user);
+    setShowModal(true);
+  };
+
   // Handle role filter change
   useEffect(() => {
     fetchUsers(filterRole);
   }, [filterRole]);
+
+  // Handle status filter change
+  useEffect(() => {
+    if (activeTab === 'items') {
+      fetchStats();
+    }
+  }, [filterStatus]);
 
   const filteredItems = filterStatus === 'all' 
     ? items 
@@ -260,11 +315,9 @@ export default function DirectorDashboard() {
               <h2>Quick Actions</h2>
               <div className={styles.actionsGrid}>
                 <button 
+                  ref={(el) => buttonRefs.current['createUser'] = el}
                   className={styles.actionCard}
-                  onClick={() => {
-                    setEditingUser(null);
-                    setShowModal(true);
-                  }}
+                  onClick={() => openModal('createUser', null)}
                 >
                   <span className={styles.actionIcon}>➕</span>
                   <span>Create User</span>
@@ -289,6 +342,7 @@ export default function DirectorDashboard() {
                     fetchStats();
                     fetchUsers();
                     fetchItems();
+                    showToast('Data refreshed successfully', 'success');
                   }}
                 >
                   <span className={styles.actionIcon}>🔄</span>
@@ -308,11 +362,9 @@ export default function DirectorDashboard() {
                 <p>{users.length} users</p>
               </div>
               <button 
+                ref={(el) => buttonRefs.current['addUser'] = el}
                 className={styles.addBtn}
-                onClick={() => {
-                  setEditingUser(null);
-                  setShowModal(true);
-                }}
+                onClick={() => openModal('addUser', null)}
               >
                 <span>+</span>
                 <span>Add User</span>
@@ -376,10 +428,7 @@ export default function DirectorDashboard() {
                       <td className={styles.actions}>
                         <button 
                           className={styles.editBtn}
-                          onClick={() => {
-                            setEditingUser(user);
-                            setShowModal(true);
-                          }}
+                          onClick={() => openModal('editUser', user)}
                         >
                           Edit
                         </button>
@@ -463,14 +512,54 @@ export default function DirectorDashboard() {
         )}
       </main>
 
-      {/* User Modal */}
-      {showModal && (
-        <div className={styles.modalOverlay} onClick={() => setShowModal(false)}>
-          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-            <div className={styles.modalHeader}>
-              <h2>{editingUser ? 'Edit User' : 'Create New User'}</h2>
-              <button className={styles.closeBtn} onClick={() => setShowModal(false)}>×</button>
-            </div>
+      {/* User Modal with One UI 8 Morph Animation */}
+      <AnimatePresence mode="wait">
+        {showModal && (
+          <>
+            {/* Overlay */}
+            <motion.div 
+              className={styles.modalOverlay} 
+              onClick={() => setShowModal(false)}
+              {...ANIMATIONS.overlayFade}
+            >
+              {/* Modal */}
+              <motion.div 
+                className={styles.modal} 
+                onClick={(e) => e.stopPropagation()}
+                initial={{
+                  scale: 0.1,
+                  opacity: 0,
+                  borderRadius: '50%',
+                  x: modalOrigin.x,
+                  y: modalOrigin.y,
+                  rotate: 0
+                }}
+                animate={{
+                  scale: 1,
+                  opacity: 1,
+                  borderRadius: '32px',
+                  x: 0,
+                  y: 0,
+                  rotate: 0,
+                  transition: ANIMATIONS.modalMorph.animate.transition
+                }}
+                exit={{
+                  scale: 0.1,
+                  opacity: 0,
+                  borderRadius: '50%',
+                  x: modalOrigin.x,
+                  y: modalOrigin.y,
+                  rotate: 0,
+                  transition: ANIMATIONS.modalMorph.exit.transition
+                }}
+                style={{
+                  willChange: 'transform, opacity, border-radius'
+                }}
+              >
+                <div className={styles.modalHeader}>
+                  <h2>{editingUser ? 'Edit User' : 'Create New User'}</h2>
+                  <button className={styles.closeBtn} onClick={() => setShowModal(false)}>×</button>
+                </div>
             <form 
               className={styles.modalForm}
               onSubmit={(e) => {
@@ -505,7 +594,6 @@ export default function DirectorDashboard() {
                   type="password" 
                   name="password" 
                   required={!editingUser}
-                  minLength="8"
                 />
               </div>
               <div className={styles.formGroup}>
@@ -525,9 +613,19 @@ export default function DirectorDashboard() {
                 </button>
               </div>
             </form>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
+        </>
       )}
+    </AnimatePresence>
+
+      {/* Toast Notifications */}
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        isVisible={toast.isVisible}
+        onClose={() => setToast(prev => ({ ...prev, isVisible: false }))}
+      />
     </div>
   );
 }

@@ -12,7 +12,7 @@ export async function GET(request) {
     
     let query = supabase
       .from('users')
-      .select('id, username, email, first_name, last_name, role, created_at, updated_at')
+      .select('id, username, role, created_at, updated_at')
       .order('created_at', { ascending: false });
     
     if (role && role !== 'all') {
@@ -44,15 +44,12 @@ export async function POST(request) {
     const body = await request.json();
     const {
       username,
-      email,
       password,
-      first_name,
-      last_name,
       role
     } = body;
     
     // Validation
-    if (!username || !email || !password || !first_name || !last_name || !role) {
+    if (!username || !password || !role) {
       return createErrorResponse('Missing required fields', 400);
     }
     
@@ -76,15 +73,18 @@ export async function POST(request) {
     // Hash password
     const hashedPassword = await hashPassword(password);
     
+    // Create user with placeholder values for NOT NULL fields
+    const placeholderEmail = `${username}@placeholder.local`;
+    
     // Create user
     const { data: newUser, error } = await supabase
       .from('users')
       .insert([{
         username,
-        email,
+        email: placeholderEmail,
         password: hashedPassword,
-        first_name,
-        last_name,
+        first_name: username,
+        last_name: '',
         role
       }])
       .select()
@@ -92,7 +92,7 @@ export async function POST(request) {
     
     if (error) {
       console.error('Database error:', error);
-      throw new Error('Failed to create user');
+      return createErrorResponse(`Database error: ${error.message || 'Failed to create user'}`, 500);
     }
     
     return createSuccessResponse({
