@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "seed:director": "node scripts/seedDirector.js"
+    "dev": "bun --bun next dev --turbo",
+    "build": "bun --bun next build",
+    "start": "bun --bun next start",
+    "lint": "bun --bun next lint",
+    "seed:director": "bun scripts/seedDirector.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.86.0",

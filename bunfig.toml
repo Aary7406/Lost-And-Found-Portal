@@ -1,0 +1,30 @@
+# Bun Configuration for Lost & Found Portal
+
+[install]
+# Optimize package installation
+cache = true
+frozenLockfile = false
+production = false
+
+[install.scopes]
+# Use npm registry for all packages
+"@supabase" = { url = "https://registry.npmjs.org/" }
+
+[run]
+# Enable Bun's runtime for all scripts
+bun = true
+
+[dev]
+# Enable hot reloading and watch mode
+preferBun = true
+
+[test]
+# Use Bun's built-in test runner
+preload = []
+
+# Performance optimizations
+[loader]
+".js" = "jsx"
+".jsx" = "jsx"
+".ts" = "tsx"
+".tsx" = "tsx"
