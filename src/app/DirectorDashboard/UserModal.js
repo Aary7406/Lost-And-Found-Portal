@@ -54,6 +54,12 @@ export default function UserModal({ user, onClose, onSave }) {
         body: JSON.stringify(formData)
       });
 
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error('Response not OK:', res.status, errorText);
+        throw new Error(`Server error: ${res.status}`);
+      }
+
       const data = await res.json();
       
       if (data.success) {
@@ -62,7 +68,8 @@ export default function UserModal({ user, onClose, onSave }) {
         setError(data.error || 'Failed to save user');
       }
     } catch (err) {
-      setError('An error occurred');
+      console.error('Error saving user:', err);
+      setError(err.message || 'An error occurred');
     } finally {
       setLoading(false);
     }

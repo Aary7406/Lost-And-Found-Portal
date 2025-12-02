@@ -8,6 +8,8 @@ export async function PUT(request, { params }) {
     const body = await request.json();
     const { status } = body;
     
+    console.log('PUT request - uniqueId:', uniqueId, 'status:', status);
+    
     // Validation
     if (!status || !['unclaimed', 'claimed'].includes(status)) {
       return NextResponse.json(
@@ -28,12 +30,15 @@ export async function PUT(request, { params }) {
       updateData.claimed_at = new Date().toISOString();
     }
     
+    console.log('Updating item with unique_item_id:', uniqueId, 'with data:', updateData);
+    
     const { data: updatedItem, error } = await supabase
       .from('lost_items')
       .update(updateData)
       .eq('unique_item_id', uniqueId)
-      .select()
-      .single();
+      .select();
+    
+    console.log('Update result - data:', updatedItem, 'error:', error);
     
     if (error) {
       console.error('Database error:', error);
@@ -43,9 +48,9 @@ export async function PUT(request, { params }) {
       );
     }
     
-    if (!updatedItem) {
+    if (!updatedItem || updatedItem.length === 0) {
       return NextResponse.json(
-        { success: false, error: 'Item not found' },
+        { success: false, error: `Item not found with unique_item_id: ${uniqueId}` },
         { status: 404 }
       );
     }
@@ -53,7 +58,7 @@ export async function PUT(request, { params }) {
     return NextResponse.json({
       success: true,
       message: 'Item status updated successfully',
-      item: updatedItem
+      item: updatedItem[0]
     });
     
   } catch (error) {

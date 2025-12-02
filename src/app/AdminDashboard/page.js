@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ANIMATIONS } from '../../../lib/animations';
 import Toast from '../../components/Toast/Toast';
 import CustomDatePicker from '../../components/CustomDatePicker/CustomDatePicker';
+import ConfirmDialog from '../../components/ConfirmDialog/ConfirmDialog';
 import styles from './AdminDashboard.module.css';
 
 export default function AdminDashboard() {
@@ -26,6 +27,15 @@ export default function AdminDashboard() {
   
   // Toast notification state
   const [toast, setToast] = useState({ isVisible: false, message: '', type: 'info' });
+
+  // Confirm dialog state
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: () => {},
+    type: 'danger'
+  });
 
   // Show toast notification
   const showToast = (message, type = 'info') => {
@@ -114,24 +124,30 @@ export default function AdminDashboard() {
 
   // Delete student
   const deleteStudent = async (studentId) => {
-    if (!confirm('Are you sure you want to delete this student?')) return;
-    
-    try {
-      const res = await fetch(`/api/admin/students/${studentId}`, {
-        method: 'DELETE'
-      });
-      
-      const data = await res.json();
-      
-      if (data.success) {
-        fetchStudents();
-        showToast('Student deleted successfully', 'success');
-      } else {
-        showToast(data.error || 'Failed to delete student', 'error');
+    setConfirmDialog({
+      isOpen: true,
+      title: 'Delete Student',
+      message: 'Are you sure you want to delete this student? This action cannot be undone.',
+      type: 'danger',
+      onConfirm: async () => {
+        try {
+          const res = await fetch(`/api/admin/students/${studentId}`, {
+            method: 'DELETE'
+          });
+          
+          const data = await res.json();
+          
+          if (data.success) {
+            fetchStudents();
+            showToast('Student deleted successfully', 'success');
+          } else {
+            showToast(data.error || 'Failed to delete student', 'error');
+          }
+        } catch (error) {
+          showToast('Error: ' + error.message, 'error');
+        }
       }
-    } catch (error) {
-      showToast('Error: ' + error.message, 'error');
-    }
+    });
   };
 
   // Create item
@@ -160,24 +176,30 @@ export default function AdminDashboard() {
 
   // Delete item
   const deleteItem = async (uniqueId) => {
-    if (!confirm('Permanently delete this item? This cannot be undone.')) return;
-    
-    try {
-      const res = await fetch(`/api/admin/items-new/${uniqueId}`, {
-        method: 'DELETE'
-      });
-      
-      const data = await res.json();
-      
-      if (data.success) {
-        fetchItems();
-        showToast('Item permanently deleted!', 'success');
-      } else {
-        showToast(data.error || 'Failed to delete item', 'error');
+    setConfirmDialog({
+      isOpen: true,
+      title: 'Delete Item Permanently',
+      message: 'This will permanently remove the item from the database. This action cannot be undone.',
+      type: 'danger',
+      onConfirm: async () => {
+        try {
+          const res = await fetch(`/api/admin/items-new/${uniqueId}`, {
+            method: 'DELETE'
+          });
+          
+          const data = await res.json();
+          
+          if (data.success) {
+            fetchItems();
+            showToast('Item permanently deleted!', 'success');
+          } else {
+            showToast(data.error || 'Failed to delete item', 'error');
+          }
+        } catch (error) {
+          showToast('Error: ' + error.message, 'error');
+        }
       }
-    } catch (error) {
-      showToast('Error: ' + error.message, 'error');
-    }
+    });
   };
 
   // Toggle item status
@@ -825,6 +847,18 @@ export default function AdminDashboard() {
         type={toast.type}
         isVisible={toast.isVisible}
         onClose={() => setToast(prev => ({ ...prev, isVisible: false }))}
+      />
+
+      {/* Confirm Dialog */}
+      <ConfirmDialog
+        isOpen={confirmDialog.isOpen}
+        onClose={() => setConfirmDialog(prev => ({ ...prev, isOpen: false }))}
+        onConfirm={confirmDialog.onConfirm}
+        title={confirmDialog.title}
+        message={confirmDialog.message}
+        type={confirmDialog.type}
+        confirmText="Delete"
+        cancelText="Cancel"
       />
     </div>
   );

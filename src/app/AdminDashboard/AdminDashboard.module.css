@@ -87,6 +87,7 @@
   align-items: center;
   gap: 0.5rem;
   transition: all 0.3s ease;
+  outline: none;
 }
 
 .tabActive {
@@ -97,6 +98,11 @@
 .tab:hover {
   background: rgba(203, 166, 247, 0.08);
   color: #cdd6f4;
+}
+
+.tab:focus,
+.tabActive:focus {
+  outline: none;
 }
 
 /* Content */

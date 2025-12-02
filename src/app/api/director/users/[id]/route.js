@@ -37,8 +37,13 @@ export async function GET(request, { params }) {
 // PATCH /api/director/users/[id] - Update a user
 export async function PATCH(request, { params }) {
   try {
+    console.log('PATCH /api/director/users/[id] - Starting');
     const { id } = params;
+    console.log('User ID:', id);
+    
     const updates = await request.json();
+    console.log('Updates received:', updates);
+    
     const supabase = getSupabase();
     
     // Don't allow updating certain fields
@@ -48,6 +53,8 @@ export async function PATCH(request, { params }) {
     // Add updated_at timestamp
     updates.updated_at = new Date().toISOString();
     
+    console.log('Final updates to apply:', updates);
+    
     const { data: updatedUser, error } = await supabase
       .from('users')
       .update(updates)
@@ -55,22 +62,32 @@ export async function PATCH(request, { params }) {
       .select()
       .single();
     
+    console.log('Database response - data:', updatedUser, 'error:', error);
+    
     if (error) {
       console.error('Database error:', error);
-      throw new Error('Failed to update user');
+      return NextResponse.json(
+        { success: false, error: `Database error: ${error.message}` },
+        { status: 500 }
+      );
     }
     
     // Don't return password
     const { password, ...userWithoutPassword } = updatedUser;
     
-    return createSuccessResponse({
+    console.log('Sending success response');
+    return NextResponse.json({
+      success: true,
       message: 'User updated successfully',
       user: userWithoutPassword
     });
     
   } catch (error) {
-    console.error('API Error:', error);
-    return createErrorResponse(error.message || 'Failed to update user', 500);
+    console.error('API Error in PATCH:', error);
+    return NextResponse.json(
+      { success: false, error: error.message || 'Failed to update user' },
+      { status: 500 }
+    );
   }
 }
 

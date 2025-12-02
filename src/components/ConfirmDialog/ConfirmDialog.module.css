@@ -1,0 +1,179 @@
+/* Confirm Dialog - Glassmorphism Design */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 17, 27, 0.85);
+  backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 2rem;
+}
+
+.dialog {
+  background: rgba(30, 30, 46, 0.98);
+  backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(203, 166, 247, 0.3);
+  border-radius: 32px;
+  padding: 2rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Icon */
+.icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  position: relative;
+}
+
+.icon::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  padding: 4px;
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.6;
+}
+
+.icon.danger {
+  --gradient-start: #f38ba8;
+  --gradient-end: #eba0ac;
+  background: rgba(243, 139, 168, 0.15);
+}
+
+.icon.warning {
+  --gradient-start: #f9e2af;
+  --gradient-end: #f5c2e7;
+  background: rgba(249, 226, 175, 0.15);
+}
+
+.icon.info {
+  --gradient-start: #89b4fa;
+  --gradient-end: #94e2d5;
+  background: rgba(137, 180, 250, 0.15);
+}
+
+/* Content */
+.content {
+  text-align: center;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem 0;
+  color: #cdd6f4;
+  background: linear-gradient(135deg, #cba6f7, #89b4fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.message {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #bac2de;
+  margin: 0;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.cancelBtn,
+.confirmBtn {
+  flex: 1;
+  padding: 0.875rem 1.5rem;
+  border: none;
+  border-radius: 24px;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.cancelBtn {
+  background: rgba(108, 112, 134, 0.15);
+  color: #bac2de;
+  border: 1px solid rgba(108, 112, 134, 0.3);
+}
+
+.cancelBtn:hover {
+  background: rgba(108, 112, 134, 0.25);
+  border-color: rgba(108, 112, 134, 0.5);
+}
+
+.confirmBtn {
+  color: #1e1e2e;
+  font-weight: 700;
+}
+
+.dangerBtn {
+  background: linear-gradient(135deg, #f38ba8, #eba0ac);
+}
+
+.dangerBtn:hover {
+  box-shadow: 0 8px 24px rgba(243, 139, 168, 0.4);
+}
+
+.warningBtn {
+  background: linear-gradient(135deg, #f9e2af, #fab387);
+}
+
+.warningBtn:hover {
+  box-shadow: 0 8px 24px rgba(249, 226, 175, 0.4);
+}
+
+.infoBtn {
+  background: linear-gradient(135deg, #89b4fa, #94e2d5);
+}
+
+.infoBtn:hover {
+  box-shadow: 0 8px 24px rgba(137, 180, 250, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .dialog {
+    padding: 1.5rem;
+  }
+
+  .icon {
+    width: 64px;
+    height: 64px;
+    font-size: 2rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .message {
+    font-size: 0.9375rem;
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+  }
+}
