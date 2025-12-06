@@ -39,10 +39,16 @@ export async function POST(request) {
   }
 }
 
-// GET /api/auth/verify - Verify token from cookie
+// GET /api/auth/verify - Verify token from cookie or Authorization header
 export async function GET(request) {
   try {
-    const token = request.cookies.get('auth_token')?.value;
+    // Try Authorization header first, then cookie
+    const authHeader = request.headers.get('authorization');
+    let token = authHeader?.replace('Bearer ', '');
+    
+    if (!token) {
+      token = request.cookies.get('auth_token')?.value;
+    }
     
     if (!token) {
       return createErrorResponse('No authentication token found', 401);

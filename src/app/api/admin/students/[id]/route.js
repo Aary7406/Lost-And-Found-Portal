@@ -65,7 +65,7 @@ export async function PUT(request, { params }) {
   }
 }
 
-// DELETE /api/admin/students/[id] - Delete a student
+// DELETE /api/admin/students/[id] - Delete a student and all their data
 export async function DELETE(request, { params }) {
   try {
     console.log('DELETE /api/admin/students/[id] - params:', params);
@@ -81,6 +81,18 @@ export async function DELETE(request, { params }) {
     
     const supabase = getSupabase();
     
+    // First, delete all lost items reported by this student
+    const { error: itemsError } = await supabase
+      .from('lost_items')
+      .delete()
+      .eq('reported_by', id);
+    
+    if (itemsError) {
+      console.error('Error deleting student items:', itemsError);
+      // Continue with user deletion even if items fail
+    }
+    
+    // Then delete the user account
     const { error } = await supabase
       .from('users')
       .delete()
@@ -97,7 +109,7 @@ export async function DELETE(request, { params }) {
     
     return NextResponse.json({
       success: true,
-      message: 'Student deleted successfully'
+      message: 'Student account and all associated data deleted successfully'
     });
     
   } catch (error) {

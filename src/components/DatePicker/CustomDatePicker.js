@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './CustomDatePicker.module.css';
 
 export default function CustomDatePicker({ 
@@ -14,10 +14,59 @@ export default function CustomDatePicker({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(value || '');
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [currentMonth, setCurrentMonth] = useState(() => {
+    if (value) {
+      const date = new Date(value + 'T00:00:00');
+      return isNaN(date.getTime()) ? new Date() : date;
+    }
+    return new Date();
+  });
+  const [calendarPosition, setCalendarPosition] = useState('bottom');
+  const calendarRef = useRef(null);
+  const buttonRef = useRef(null);
 
+  // Close calendar when clicking outside
   useEffect(() => {
-    setSelectedDate(value || '');
+    const handleClickOutside = (event) => {
+      if (calendarRef.current && !calendarRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isOpen]);
+
+  // Smart positioning: check available space and position calendar accordingly
+  useEffect(() => {
+    if (isOpen && buttonRef.current) {
+      const buttonRect = buttonRef.current.getBoundingClientRect();
+      const calendarHeight = 400; // Approximate calendar height
+      const spaceBelow = window.innerHeight - buttonRect.bottom;
+      const spaceAbove = buttonRect.top;
+
+      // If not enough space below but enough above, show calendar above
+      if (spaceBelow < calendarHeight && spaceAbove > calendarHeight) {
+        setCalendarPosition('top');
+      } else {
+        setCalendarPosition('bottom');
+      }
+    }
+  }, [isOpen]);
+
+  // Update state when value prop changes
+  useEffect(() => {
+    if (value !== selectedDate) {
+      setSelectedDate(value || '');
+      if (value) {
+        const date = new Date(value + 'T00:00:00');
+        if (!isNaN(date.getTime())) {
+          setCurrentMonth(date);
+        }
+      }
+    }
   }, [value]);
 
   const getDaysInMonth = (date) => {
@@ -36,6 +85,10 @@ export default function CustomDatePicker({
     const month = currentMonth.getMonth();
     const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     
+    // Check min/max constraints
+    if (minDate && dateString < minDate) return;
+    if (maxDate && dateString > maxDate) return;
+    
     setSelectedDate(dateString);
     if (onChange) onChange(dateString);
     setIsOpen(false);
@@ -51,12 +104,23 @@ export default function CustomDatePicker({
 
   const formatDisplayDate = (dateString) => {
     if (!dateString) return placeholder;
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
-    });
+    try {
+      const date = new Date(dateString + 'T00:00:00');
+      if (isNaN(date.getTime())) return placeholder;
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+      });
+    } catch {
+      return placeholder;
+    }
+  };
+
+  const isDateDisabled = (dateString) => {
+    if (minDate && dateString < minDate) return true;
+    if (maxDate && dateString > maxDate) return true;
+    return false;
   };
 
   const { daysInMonth, startingDayOfWeek, year, month } = getDaysInMonth(currentMonth);
@@ -76,11 +140,14 @@ export default function CustomDatePicker({
         </label>
       )}
 
-      <div className={styles.inputWrapper}>
+      <div className={styles.inputWrapper} ref={calendarRef}>
         <button
+          ref={buttonRef}
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           className={styles.dateButton}
+          aria-expanded={isOpen}
+          aria-haspopup="true"
         >
           <span className={selectedDate ? styles.selected : styles.placeholder}>
             {formatDisplayDate(selectedDate)}
@@ -89,16 +156,26 @@ export default function CustomDatePicker({
         </button>
 
         {isOpen && (
-          <div className={styles.calendar}>
+          <div className={`${styles.calendar} ${calendarPosition === 'top' ? styles.calendarTop : styles.calendarBottom}`}>
             <div className={styles.calendarHeader}>
-              <button type="button" onClick={handlePrevMonth} className={styles.navButton}>
-                ‹
+              <button 
+                type="button" 
+                onClick={handlePrevMonth} 
+                className={styles.navButton}
+                aria-label="Previous month"
+              >
+                ←
               </button>
               <span className={styles.monthYear}>
                 {monthNames[month]} {year}
               </span>
-              <button type="button" onClick={handleNextMonth} className={styles.navButton}>
-                ›
+              <button 
+                type="button" 
+                onClick={handleNextMonth} 
+                className={styles.navButton}
+                aria-label="Next month"
+              >
+                →
               </button>
             </div>
 
@@ -118,13 +195,16 @@ export default function CustomDatePicker({
                 const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
                 const isSelected = dateString === selectedDate;
                 const isToday = dateString === new Date().toISOString().split('T')[0];
+                const disabled = isDateDisabled(dateString);
 
                 return (
                   <button
                     key={day}
                     type="button"
-                    onClick={() => handleDateSelect(day)}
-                    className={`${styles.day} ${isSelected ? styles.selectedDay : ''} ${isToday ? styles.today : ''}`}
+                    onClick={() => !disabled && handleDateSelect(day)}
+                    disabled={disabled}
+                    className={`${styles.day} ${isSelected ? styles.selectedDay : ''} ${isToday ? styles.today : ''} ${disabled ? styles.disabledDay : ''}`}
+                    aria-label={`${day} ${monthNames[month]} ${year}`}
                   >
                     {day}
                   </button>
@@ -135,17 +215,18 @@ export default function CustomDatePicker({
         )}
       </div>
 
-      {/* Hidden native input for form submission */}
-      <input
-        type="date"
-        value={selectedDate}
-        onChange={(e) => {
-          setSelectedDate(e.target.value);
-          if (onChange) onChange(e.target.value);
-        }}
-        required={required}
-        className={styles.hiddenInput}
-      />
+      {/* Hidden input for form validation only */}
+      {required && (
+        <input
+          type="text"
+          value={selectedDate}
+          required={required}
+          className={styles.hiddenInput}
+          tabIndex={-1}
+          aria-hidden="true"
+          readOnly
+        />
+      )}
     </div>
   );
 }

@@ -48,6 +48,12 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (data.success) {
+        // Store token and user info in localStorage
+        localStorage.setItem('authToken', data.token);
+        localStorage.setItem('userRole', data.user.role);
+        localStorage.setItem('userId', data.user.id);
+        localStorage.setItem('username', data.user.username);
+        
         // Redirect based on user role from database
         const roleRedirects = {
           director: '/DirectorDashboard',

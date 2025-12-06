@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { comfortaa, playfair } from './utils/fonts';
+import { comfortaa, playfair, nunito } from './utils/fonts';
 import PageTransition from '@/components/PageTransition/PageTransition';
 
 const geistSans = Geist({
@@ -20,7 +20,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${comfortaa.variable} ${playfair.variable}`}>
+    <html lang="en" className={`${comfortaa.variable} ${playfair.variable} ${nunito.variable}`}>
       <head>
         <meta name="view-transition" content="same-origin" />
       </head>

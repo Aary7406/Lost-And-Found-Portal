@@ -282,14 +282,22 @@ export default function AdminDashboard() {
     
     loadData();
     
-    // Refresh data every 5 seconds for real-time updates
-    const interval = setInterval(() => {
+    // Refresh stats every 5 seconds for real-time updates (always)
+    const statsInterval = setInterval(() => {
       fetchStats();
+    }, 5000);
+    
+    return () => clearInterval(statsInterval);
+  }, []);
+
+  // Refresh tab-specific data
+  useEffect(() => {
+    const dataInterval = setInterval(() => {
       if (activeTab === 'students') fetchStudents();
       if (activeTab === 'items') fetchItems();
     }, 5000);
     
-    return () => clearInterval(interval);
+    return () => clearInterval(dataInterval);
   }, [activeTab]);
 
   const filteredItems = filterItemType === 'all' 

@@ -47,6 +47,20 @@ html {
   scroll-behavior: auto; /* Disable native smooth scroll for Lenis */
 }
 
+/* 120fps Animation Optimizations */
+@media (prefers-reduced-motion: no-preference) {
+  * {
+    scroll-behavior: smooth;
+  }
+}
+
+/* GPU Acceleration for smoother animations */
+.gpu-accelerate {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
 /* View Transitions API */
 @view-transition {
   navigation: auto;
