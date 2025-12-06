@@ -5,7 +5,7 @@ import { getSupabase } from '../../../../../../lib/supabase';
 // GET /api/director/users/[id] - Get a specific user
 export async function GET(request, { params }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const supabase = getSupabase();
     
     const { data: user, error } = await supabase
@@ -38,7 +38,7 @@ export async function GET(request, { params }) {
 export async function PATCH(request, { params }) {
   try {
     console.log('PATCH /api/director/users/[id] - Starting');
-    const { id } = params;
+    const { id } = await params;
     console.log('User ID:', id);
     
     const updates = await request.json();
@@ -94,7 +94,7 @@ export async function PATCH(request, { params }) {
 // DELETE /api/director/users/[id] - Delete a user
 export async function DELETE(request, { params }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const supabase = getSupabase();
     
     const { error } = await supabase

@@ -226,6 +226,28 @@ export default function AdminDashboard() {
     }
   };
 
+  // Mark lost item as found by admin
+  const markAsFound = async (item) => {
+    try {
+      const res = await fetch(`/api/admin/items-new/${item.unique_item_id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ item_type: 'found' })
+      });
+      
+      const data = await res.json();
+      
+      if (data.success) {
+        fetchItems();
+        showToast('Item marked as found! Student will be notified.', 'success');
+      } else {
+        showToast(data.error || 'Failed to mark as found', 'error');
+      }
+    } catch (error) {
+      showToast('Error: ' + error.message, 'error');
+    }
+  };
+
   // Open modal with morph animation
   const openModal = (buttonKey, data = null) => {
     const button = buttonRefs.current[buttonKey];
@@ -542,18 +564,6 @@ export default function AdminDashboard() {
               >
                 Claimed ({items.filter(i => i.status === 'claimed').length})
               </button>
-              <button 
-                className={filterItemType === 'unclaimed' ? styles.filterActive : styles.filter}
-                onClick={() => setFilterItemType('unclaimed')}
-              >
-                Unclaimed ({items.filter(i => i.status === 'unclaimed').length})
-              </button>
-              <button 
-                className={filterItemType === 'claimed' ? styles.filterActive : styles.filter}
-                onClick={() => setFilterItemType('claimed')}
-              >
-                Claimed ({items.filter(i => i.status === 'claimed').length})
-              </button>
             </div>
 
             {/* Items Grid */}
@@ -581,6 +591,15 @@ export default function AdminDashboard() {
                     <span className={styles.uniqueId}>🔖 {item.unique_item_id}</span>
                   </div>
                   <div className={styles.itemActions}>
+                    {item.item_type === 'lost' && (
+                      <button 
+                        className={styles.foundBtn}
+                        onClick={() => markAsFound(item)}
+                        title="Mark as found by admin"
+                      >
+                        ✨ Found
+                      </button>
+                    )}
                     <button 
                       className={styles.statusBtn}
                       onClick={() => toggleItemStatus(item)}

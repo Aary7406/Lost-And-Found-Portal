@@ -1,33 +1,45 @@
 import { NextResponse } from 'next/server';
 import { getSupabase } from '../../../../../../lib/supabase';
 
-// PUT /api/admin/items/[uniqueId] - Update item status
+// PUT /api/admin/items/[uniqueId] - Update item status or type
 export async function PUT(request, { params }) {
   try {
-    const { uniqueId } = params;
+    const { uniqueId } = await params;
     const body = await request.json();
-    const { status } = body;
+    const { status, item_type } = body;
     
-    console.log('PUT request - uniqueId:', uniqueId, 'status:', status);
-    
-    // Validation
-    if (!status || !['unclaimed', 'claimed'].includes(status)) {
-      return NextResponse.json(
-        { success: false, error: 'Invalid status. Must be "unclaimed" or "claimed"' },
-        { status: 400 }
-      );
-    }
+    console.log('PUT request - uniqueId:', uniqueId, 'status:', status, 'item_type:', item_type);
     
     const supabase = getSupabase();
-    
     const updateData = {
-      status,
       updated_at: new Date().toISOString()
     };
     
-    // Set claimed_at timestamp if claiming
-    if (status === 'claimed') {
-      updateData.claimed_at = new Date().toISOString();
+    // Update status if provided
+    if (status) {
+      if (!['unclaimed', 'claimed'].includes(status)) {
+        return NextResponse.json(
+          { success: false, error: 'Invalid status. Must be "unclaimed" or "claimed"' },
+          { status: 400 }
+        );
+      }
+      updateData.status = status;
+      
+      // Set claimed_at timestamp if claiming
+      if (status === 'claimed') {
+        updateData.claimed_at = new Date().toISOString();
+      }
+    }
+    
+    // Update item_type if provided (admin marking lost item as found)
+    if (item_type) {
+      if (!['lost', 'found'].includes(item_type)) {
+        return NextResponse.json(
+          { success: false, error: 'Invalid item_type. Must be "lost" or "found"' },
+          { status: 400 }
+        );
+      }
+      updateData.item_type = item_type;
     }
     
     console.log('Updating item with unique_item_id:', uniqueId, 'with data:', updateData);
@@ -73,7 +85,7 @@ export async function PUT(request, { params }) {
 // DELETE /api/admin/items/[uniqueId] - Permanently delete item from database
 export async function DELETE(request, { params }) {
   try {
-    const { uniqueId } = params;
+    const { uniqueId } = await params;
     const supabase = getSupabase();
     
     // Delete the item permanently (not soft delete)

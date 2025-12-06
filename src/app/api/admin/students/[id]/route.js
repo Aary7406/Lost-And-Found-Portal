@@ -5,7 +5,17 @@ import { hashPassword } from '../../../../../../lib/supabase-auth';
 // PUT /api/admin/students/[id] - Update a student
 export async function PUT(request, { params }) {
   try {
-    const { id } = params;
+    console.log('PUT /api/admin/students/[id] - params:', params);
+    const { id } = await params;
+    console.log('Student ID:', id);
+    
+    if (!id || id === 'undefined') {
+      return NextResponse.json(
+        { success: false, error: 'Invalid student ID' },
+        { status: 400 }
+      );
+    }
+    
     const body = await request.json();
     const { username, password, email, first_name, last_name } = body;
     
@@ -58,7 +68,17 @@ export async function PUT(request, { params }) {
 // DELETE /api/admin/students/[id] - Delete a student
 export async function DELETE(request, { params }) {
   try {
-    const { id } = params;
+    console.log('DELETE /api/admin/students/[id] - params:', params);
+    const { id } = await params;
+    console.log('Student ID:', id);
+    
+    if (!id || id === 'undefined') {
+      return NextResponse.json(
+        { success: false, error: 'Invalid student ID' },
+        { status: 400 }
+      );
+    }
+    
     const supabase = getSupabase();
     
     const { error } = await supabase
