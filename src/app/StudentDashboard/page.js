@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ANIMATIONS } from '../../../lib/animations';
 import styles from './StudentDashboard.module.css';
 import CustomDatePicker from '@/components/DatePicker/CustomDatePicker';
 import Toast from '@/components/Toast/Toast';
@@ -20,6 +21,8 @@ export default function StudentDashboard() {
   const [submitting, setSubmitting] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState({ show: false, itemId: null, itemName: '' });
   const [deleting, setDeleting] = useState(false);
+  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
+  const categoryDropdownRef = useRef(null);
   
   // Form state
   const [formData, setFormData] = useState({
@@ -78,6 +81,21 @@ export default function StudentDashboard() {
 
     checkAuth();
   }, [router]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (categoryDropdownRef.current && !categoryDropdownRef.current.contains(event.target)) {
+        setCategoryDropdownOpen(false);
+      }
+    };
+    
+    if (categoryDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [categoryDropdownOpen]);
 
   // Fetch student's lost item requests
   const fetchRequests = async () => {
@@ -238,12 +256,10 @@ export default function StudentDashboard() {
 
       {/* Header */}
       <header className={styles.header}>
-        <div className={styles.headerPill}>
-          <div className={styles.headerInfo}>
-            <div className={styles.welcomeText}>
-              <span className={styles.greeting}>Welcome back,</span>
-              <h1 className={styles.userName}>{userInfo?.username || 'Student'}</h1>
-            </div>
+        <div className={styles.headerContainer}>
+          <div className={styles.headerPill}>
+            <span className={styles.greeting}>Welcome back,</span>
+            <h1 className={styles.userName}>{userInfo?.username || 'Student'}</h1>
           </div>
           <button onClick={handleLogout} className={styles.logoutBtn}>
             <span className={styles.logoutIcon}>→</span>
@@ -425,29 +441,39 @@ export default function StudentDashboard() {
       </div>
 
       {/* Report Modal - One UI 8 Style */}
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {showModal && (
-          <motion.div
-            className={styles.modalOverlay}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            onClick={() => setShowModal(false)}
-          >
+          <>
+            {/* Overlay */}
             <motion.div
-              className={styles.modal}
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.85 }}
-              transition={{ 
-                type: 'spring', 
-                damping: 30, 
-                stiffness: 400,
-                mass: 0.8
-              }}
-              onClick={(e) => e.stopPropagation()}
+              className={styles.modalOverlay}
+              onClick={() => setShowModal(false)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
             >
+              {/* Modal */}
+              <motion.div
+                className={styles.modal}
+                onClick={(e) => e.stopPropagation()}
+                initial={{ scale: 0.85, opacity: 0 }}
+                animate={{ 
+                  scale: 1, 
+                  opacity: 1,
+                  transition: {
+                    type: 'spring',
+                    damping: 30,
+                    stiffness: 400,
+                    mass: 0.8
+                  }
+                }}
+                exit={{ 
+                  scale: 0.85, 
+                  opacity: 0,
+                  transition: { duration: 0.15 }
+                }}
+              >
                 <button 
                   className={styles.closeButton}
                   onClick={() => setShowModal(false)}
@@ -456,23 +482,15 @@ export default function StudentDashboard() {
                   ✕
                 </button>
                 
-                <motion.div 
-                  className={styles.modalHeader}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                >
+                <div className={styles.modalHeader}>
                   <div className={styles.modalIcon}>📦</div>
                   <h2>Report Lost Item</h2>
                   <p className={styles.modalSubtitle}>Fill in the details to help us find your item</p>
-                </motion.div>
+                </div>
 
-                <motion.form 
+                <form 
                   onSubmit={handleSubmit} 
                   className={styles.form}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.15 }}
                 >
                   <div className={styles.formGrid}>
                     <div className={styles.formGroup}>
@@ -495,22 +513,62 @@ export default function StudentDashboard() {
                         <span className={styles.labelIcon}>📂</span>
                         Category <span className={styles.required}>*</span>
                       </label>
-                      <select
-                        id="category"
-                        value={formData.category}
-                        onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                        required
-                      >
-                        <option value="">Choose a category</option>
-                        <option value="Electronics">📱 Electronics</option>
-                        <option value="Accessories">⌚ Accessories</option>
-                        <option value="Clothing">👕 Clothing</option>
-                        <option value="Books">📚 Books</option>
-                        <option value="Keys">🔑 Keys</option>
-                        <option value="Bags">🎒 Bags</option>
-                        <option value="Sports Equipment">⚽ Sports Equipment</option>
-                        <option value="Other">📌 Other</option>
-                      </select>
+                      <div className={styles.customSelect} ref={categoryDropdownRef}>
+                        <button
+                          type="button"
+                          className={`${styles.selectTrigger} ${formData.category ? styles.hasValue : ''}`}
+                          onClick={() => setCategoryDropdownOpen(!categoryDropdownOpen)}
+                        >
+                          <span>{formData.category ? `${{
+                            'Electronics': '📱',
+                            'Accessories': '⌚',
+                            'Clothing': '👕',
+                            'Books': '📚',
+                            'Keys': '🔑',
+                            'Bags': '🎒',
+                            'Sports Equipment': '⚽',
+                            'Other': '📌'
+                          }[formData.category]} ${formData.category}` : 'Choose a category'}</span>
+                          <span className={`${styles.selectArrow} ${categoryDropdownOpen ? styles.open : ''}`}>▾</span>
+                        </button>
+                        <AnimatePresence>
+                          {categoryDropdownOpen && (
+                            <motion.div
+                              className={styles.selectDropdown}
+                              initial={{ opacity: 0, scale: 0.95, y: -8 }}
+                              animate={{ opacity: 1, scale: 1, y: 0 }}
+                              exit={{ opacity: 0, scale: 0.95, y: -8 }}
+                              transition={{ type: 'spring', damping: 25, stiffness: 400 }}
+                            >
+                              {[
+                                { value: 'Electronics', icon: '📱' },
+                                { value: 'Accessories', icon: '⌚' },
+                                { value: 'Clothing', icon: '👕' },
+                                { value: 'Books', icon: '📚' },
+                                { value: 'Keys', icon: '🔑' },
+                                { value: 'Bags', icon: '🎒' },
+                                { value: 'Sports Equipment', icon: '⚽' },
+                                { value: 'Other', icon: '📌' }
+                              ].map((option) => (
+                                <button
+                                  key={option.value}
+                                  type="button"
+                                  className={`${styles.selectOption} ${formData.category === option.value ? styles.selected : ''}`}
+                                  onClick={() => {
+                                    setFormData({ ...formData, category: option.value });
+                                    setCategoryDropdownOpen(false);
+                                  }}
+                                >
+                                  <span className={styles.optionIcon}>{option.icon}</span>
+                                  <span>{option.value}</span>
+                                  {formData.category === option.value && <span className={styles.checkmark}>✓</span>}
+                                </button>
+                              ))}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                      <input type="hidden" name="category" value={formData.category} required />
                     </div>
                   </div>
 
@@ -575,9 +633,10 @@ export default function StudentDashboard() {
                       {!submitting && <span className={styles.submitIcon}>→</span>}
                     </button>
                   </div>
-                </motion.form>
+                </form>
               </motion.div>
             </motion.div>
+          </>
         )}
       </AnimatePresence>
 

@@ -23,6 +23,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${comfortaa.variable} ${playfair.variable} ${nunito.variable}`}>
       <head>
         <meta name="view-transition" content="same-origin" />
+        <link rel="preload" href="/fonts/gilroy.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <PageTransition>

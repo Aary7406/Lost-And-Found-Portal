@@ -1,6 +1,27 @@
 /* styles/globals.css */
+
+/* Custom Font - Evolve Sans EVO */
+@font-face {
+  font-family: 'Evolve Sans EVO';
+  src: url('/fonts/evolvesansevo.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Custom Font - Gilroy */
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/fonts/gilroy.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Catppuccin Mocha Theme Variables */
 :root {
+  --font-evolve: 'Evolve Sans EVO', sans-serif;
+  --font-gilroy: 'Gilroy', 'Inter', system-ui, sans-serif;
   --ctp-rosewater: #f5e0dc;
   --ctp-flamingo: #f2cdcd;
   --ctp-pink: #f5c2e7;

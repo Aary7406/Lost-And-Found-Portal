@@ -282,10 +282,10 @@ export default function AdminDashboard() {
     
     loadData();
     
-    // Refresh stats every 5 seconds for real-time updates (always)
+    // Refresh stats every 3 seconds for real-time updates (always)
     const statsInterval = setInterval(() => {
       fetchStats();
-    }, 5000);
+    }, 3000);
     
     return () => clearInterval(statsInterval);
   }, []);
@@ -295,15 +295,15 @@ export default function AdminDashboard() {
     const dataInterval = setInterval(() => {
       if (activeTab === 'students') fetchStudents();
       if (activeTab === 'items') fetchItems();
-    }, 5000);
+    }, 3000);
     
     return () => clearInterval(dataInterval);
   }, [activeTab]);
 
   const filteredItems = filterItemType === 'all' 
     ? items 
-    : (filterItemType === 'unclaimed' || filterItemType === 'claimed')
-    ? items.filter(item => item.status === filterItemType)
+    : filterItemType === 'unclaimed'
+    ? items.filter(item => item.item_type === 'found' && item.status === 'unclaimed')
     : items.filter(item => item.item_type === filterItemType);
 
   // Remove full-page loading - only show on first mount
@@ -398,13 +398,6 @@ export default function AdminDashboard() {
                   <div className={styles.statInfo}>
                     <h3>{stats?.items?.pending || 0}</h3>
                     <p>Pending</p>
-                  </div>
-                </div>
-                <div className={styles.statCard}>
-                  <div className={styles.statIcon}>✅</div>
-                  <div className={styles.statInfo}>
-                    <h3>{stats?.items?.approved || 0}</h3>
-                    <p>Approved</p>
                   </div>
                 </div>
                 <div className={styles.statCard}>
@@ -564,13 +557,7 @@ export default function AdminDashboard() {
                 className={filterItemType === 'unclaimed' ? styles.filterActive : styles.filter}
                 onClick={() => setFilterItemType('unclaimed')}
               >
-                Unclaimed ({items.filter(i => i.status === 'unclaimed').length})
-              </button>
-              <button 
-                className={filterItemType === 'claimed' ? styles.filterActive : styles.filter}
-                onClick={() => setFilterItemType('claimed')}
-              >
-                Claimed ({items.filter(i => i.status === 'claimed').length})
+                Unclaimed ({items.filter(i => i.item_type === 'found' && i.status === 'unclaimed').length})
               </button>
             </div>
 
@@ -580,8 +567,8 @@ export default function AdminDashboard() {
                 <div key={item.id} className={styles.itemCard}>
                   <div className={styles.itemHeader}>
                     <h3>{item.item_name}</h3>
-                    <span className={`${styles.badge} ${styles[item.status]}`}>
-                      {item.status}
+                    <span className={`${styles.badge} ${item.item_type === 'lost' ? styles.lost : styles[item.status]}`}>
+                      {item.item_type === 'lost' ? 'lost' : item.status}
                     </span>
                   </div>
                   <p className={styles.itemDesc}>{item.description}</p>
@@ -608,12 +595,14 @@ export default function AdminDashboard() {
                         ✨ Found
                       </button>
                     )}
-                    <button 
-                      className={styles.statusBtn}
-                      onClick={() => toggleItemStatus(item)}
-                    >
-                      {item.status === 'unclaimed' ? '✓ Mark Claimed' : '↻ Mark Unclaimed'}
-                    </button>
+                    {item.item_type === 'found' && (
+                      <button 
+                        className={styles.statusBtn}
+                        onClick={() => toggleItemStatus(item)}
+                      >
+                        {item.status === 'unclaimed' ? '✓ Mark Claimed' : '↻ Mark Unclaimed'}
+                      </button>
+                    )}
                     <button 
                       className={styles.deleteItemBtn}
                       onClick={() => deleteItem(item.unique_item_id)}
@@ -636,40 +625,30 @@ export default function AdminDashboard() {
             <motion.div 
               className={styles.modalOverlay} 
               onClick={() => setShowModal(false)}
-              {...ANIMATIONS.overlayFade}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
             >
               {/* Modal */}
               <motion.div 
                 className={styles.modal} 
                 onClick={(e) => e.stopPropagation()}
-                initial={{
-                  scale: 0.1,
-                  opacity: 0,
-                  borderRadius: '50%',
-                  x: modalOrigin.x,
-                  y: modalOrigin.y,
-                  rotate: 0
-                }}
-                animate={{
-                  scale: 1,
+                initial={{ scale: 0.85, opacity: 0 }}
+                animate={{ 
+                  scale: 1, 
                   opacity: 1,
-                  borderRadius: '32px',
-                  x: 0,
-                  y: 0,
-                  rotate: 0,
-                  transition: ANIMATIONS.modalMorph.animate.transition
+                  transition: {
+                    type: 'spring',
+                    damping: 30,
+                    stiffness: 400,
+                    mass: 0.8
+                  }
                 }}
-                exit={{
-                  scale: 0.1,
+                exit={{ 
+                  scale: 0.85, 
                   opacity: 0,
-                  borderRadius: '50%',
-                  x: modalOrigin.x,
-                  y: modalOrigin.y,
-                  rotate: 0,
-                  transition: ANIMATIONS.modalMorph.exit.transition
-                }}
-                style={{
-                  willChange: 'transform, opacity, border-radius'
+                  transition: { duration: 0.15 }
                 }}
               >
                 <div className={styles.modalHeader}>
@@ -763,33 +742,29 @@ export default function AdminDashboard() {
             <motion.div 
               className={styles.modalOverlay} 
               onClick={() => setShowItemModal(false)}
-              {...ANIMATIONS.overlayFade}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
             >
               <motion.div 
                 className={styles.modal} 
                 onClick={(e) => e.stopPropagation()}
-                initial={{
-                  scale: 0.1,
-                  opacity: 0,
-                  borderRadius: '50%',
-                  x: modalOrigin.x,
-                  y: modalOrigin.y
-                }}
-                animate={{
-                  scale: 1,
+                initial={{ scale: 0.85, opacity: 0 }}
+                animate={{ 
+                  scale: 1, 
                   opacity: 1,
-                  borderRadius: '32px',
-                  x: 0,
-                  y: 0,
-                  transition: ANIMATIONS.modalMorph.animate.transition
+                  transition: {
+                    type: 'spring',
+                    damping: 30,
+                    stiffness: 400,
+                    mass: 0.8
+                  }
                 }}
-                exit={{
-                  scale: 0.1,
+                exit={{ 
+                  scale: 0.85, 
                   opacity: 0,
-                  borderRadius: '50%',
-                  x: modalOrigin.x,
-                  y: modalOrigin.y,
-                  transition: ANIMATIONS.modalMorph.exit.transition
+                  transition: { duration: 0.15 }
                 }}
               >
                 <div className={styles.modalHeader}>

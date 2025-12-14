@@ -479,6 +479,11 @@
   color: #f9e2af;
 }
 
+.badge.lost {
+  background: rgba(243, 139, 168, 0.15);
+  color: #f38ba8;
+}
+
 /* Item Actions */
 .itemActions {
   display: flex;
@@ -572,7 +577,8 @@
   max-width: 550px;
   width: 100%;
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
-  will-change: transform, opacity, border-radius;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 .modalHeader {
