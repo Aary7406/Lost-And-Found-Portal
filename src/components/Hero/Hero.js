@@ -1,14 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
-import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 import TransitionLink from '@/components/TransitionLink/TransitionLink';
 import styles from './Hero.module.css';
 
 const Hero = () => {
-  const router = useRouter();
-  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <section className={styles.hero}>

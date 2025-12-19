@@ -29,86 +29,6 @@
   width: 100%;
 }
 
-/* Footer */
-.footer {
-  margin-top: 100px;
-  padding: 60px 5% 30px;
-  background: linear-gradient(180deg, transparent 0%, rgba(17, 17, 27, 0.8) 100%);
-  border-top: 1px solid rgba(69, 71, 90, 0.2);
-}
-
-.footerContent {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr;
-  gap: 50px;
-  margin-bottom: 50px;
-}
-
-.footerBrand {
-  max-width: 320px;
-}
-
-.footerLogo {
-  font-size: 1.6rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, var(--ctp-mauve), var(--ctp-blue));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 12px;
-}
-
-.footerTagline {
-  font-size: 0.95rem;
-  color: var(--ctp-subtext0);
-  line-height: 1.5;
-}
-
-.footerLinks {
-  display: contents;
-}
-
-.footerColumn {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.footerColumn h4 {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--ctp-text);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 8px;
-}
-
-.footerColumn a {
-  color: var(--ctp-subtext0);
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: color 0.2s ease;
-}
-
-.footerColumn a:hover {
-  color: var(--ctp-mauve);
-}
-
-.footerBottom {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-top: 30px;
-  border-top: 1px solid rgba(69, 71, 90, 0.2);
-  text-align: center;
-}
-
-.footerBottom p {
-  color: var(--ctp-subtext0);
-  font-size: 0.85rem;
-}
-
 /* Scroll Indicator - GPU accelerated */
 .scrollIndicator {
   position: fixed;
@@ -120,30 +40,6 @@
   transform-origin: 0%;
   z-index: 9999;
   will-change: transform;
-}
-
-/* Responsive */
-@media (max-width: 1024px) {
-  .footerContent {
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-  }
-  
-  .footerBrand {
-    grid-column: 1 / -1;
-  }
-}
-
-@media (max-width: 768px) {
-  .footerContent {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-  
-  .footer {
-    margin-top: 60px;
-    padding: 40px 5% 20px;
-  }
 }
 
 /* Performance: Disable animations if preferred */
