@@ -299,8 +299,9 @@
         const endpoint = btn.dataset.endpoint;
         if (!endpoint) return;
         
-        const testId = 'test-' + endpoint.split('/').pop();
-        const resultDiv = document.getElementById(testId);
+        // Find the sibling result div instead of using dynamic ID
+        const resultDiv = btn.closest('.test-item').querySelector('.test-result');
+        if (!resultDiv) return;
         
         resultDiv.innerHTML = '<div class="loading">Testing...</div>';
         

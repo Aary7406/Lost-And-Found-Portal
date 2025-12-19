@@ -48,11 +48,11 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (data.success) {
-        // Store token and user info in localStorage
-        localStorage.setItem('authToken', data.token);
-        localStorage.setItem('userRole', data.user.role);
-        localStorage.setItem('userId', data.user.id);
-        localStorage.setItem('username', data.user.username);
+        // Store token and user info with role-specific keys for concurrent sessions
+        const role = data.user.role;
+        localStorage.setItem(`${role}Token`, data.token);
+        localStorage.setItem(`${role}Id`, data.user.id);
+        localStorage.setItem(`${role}Username`, data.user.username);
         
         // Redirect based on user role from database
         const roleRedirects = {

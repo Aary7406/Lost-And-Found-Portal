@@ -11,7 +11,7 @@ export default function SearchItems({ onResults, onLoading }) {
     onLoading(true);
 
     try {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('adminToken');
       const res = await fetch(`/api/admin/items?search=${query}&category=${category}`, {
         headers: token ? { 'Authorization': `Bearer ${token}` } : {}
       });

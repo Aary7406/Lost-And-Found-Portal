@@ -36,10 +36,9 @@ export default function StudentDashboard() {
   // Check authentication
   useEffect(() => {
     const checkAuth = () => {
-      const token = localStorage.getItem('authToken');
-      const role = localStorage.getItem('userRole');
+      const token = localStorage.getItem('studentToken');
       
-      if (!token || role !== 'student') {
+      if (!token) {
         router.push('/LogIn');
         return;
       }
@@ -55,8 +54,15 @@ export default function StudentDashboard() {
         
         // Check if token is expired
         if (payload.exp && payload.exp * 1000 < Date.now()) {
-          localStorage.removeItem('authToken');
-          localStorage.removeItem('userRole');
+          localStorage.removeItem('studentToken');
+          localStorage.removeItem('studentId');
+          localStorage.removeItem('studentUsername');
+          router.push('/LogIn');
+          return;
+        }
+        
+        // Verify role is student
+        if (payload.role !== 'student') {
           router.push('/LogIn');
           return;
         }
@@ -73,8 +79,9 @@ export default function StudentDashboard() {
         setAuthenticated(true);
       } catch (error) {
         console.error('Auth error:', error);
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('userRole');
+        localStorage.removeItem('studentToken');
+        localStorage.removeItem('studentId');
+        localStorage.removeItem('studentUsername');
         router.push('/LogIn');
       }
     };
@@ -100,7 +107,7 @@ export default function StudentDashboard() {
   // Fetch student's lost item requests
   const fetchRequests = async () => {
     try {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('studentToken');
       const res = await fetch('/api/student/requests', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -141,7 +148,7 @@ export default function StudentDashboard() {
 
     setSubmitting(true);
     try {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('studentToken');
       const res = await fetch('/api/student/requests', {
         method: 'POST',
         headers: {
@@ -189,7 +196,7 @@ export default function StudentDashboard() {
 
     setDeleting(true);
     try {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('studentToken');
       const res = await fetch(`/api/student/requests?id=${deleteConfirm.itemId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
@@ -213,8 +220,9 @@ export default function StudentDashboard() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('userRole');
+    localStorage.removeItem('studentToken');
+    localStorage.removeItem('studentId');
+    localStorage.removeItem('studentUsername');
     router.push('/LogIn');
   };
 
@@ -648,9 +656,8 @@ export default function StudentDashboard() {
         confirmText={deleting ? 'Deleting...' : 'Delete'}
         cancelText="Cancel"
         onConfirm={confirmDelete}
-        onCancel={() => setDeleteConfirm({ show: false, itemId: null, itemName: '' })}
+        onClose={() => setDeleteConfirm({ show: false, itemId: null, itemName: '' })}
         type="danger"
-        disabled={deleting}
       />
     </div>
   );

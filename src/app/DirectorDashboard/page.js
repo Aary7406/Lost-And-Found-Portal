@@ -11,11 +11,9 @@ export default function DirectorDashboard() {
   const router = useRouter();
   const [stats, setStats] = useState(null);
   const [users, setUsers] = useState([]);
-  const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
   const [filterRole, setFilterRole] = useState('all');
-  const [filterStatus, setFilterStatus] = useState('all');
   const [editingUser, setEditingUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalOrigin, setModalOrigin] = useState({ x: 0, y: 0 });
@@ -58,22 +56,6 @@ export default function DirectorDashboard() {
     } catch (error) {
       console.error('Error fetching users:', error);
       showToast('Failed to load users', 'error');
-    }
-    // Refresh stats to update counts
-    await fetchStats();
-  };
-
-  // Fetch items
-  const fetchItems = async () => {
-    try {
-      const res = await fetch('/api/admin/items');
-      const data = await res.json();
-      if (data.success) {
-        setItems(data.items || []);
-      }
-    } catch (error) {
-      console.error('Error fetching items:', error);
-      showToast('Failed to load items', 'error');
     }
     // Refresh stats to update counts
     await fetchStats();
@@ -142,7 +124,7 @@ export default function DirectorDashboard() {
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
-      await Promise.all([fetchStats(), fetchUsers(), fetchItems()]);
+      await Promise.all([fetchStats(), fetchUsers()]);
       setLoading(false);
     };
     
@@ -174,17 +156,6 @@ export default function DirectorDashboard() {
   useEffect(() => {
     fetchUsers(filterRole);
   }, [filterRole]);
-
-  // Handle status filter change
-  useEffect(() => {
-    if (activeTab === 'items') {
-      fetchStats();
-    }
-  }, [filterStatus]);
-
-  const filteredItems = filterStatus === 'all' 
-    ? items 
-    : items.filter(item => item.status === filterStatus);
 
   if (loading) {
     return (
@@ -233,13 +204,6 @@ export default function DirectorDashboard() {
           <span>👥</span>
           <span>Users</span>
         </button>
-        <button 
-          className={activeTab === 'items' ? styles.tabActive : styles.tab}
-          onClick={() => setActiveTab('items')}
-        >
-          <span>📦</span>
-          <span>Items</span>
-        </button>
       </nav>
 
       {/* Main Content */}
@@ -277,34 +241,6 @@ export default function DirectorDashboard() {
                   <div className={styles.statInfo}>
                     <h3>{stats?.users?.directors || 0}</h3>
                     <p>Directors</p>
-                  </div>
-                </div>
-                <div className={styles.statCard}>
-                  <div className={styles.statIcon}>📦</div>
-                  <div className={styles.statInfo}>
-                    <h3>{stats?.items?.total || 0}</h3>
-                    <p>Total Items</p>
-                  </div>
-                </div>
-                <div className={styles.statCard}>
-                  <div className={styles.statIcon}>⏳</div>
-                  <div className={styles.statInfo}>
-                    <h3>{stats?.items?.pending || 0}</h3>
-                    <p>Pending</p>
-                  </div>
-                </div>
-                <div className={styles.statCard}>
-                  <div className={styles.statIcon}>✅</div>
-                  <div className={styles.statInfo}>
-                    <h3>{stats?.items?.approved || 0}</h3>
-                    <p>Approved</p>
-                  </div>
-                </div>
-                <div className={styles.statCard}>
-                  <div className={styles.statIcon}>🎯</div>
-                  <div className={styles.statInfo}>
-                    <h3>{stats?.items?.claimed || 0}</h3>
-                    <p>Claimed</p>
                   </div>
                 </div>
               </div>
@@ -445,68 +381,6 @@ export default function DirectorDashboard() {
                   ))}
                 </tbody>
               </table>
-            </div>
-          </div>
-        )}
-
-        {/* Items Tab */}
-        {activeTab === 'items' && (
-          <div className={styles.itemsTab}>
-            <div className={styles.tabHeader}>
-              <div className={styles.tabHeaderLeft}>
-                <h2>Lost Items</h2>
-                <p>{filteredItems.length} items</p>
-              </div>
-            </div>
-
-            {/* Item Filters */}
-            <div className={styles.filters}>
-              <button 
-                className={filterStatus === 'all' ? styles.filterActive : styles.filter}
-                onClick={() => setFilterStatus('all')}
-              >
-                All Items ({stats?.items?.total || 0})
-              </button>
-              <button 
-                className={filterStatus === 'pending' ? styles.filterActive : styles.filter}
-                onClick={() => setFilterStatus('pending')}
-              >
-                Pending ({stats?.items?.pending || 0})
-              </button>
-              <button 
-                className={filterStatus === 'approved' ? styles.filterActive : styles.filter}
-                onClick={() => setFilterStatus('approved')}
-              >
-                Approved ({stats?.items?.approved || 0})
-              </button>
-              <button 
-                className={filterStatus === 'claimed' ? styles.filterActive : styles.filter}
-                onClick={() => setFilterStatus('claimed')}
-              >
-                Claimed ({stats?.items?.claimed || 0})
-              </button>
-            </div>
-
-            {/* Items Grid */}
-            <div className={styles.itemsGrid}>
-              {filteredItems.map(item => (
-                <div key={item.id} className={styles.itemCard}>
-                  <div className={styles.itemHeader}>
-                    <h3>{item.item_name}</h3>
-                    <span className={`${styles.badge} ${styles[item.status]}`}>
-                      {item.status}
-                    </span>
-                  </div>
-                  <p className={styles.itemDesc}>{item.description}</p>
-                  <div className={styles.itemMeta}>
-                    <span>📍 {item.location_found}</span>
-                    <span>📅 {new Date(item.date_found).toLocaleDateString()}</span>
-                  </div>
-                  <div className={styles.itemMeta}>
-                    <span>🏷️ {item.category}</span>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         )}

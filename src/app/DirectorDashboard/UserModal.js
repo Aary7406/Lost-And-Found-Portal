@@ -38,7 +38,7 @@ export default function UserModal({ user, onClose, onSave }) {
     setError('');
 
     try {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('directorToken');
       const url = user 
         ? `/api/director/users/${user.id}`
         : '/api/director/users';

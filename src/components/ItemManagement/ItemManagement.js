@@ -12,7 +12,7 @@ export default function ItemManagement() {
   // Fetch all items
   const fetchItems = async () => {
     try {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('adminToken');
       const res = await fetch('/api/admin/items', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -28,7 +28,7 @@ export default function ItemManagement() {
   // Fetch pending reviews (admin_pending + claimed)
   const fetchPendingReviews = async () => {
     try {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('adminToken');
       const res = await fetch('/api/admin/claims', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -50,7 +50,7 @@ export default function ItemManagement() {
     const action = currentStatus === 'lost' ? 'mark_as_found' : 'mark_as_lost';
     
     try {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('adminToken');
       const res = await fetch(`/api/admin/items/${itemId}`, {
         method: 'PATCH',
         headers: {
@@ -74,7 +74,7 @@ export default function ItemManagement() {
   // Approve report (admin_pending → lost)
   const approveReport = async (itemId) => {
     try {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('adminToken');
       const res = await fetch(`/api/admin/items/${itemId}`, {
         method: 'PATCH',
         headers: {
@@ -102,7 +102,7 @@ export default function ItemManagement() {
     if (!confirm('Are you sure you want to reject this report?')) return;
 
     try {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('adminToken');
       const res = await fetch(`/api/admin/items/${itemId}`, {
         method: 'PATCH',
         headers: {

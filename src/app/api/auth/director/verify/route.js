@@ -4,6 +4,19 @@ import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
+// GET /api/auth/director/verify - Check if endpoint is available
+export async function GET(request) {
+  return createSuccessResponse({
+    endpoint: '/api/auth/director/verify',
+    status: 'available',
+    method: 'POST',
+    description: 'Verify director JWT token',
+    requiredBody: {
+      token: 'string (JWT token)'
+    }
+  });
+}
+
 // POST /api/auth/director/verify - Verify director JWT token
 export async function POST(request) {
   try {
