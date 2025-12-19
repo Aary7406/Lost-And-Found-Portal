@@ -501,74 +501,6 @@
   display: inline-block;
 }
 
-/* Signup Section */
-.signupSection {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  overflow: visible;
-  padding: 2px;
-}
-
-.divider {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 2px 0;
-}
-
-.dividerLine {
-  flex: 1;
-  height: 1px;
-  background: rgba(205, 214, 244, 0.15);
-}
-
-.dividerText {
-  font-size: 12px;
-  color: var(--ctp-overlay0);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.signupBtnPill {
-  width: 100%;
-  padding: 8px 20px;
-  border-radius: 100px;
-  border: 1px solid rgba(203, 166, 247, 0.3);
-  background: rgba(203, 166, 247, 0.1);
-  color: var(--ctp-mauve);
-  font-size: 12px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  outline: none;
-  transform-origin: center;
-  font-family: 'Aptos', system-ui, -apple-system, sans-serif;
-}
-
-.signupBtnPill:focus {
-  outline: none;
-}
-
-.signupBtnPill:hover:not(:disabled) {
-  background: rgba(203, 166, 247, 0.15);
-  transform: scale(1.02);
-  box-shadow: 0 6px 16px rgba(203, 166, 247, 0.25);
-}
-
-.signupBtnPill:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-
-
 /* Footer */
 .footer {
   font-size: 12px;
@@ -657,7 +589,6 @@
   
   .switcherPill,
   .submitBtnPill,
-  .signupBtnPill,
   .backPill {
     transition-duration: 0.01ms !important;
   }
