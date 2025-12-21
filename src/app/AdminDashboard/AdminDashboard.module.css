@@ -389,13 +389,7 @@
   transform: translateY(-2px);
 }
 
-/* Items Grid */
-.itemsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-}
-
+/* Item Card */
 .itemCard {
   background: rgba(30, 30, 46, 0.4);
   backdrop-filter: blur(40px) saturate(180%);
@@ -459,27 +453,27 @@
   text-transform: capitalize;
 }
 
-.badge.pending {
+.pending {
   background: rgba(249, 226, 175, 0.15);
   color: #f9e2af;
 }
 
-.badge.approved {
+.approved {
   background: rgba(166, 227, 161, 0.15);
   color: #a6e3a1;
 }
 
-.badge.claimed {
+.claimed {
   background: rgba(137, 180, 250, 0.15);
   color: #89b4fa;
 }
 
-.badge.unclaimed {
+.unclaimed {
   background: rgba(249, 226, 175, 0.15);
   color: #f9e2af;
 }
 
-.badge.lost {
+.lost {
   background: rgba(243, 139, 168, 0.15);
   color: #f38ba8;
 }

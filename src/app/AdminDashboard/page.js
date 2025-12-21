@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ANIMATIONS } from '../../../lib/animations';
 import Toast from '../../components/Toast/Toast';
 import CustomDatePicker from '../../components/CustomDatePicker/CustomDatePicker';
 import ConfirmDialog from '../../components/ConfirmDialog/ConfirmDialog';
