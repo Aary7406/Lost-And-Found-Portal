@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getSupabase } from '../../../../../../lib/supabase';
+import { getSupabase } from '../../../../../lib/supabase';
 
 // GET /api/health/supabase - Check Supabase connection health
 export async function GET() {
