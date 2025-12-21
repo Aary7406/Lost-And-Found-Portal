@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ANIMATIONS } from '../../../lib/animations';
 import Toast from '../../components/Toast/Toast';
 import styles from './DirectorDashboard.module.css';
 
@@ -267,17 +266,9 @@ export default function DirectorDashboard() {
                 </button>
                 <button 
                   className={styles.actionCard}
-                  onClick={() => setActiveTab('items')}
-                >
-                  <span className={styles.actionIcon}>📦</span>
-                  <span>View Items</span>
-                </button>
-                <button 
-                  className={styles.actionCard}
                   onClick={() => {
                     fetchStats();
                     fetchUsers();
-                    fetchItems();
                     showToast('Data refreshed successfully', 'success');
                   }}
                 >
@@ -394,7 +385,9 @@ export default function DirectorDashboard() {
             <motion.div 
               className={styles.modalOverlay} 
               onClick={() => setShowModal(false)}
-              {...ANIMATIONS.overlayFade}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 0.2, ease: 'easeOut' } }}
+              exit={{ opacity: 0, transition: { duration: 0.15, ease: 'easeIn' } }}
             >
               {/* Modal */}
               <motion.div 
@@ -415,7 +408,13 @@ export default function DirectorDashboard() {
                   x: 0,
                   y: 0,
                   rotate: 0,
-                  transition: ANIMATIONS.modalMorph.animate.transition
+                  transition: {
+                    type: 'spring',
+                    damping: 30,
+                    stiffness: 400,
+                    mass: 0.8,
+                    restDelta: 0.001
+                  }
                 }}
                 exit={{
                   scale: 0.1,
@@ -424,7 +423,10 @@ export default function DirectorDashboard() {
                   x: modalOrigin.x,
                   y: modalOrigin.y,
                   rotate: 0,
-                  transition: ANIMATIONS.modalMorph.exit.transition
+                  transition: {
+                    duration: 0.15,
+                    ease: [0.4, 0, 1, 1]
+                  }
                 }}
                 style={{
                   willChange: 'transform, opacity, border-radius'

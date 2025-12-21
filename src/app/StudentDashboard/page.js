@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ANIMATIONS } from '../../../lib/animations';
 import styles from './StudentDashboard.module.css';
 import CustomDatePicker from '@/components/DatePicker/CustomDatePicker';
 import Toast from '@/components/Toast/Toast';
