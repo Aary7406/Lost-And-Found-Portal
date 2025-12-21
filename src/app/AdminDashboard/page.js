@@ -492,7 +492,7 @@ export default function AdminDashboard() {
                       </td>
                       <td>{student.email || 'N/A'}</td>
                       <td>{student.first_name} {student.last_name}</td>
-                      <td>{new Date(student.created_at).toLocaleDateString()}</td>
+                      <td>{new Date(student.created_at).toLocaleDateString('en-GB')}</td>
                       <td className={styles.actions}>
                         <button 
                           className={styles.editBtn}
@@ -574,7 +574,7 @@ export default function AdminDashboard() {
                   <p className={styles.itemDesc}>{item.description}</p>
                   <div className={styles.itemMeta}>
                     <span>📍 {item.location_found || item.location_lost}</span>
-                    <span>📅 {new Date(item.date_found || item.date_lost).toLocaleDateString()}</span>
+                    <span>📅 {new Date(item.date_found || item.date_lost).toLocaleDateString('en-GB')}</span>
                   </div>
                   <div className={styles.itemMeta}>
                     <span>🏷️ {item.category}</span>
