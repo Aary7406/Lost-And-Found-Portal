@@ -66,22 +66,27 @@
   position: relative;
   will-change: transform;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  overflow: hidden;
 }
 
 .statCard::before {
   content: '';
   position: absolute;
-  top: 0;
+  top: 20%;
   left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--ctp-mauve), var(--ctp-blue), var(--ctp-pink));
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  bottom: 20%;
+  width: 3px;
+  background: linear-gradient(180deg, transparent, var(--ctp-mauve), transparent);
+  border-radius: 0 3px 3px 0;
+  opacity: 1;
+  transition: all 0.3s ease;
 }
 
 .statCard:hover::before {
-  opacity: 1;
+  top: 10%;
+  bottom: 10%;
+  background: linear-gradient(180deg, transparent, var(--ctp-mauve), var(--ctp-pink), transparent);
+  box-shadow: 0 0 12px rgba(203, 166, 247, 0.5);
 }
 
 .statCard:hover {
