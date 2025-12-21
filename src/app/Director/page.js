@@ -113,7 +113,7 @@ export default function DirectorLogin() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, ease: [0.19, 1, 0.22, 1] }}
         >
-          <form onSubmit={handleSubmit} className={styles.form}>
+          <form onSubmit={handleSubmit} className={styles.form} autoComplete="off">
             {/* Username Field */}
             <div className={styles.formGroup}>
               <label className={styles.label}>Username</label>
@@ -129,7 +129,8 @@ export default function DirectorLogin() {
                   placeholder="director_username"
                   className={styles.input}
                   disabled={isLoading}
-                  autoComplete="username"
+                  autoComplete="off"
+                  name="director-user"
                 />
               </div>
             </div>
@@ -149,7 +150,8 @@ export default function DirectorLogin() {
                   placeholder="Enter secure password"
                   className={styles.input}
                   disabled={isLoading}
-                  autoComplete="current-password"
+                  autoComplete="new-password"
+                  name="director-pass"
                 />
                 <button
                   type="button"
