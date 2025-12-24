@@ -288,6 +288,7 @@
   align-items: center;
   gap: 12px;
   padding: 14px 22px;
+  padding-right: 52px;
   background: rgba(17, 17, 27, 0.5);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -337,16 +338,39 @@
 }
 
 .toggleBtn {
-  background: transparent;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(203, 166, 247, 0.1);
   border: none;
   outline: none;
   cursor: pointer;
-  font-size: 18px;
-  padding: 4px 8px;
-  opacity: 0.6;
-  transition: all 0.2s;
-  border-radius: 50%;
+  font-size: 16px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 100px;
   flex-shrink: 0;
+}
+
+.toggleBtn:hover:not(:disabled) {
+  opacity: 1;
+  background: rgba(203, 166, 247, 0.2);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.toggleBtn:active:not(:disabled) {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.toggleBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .toggleBtn:hover:not(:disabled) {
@@ -483,6 +507,7 @@
   .container {
     max-width: 100%;
     padding: 0 20px;
+    margin-top: 80px;
   }
 
   .title {
@@ -514,6 +539,10 @@
 }
 
 @media (max-width: 480px) {
+  .container {
+    margin-top: 70px;
+  }
+
   .title {
     font-size: 32px;
   }

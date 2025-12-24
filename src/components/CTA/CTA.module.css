@@ -242,3 +242,56 @@
     font-size: 18px;
   }
 }
+
+@media (max-width: 480px) {
+  .cta {
+    padding: 40px 0;
+  }
+  
+  .ctaCard {
+    padding: 28px 16px;
+    border-radius: 20px;
+  }
+  
+  .badge {
+    padding: 8px 14px;
+    font-size: 11px;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .description {
+    font-size: 0.95rem;
+  }
+  
+  .buttonGroup {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .primaryBtn,
+  .secondaryBtn {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 13px;
+    justify-content: center;
+  }
+  
+  .floatingElements {
+    width: 160px;
+    height: 160px;
+  }
+  
+  .element1,
+  .element2,
+  .element3,
+  .element4,
+  .element5 {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    border-radius: 12px;
+  }
+}

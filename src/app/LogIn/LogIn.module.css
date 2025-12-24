@@ -309,6 +309,7 @@
   border: 1px solid rgba(137, 180, 250, 0.22);
   border-radius: 100px;
   padding: 10px 16px;
+  padding-right: 48px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
@@ -356,14 +357,22 @@
 }
 
 .togglePasswordBtn {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
   border: none;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 50px;
-  padding: 6px 12px;
+  background: rgba(203, 166, 247, 0.08);
+  border-radius: 100px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 16px;
   cursor: pointer;
-  color: var(--ctp-overlay0);
-  transition: color 0.2s ease;
+  color: var(--ctp-overlay1);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
   outline: none;
 }
@@ -374,7 +383,12 @@
 
 .togglePasswordBtn:hover:not(:disabled) {
   color: var(--ctp-mauve);
-  background: rgba(203, 166, 247, 0.12);
+  background: rgba(203, 166, 247, 0.18);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.togglePasswordBtn:active:not(:disabled) {
+  transform: translateY(-50%) scale(0.95);
 }
 
 .togglePasswordBtn:disabled {

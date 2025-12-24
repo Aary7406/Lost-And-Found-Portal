@@ -147,7 +147,7 @@ export default function DirectorLogin() {
                     setPassword(e.target.value);
                     setError('');
                   }}
-                  placeholder="Enter secure password"
+                  placeholder="Enter password"
                   className={styles.input}
                   disabled={isLoading}
                   autoComplete="new-password"

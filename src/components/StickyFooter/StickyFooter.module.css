@@ -131,3 +131,53 @@
     padding: 40px 5% 20px;
   }
 }
+
+@media (max-width: 480px) {
+  .stickyFooterWrapper {
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  .stickyFooterFixed {
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  .footer {
+    padding: 32px 4% 16px;
+  }
+  
+  .footerContent {
+    gap: 24px;
+  }
+  
+  .brandLogo {
+    font-size: 1.5rem;
+  }
+  
+  .brandDescription {
+    font-size: 0.85rem;
+  }
+  
+  .columnTitle {
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+  }
+  
+  .columnList li a {
+    font-size: 0.85rem;
+    padding: 6px 0;
+  }
+  
+  .footerBottom {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+    padding-top: 20px;
+    margin-top: 20px;
+  }
+  
+  .copyright {
+    font-size: 0.75rem;
+  }
+}
