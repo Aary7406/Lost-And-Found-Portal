@@ -653,7 +653,7 @@
   border: 1px solid rgba(203, 166, 247, 0.2);
   color: #cdd6f4;
   padding: 0.75rem 1rem;
-  border-radius: 20px;
+  border-radius: 100px;
   font-size: 0.9375rem;
   transition: all 0.3s ease;
   font-family: inherit;
@@ -951,10 +951,19 @@
     grid-template-columns: 1fr;
   }
   
-  .modalActions {
-    flex-direction: column;
-    padding: 1.25rem;
+  .formRow {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
   }
+
+  .formGroup input,
+  .formGroup select,
+  .formGroup textarea {
+    padding: 0.7rem 0.875rem;
+    font-size: 0.9rem;
+    border-radius: 16px;
+  }
+
   
   .cancelBtn, .saveBtn {
     width: 100%;
@@ -1065,14 +1074,18 @@
     padding: 1rem;
   }
   
+  .formRow {
+    grid-template-columns: 1fr;
+    gap: 0.625rem;
+  }
+
   .formGroup label {
     font-size: 0.8rem;
   }
-  
+
   .formGroup input,
   .formGroup select,
   .formGroup textarea {
-    padding: 0.625rem;
+    padding: 0.625rem 0.75rem;
     font-size: 0.875rem;
-  }
-}
+    border-radius: 14px;
