@@ -16,24 +16,24 @@ export default function DirectorLogin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!username.trim() || !password.trim()) {
       setError('Please fill in all fields');
       return;
     }
-    
+
     setIsLoading(true);
     setError('');
-    
+
     try {
       const response = await fetch('/api/auth/director/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password, rememberMe: false })
       });
-      
+
       const data = await response.json();
-      
+
       if (response.ok) {
         router.push('/DirectorDashboard');
       } else {
@@ -50,14 +50,14 @@ export default function DirectorLogin() {
     <div className={styles.directorPage}>
       {/* Animated Background */}
       <div className={styles.backgroundGradient} />
-      
+
       {/* Floating Orbs */}
       <div className={styles.orb1} />
       <div className={styles.orb2} />
       <div className={styles.orb3} />
 
       {/* Back Navigation */}
-      <motion.nav 
+      <motion.nav
         className={styles.topNav}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -70,14 +70,14 @@ export default function DirectorLogin() {
       </motion.nav>
 
       {/* Main Container */}
-      <motion.div 
+      <motion.div
         className={styles.container}
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, ease: [0.19, 1, 0.22, 1] }}
       >
         {/* Director Badge */}
-        <motion.div 
+        <motion.div
           className={styles.directorBadge}
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -88,7 +88,7 @@ export default function DirectorLogin() {
         </motion.div>
 
         {/* Title */}
-        <motion.h1 
+        <motion.h1
           className={styles.title}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -96,8 +96,8 @@ export default function DirectorLogin() {
         >
           Secure Portal
         </motion.h1>
-        
-        <motion.p 
+
+        <motion.p
           className={styles.subtitle}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -107,13 +107,17 @@ export default function DirectorLogin() {
         </motion.p>
 
         {/* Login Card */}
-        <motion.div 
+        <motion.div
           className={styles.loginCard}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, ease: [0.19, 1, 0.22, 1] }}
         >
           <form onSubmit={handleSubmit} className={styles.form} autoComplete="off">
+            {/* Hidden inputs to prevent browser autofill issues */}
+            <input style={{ display: 'none' }} type="text" name="fakeusernameremembered" />
+            <input style={{ display: 'none' }} type="password" name="fakepasswordremembered" />
+
             {/* Username Field */}
             <div className={styles.formGroup}>
               <label className={styles.label}>Username</label>
@@ -219,7 +223,7 @@ export default function DirectorLogin() {
                     exit={{ opacity: 0 }}
                   >
                     <span>Access Portal</span>
-                    <motion.span 
+                    <motion.span
                       className={styles.arrow}
                       animate={{ x: [0, 4, 0] }}
                       transition={{
@@ -238,7 +242,7 @@ export default function DirectorLogin() {
         </motion.div>
 
         {/* Security Notice */}
-        <motion.div 
+        <motion.div
           className={styles.securityNotice}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
