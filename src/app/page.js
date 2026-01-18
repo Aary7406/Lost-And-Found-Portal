@@ -10,6 +10,7 @@ import CTA from '@/components/CTA/CTA';
 import PageLoader from '@/components/PageLoader/PageLoader';
 import StickyFooter from '@/components/StickyFooter/StickyFooter';
 import ScrollSection from '@/components/ScrollSection/ScrollSection';
+import Navbar from '@/components/Navbar/Navbar';
 import styles from './styles/LandingPage.module.css';
 
 export default function Home() {
@@ -52,6 +53,9 @@ export default function Home() {
       <AnimatePresence mode="wait">
         {loading && <PageLoader onComplete={handleLoadingComplete} />}
       </AnimatePresence>
+
+      {/* Fixed Navbar - Always on top */}
+      {contentVisible && <Navbar />}
 
       {/* Main Content with Staggered Entrance */}
       <AnimatePresence>

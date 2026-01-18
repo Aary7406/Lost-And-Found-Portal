@@ -8,45 +8,9 @@ const Hero = () => {
 
   return (
     <section className={styles.hero}>
-      {/* MD3 Expressive Pill Navigation */}
-      <nav className={styles.navbar}>
-        <div className={styles.navContainer}>
-          {/* Logo Pill */}
-          <button 
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className={styles.logoPill}
-          >
-            <span className={styles.logoIcon}>🎓</span>
-            <span className={styles.logoText}>Lost & Found</span>
-          </button>
-          
-          {/* Nav Pills */}
-          <div className={styles.navPills}>
-            <button 
-              onClick={() => document.getElementById('impact')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              className={styles.navPill}
-            >
-              <span>Impact</span>
-            </button>
-            <button 
-              onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              className={styles.navPill}
-            >
-              <span>Features</span>
-            </button>
-          </div>
-          
-          {/* Login Pill Button */}
-          <TransitionLink href="/LogIn" className={styles.loginPill}>
-            <span>Login</span>
-            <span className={styles.loginArrow}>→</span>
-          </TransitionLink>
-        </div>
-      </nav>
-
       {/* Hero Content */}
       <div className={styles.heroContent}>
-        <motion.div 
+        <motion.div
           className={styles.content}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -81,7 +45,7 @@ const Hero = () => {
         </motion.div>
 
         {/* Hero Visual */}
-        <motion.div 
+        <motion.div
           className={styles.heroVisual}
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
