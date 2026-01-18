@@ -1,0 +1,34 @@
+/* ScrollSection - Stacking Card Effect */
+
+.scrollSection {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.stickyContent {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--ctp-base);
+  overflow: hidden;
+  transform-origin: center top;
+  will-change: transform, opacity, border-radius;
+}
+
+/* Last section doesn't need sticky - flows into footer */
+.lastSection {
+  position: relative;
+}
+
+.lastSection>* {
+  background: var(--ctp-base);
+}
+
+/* Performance optimization */
+@media (prefers-reduced-motion: reduce) {
+  .stickyContent {
+    position: relative;
+  }
+}

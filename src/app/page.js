@@ -9,6 +9,7 @@ import Stats from '@/components/Stats/Stats';
 import CTA from '@/components/CTA/CTA';
 import PageLoader from '@/components/PageLoader/PageLoader';
 import StickyFooter from '@/components/StickyFooter/StickyFooter';
+import ScrollSection from '@/components/ScrollSection/ScrollSection';
 import styles from './styles/LandingPage.module.css';
 
 export default function Home() {
@@ -55,7 +56,7 @@ export default function Home() {
       {/* Main Content with Staggered Entrance */}
       <AnimatePresence>
         {contentVisible && (
-          <motion.main 
+          <motion.main
             className={styles.main}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -63,38 +64,31 @@ export default function Home() {
           >
             {/* Simple static background - no heavy animations */}
             <div className={styles.backgroundGradient} />
-            
-            {/* Content with optimized animations */}
-            <motion.div 
-              className={styles.content}
-              initial={{ y: 10 }}
-              animate={{ y: 0 }}
-              transition={{ 
-                duration: 0.5, 
-                ease: [0.19, 1, 0.22, 1],
-                delay: 0.1 
-              }}
-            >
-              <Hero />
-              
-              <section id="impact" className={styles.section}>
+
+            {/* Content with scroll-triggered stacking effect */}
+            <div className={styles.content}>
+              <ScrollSection index={0}>
+                <Hero />
+              </ScrollSection>
+
+              <ScrollSection index={1} id="impact">
                 <Stats />
-              </section>
-              
-              <section id="features" className={styles.section}>
+              </ScrollSection>
+
+              <ScrollSection index={2} id="features">
                 <Features />
-              </section>
-              
-              <section className={styles.section}>
+              </ScrollSection>
+
+              <ScrollSection index={3} isLast>
                 <CTA />
-              </section>
-            </motion.div>
-            
+              </ScrollSection>
+            </div>
+
             {/* Sticky Footer - Must be outside content wrapper */}
             <StickyFooter />
-            
+
             {/* Lightweight scroll indicator */}
-            <motion.div 
+            <motion.div
               className={styles.scrollIndicator}
               style={{ scaleX: scrollYProgress }}
             />
