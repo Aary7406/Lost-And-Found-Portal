@@ -45,7 +45,7 @@ const PageLoader = ({ onComplete }) => {
   const generateParticles = (count) => {
     const particles = [];
     const goldenAngle = Math.PI * (3 - Math.sqrt(5)); // 137.5 degrees in radians
-    
+
     for (let i = 0; i < count; i++) {
       const angle = i * goldenAngle;
       const radius = Math.sqrt(i) * 15;
@@ -78,9 +78,9 @@ const PageLoader = ({ onComplete }) => {
         opacity: 0,
         scale: 1.2,
         filter: 'blur(10px)',
-        transition: { 
-          duration: 0.4, 
-          ease: easeInOutQuint 
+        transition: {
+          duration: 0.4,
+          ease: easeInOutQuint
         }
       }}
     >
@@ -107,7 +107,7 @@ const PageLoader = ({ onComplete }) => {
         initial={{ scale: 0, rotate: -90 }}
         animate={stage >= 1 ? {
           scale: [0, 1.1, 1],
-          rotate: [0, 180],
+          rotate: [0, 360],
         } : {}}
         transition={{
           duration: 0.6,
