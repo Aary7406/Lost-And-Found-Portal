@@ -1,345 +1,205 @@
-<p align="center">
-  <img src="https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js" alt="Next.js" />
-  <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react" alt="React" />
-  <img src="https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?style=for-the-badge&logo=supabase" alt="Supabase" />
-  <img src="https://img.shields.io/badge/Framer_Motion-12-FF0055?style=for-the-badge&logo=framer" alt="Framer Motion" />
+<div align="center">
+  
+<!-- Header Banner -->
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=200&section=header&text=Lost%20%26%20Found&fontSize=80&fontColor=fff&animation=twinkling&fontAlignY=35&desc=Campus%20Item%20Recovery%20System&descAlignY=52&descSize=20" width="100%"/>
+
+<!-- Animated SVG Badges -->
+<p>
+  <img src="https://img.shields.io/badge/Next.js-16.1-000000?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js"/>
+  <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React"/>
+  <img src="https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase"/>
+  <img src="https://img.shields.io/badge/Framer_Motion-12-FF0055?style=for-the-badge&logo=framer&logoColor=white" alt="Framer Motion"/>
+  <img src="https://img.shields.io/badge/Bun-Runtime-F9F1E1?style=for-the-badge&logo=bun&logoColor=black" alt="Bun"/>
 </p>
 
-<h1 align="center">🎓 Lost & Found Portal</h1>
-
-<p align="center">
-  <strong>A modern, full-stack lost and found management system for educational institutions</strong>
+<p>
+  <img src="https://img.shields.io/github/license/yourusername/lost-and-found?style=flat-square&color=blue" alt="License"/>
+  <img src="https://img.shields.io/github/stars/yourusername/lost-and-found?style=flat-square" alt="Stars"/>
+  <img src="https://img.shields.io/github/forks/yourusername/lost-and-found?style=flat-square" alt="Forks"/>
+  <img src="https://img.shields.io/github/issues/yourusername/lost-and-found?style=flat-square" alt="Issues"/>
 </p>
 
-<p align="center">
-  Built with Next.js 16, Supabase, and premium glassmorphic UI design following Catppuccin Mocha theme
-</p>
+**A modern, full-stack lost and found management system for educational institutions**
+
+[Demo](#) • [Documentation](#-documentation) • [Contributing](#-contributing) • [Report Bug](#)
+
+</div>
 
 ---
 
-## 📋 Table of Contents
+## 🛠️ Tech Stack
 
-- [Overview](#-overview)
-- [Use Cases](#-use-cases)
-- [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Architecture](#-architecture)
-- [Project Structure](#-project-structure)
-- [API Documentation](#-api-documentation)
-- [Getting Started](#-getting-started)
-- [Database Schema](#-database-schema)
-- [Authentication Flow](#-authentication-flow)
-- [Future Roadmap](#-future-roadmap)
-- [Scaling Considerations](#-scaling-considerations)
+### Frontend Technologies
+
+| Technology | Version | Purpose |
+|:-----------|:-------:|:--------|
+| <img src="https://cdn.simpleicons.org/nextdotjs/white" width="20" height="20"/> **Next.js** | `16.1` | React framework with App Router, server components, and Turbopack for blazing-fast development builds |
+| <img src="https://cdn.simpleicons.org/react/61DAFB" width="20" height="20"/> **React** | `19` | UI library with latest concurrent features, hooks, and server components support |
+| <img src="https://cdn.simpleicons.org/framer/FF0055" width="20" height="20"/> **Framer Motion** | `12` | Production-ready animation library for smooth transitions, gestures, and scroll-triggered effects |
+| <img src="https://cdn.simpleicons.org/css3/1572B6" width="20" height="20"/> **CSS Modules** | - | Scoped component styling with zero conflicts and full CSS features |
+| **Lenis** | `1.3` | Smooth scroll library for premium scrolling experience |
+
+### Backend Technologies
+
+| Technology | Version | Purpose |
+|:-----------|:-------:|:--------|
+| <img src="https://cdn.simpleicons.org/nextdotjs/white" width="20" height="20"/> **Next.js API Routes** | `16.1` | Serverless API endpoints running on Edge/Node.js runtime |
+| <img src="https://cdn.simpleicons.org/supabase/3ECF8E" width="20" height="20"/> **Supabase** | `2.90` | PostgreSQL database with real-time subscriptions and Row Level Security |
+| <img src="https://cdn.simpleicons.org/jsonwebtokens/000000" width="20" height="20"/> **JWT (jsonwebtoken)** | `9.0` | Stateless authentication with signed tokens |
+| **bcryptjs** | `3.0` | Password hashing with configurable salt rounds |
+| **Custom Cache Layer** | - | In-memory caching with TTL for API response optimization |
+
+### Database
+
+| Technology | Purpose |
+|:-----------|:--------|
+| <img src="https://cdn.simpleicons.org/postgresql/4169E1" width="20" height="20"/> **PostgreSQL** | Relational database via Supabase with ACID compliance |
+| **Row Level Security** | Database-level access control policies |
+| **Foreign Key Relations** | Referential integrity between users and items |
+
+### Development & Build Tools
+
+| Tool | Purpose |
+|:-----|:--------|
+| <img src="https://cdn.simpleicons.org/bun/F9F1E1" width="20" height="20"/> **Bun** | Ultra-fast JavaScript runtime & package manager (3x faster than npm) |
+| **Turbopack** | Next.js bundler for instant HMR in development |
+| **ESLint** | Code quality and consistency enforcement |
 
 ---
 
-## 🎯 Overview
+## 🏗️ Architecture
 
-Lost & Found Portal is a comprehensive web application designed to streamline the management of lost and found items in educational institutions. It provides a unified platform connecting students, administrators, and directors with role-based access control, real-time tracking, and beautiful modern UI.
+### System Overview
+
+```mermaid
+flowchart TB
+    subgraph Client["🖥️ Client Layer"]
+        Landing["Landing Page"]
+        Student["Student Dashboard"]
+        Admin["Admin Dashboard"]
+        Director["Director Dashboard"]
+    end
+    
+    subgraph API["⚙️ API Layer (Next.js)"]
+        Auth["/api/auth"]
+        StudentAPI["/api/student"]
+        AdminAPI["/api/admin"]
+        DirectorAPI["/api/director"]
+    end
+    
+    subgraph Services["🔧 Service Layer"]
+        Supabase["Supabase Client\n(Singleton)"]
+        JWT["JWT Handler"]
+        Cache["Cache Layer\n(In-Memory)"]
+    end
+    
+    subgraph DB["🗄️ Database"]
+        PostgreSQL["Supabase PostgreSQL"]
+    end
+    
+    Client --> API
+    API --> Services
+    Services --> DB
+```
+
+### Authentication Flow
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant L as Login Page
+    participant A as API Route
+    participant DB as Supabase
+    
+    U->>L: Enter credentials
+    L->>A: POST /api/auth/login
+    A->>DB: Query user by username
+    DB-->>A: User data
+    A->>A: bcrypt.compare(password)
+    A->>A: Generate JWT token
+    A-->>L: Return token + user info
+    L->>L: Store in localStorage
+    L-->>U: Redirect to Dashboard
+```
+
+### Component Structure
+
+```
+src/
+├── 📂 app/                    # Next.js App Router
+│   ├── 📂 api/                # 22 API endpoints
+│   ├── 📄 page.js             # Landing page
+│   ├── 📂 LogIn/              # Authentication
+│   ├── 📂 StudentDashboard/   # Student portal
+│   ├── 📂 AdminDashboard/     # Staff portal
+│   └── 📂 DirectorDashboard/  # Director portal
+│
+├── 📂 components/             # 16 Reusable components
+│   ├── Hero/                  # Landing hero section
+│   ├── Navbar/                # Fixed navigation
+│   ├── ScrollSection/         # Scroll animations
+│   ├── Toast/                 # Notifications
+│   └── ...                    # More components
+│
+└── 📂 lib/                    # Utilities
+    ├── supabase.js            # DB client (singleton)
+    ├── supabase-auth.js       # Auth helpers
+    └── cache.js               # Caching system
+```
+
+---
+
+## 📋 Overview
+
+### What It Is
+
+Lost & Found Portal is a comprehensive web application designed to streamline the management of lost and found items in educational institutions. It provides a unified platform connecting **students**, **administrators**, and **directors** with role-based access control.
 
 ### The Problem
 
-Educational institutions face a common challenge: students frequently lose items on campus. Traditional methods (bulletin boards, emails, physical claim systems) are:
-- **Inefficient**: Items pile up, matching is manual
-- **Disorganized**: No central tracking or status updates
-- **Time-consuming**: Staff spend hours on item management
-- **Opaque**: Students don't know if their item was found
+Educational institutions struggle with:
+- 📌 **Inefficient tracking** - Items pile up, manual matching
+- 📌 **Disorganized records** - No central database
+- 📌 **Poor communication** - Students don't know if items are found
+- 📌 **Time-consuming** - Staff spend hours managing items
 
 ### Our Solution
 
 A digital platform that:
-- **Centralizes** all lost and found operations
-- **Automates** matching and notification workflows
-- **Empowers** students to track their items in real-time
-- **Provides** administrators with powerful management tools
-- **Gives** directors oversight and user management capabilities
-
----
-
-## 💼 Use Cases
-
-### For Students
-| Use Case | Description |
-|----------|-------------|
-| Report Lost Item | Submit detailed reports (name, category, description, location, date) |
-| Track Status | Monitor item status in real-time (Searching → Found → Claimed) |
-| Browse Found Items | Search through found items to identify belongings |
-| Manage Reports | Edit or delete submitted reports |
-
-### For Administrators (Staff)
-| Use Case | Description |
-|----------|-------------|
-| Review Submissions | Process incoming lost item reports |
-| Log Found Items | Record items found on campus with details |
-| Match Items | Connect found items with student reports |
-| Manage Inventory | Full CRUD operations on all items |
-| Student Management | Create, edit, deactivate student accounts |
-| Statistics Dashboard | View analytics on items, resolution rates |
-
-### For Directors (Super Admin)
-| Use Case | Description |
-|----------|-------------|
-| User Management | Create/manage admins and students |
-| System Oversight | Access all platform statistics |
-| Audit Trail | Review all system activity |
-| Configuration | Manage system-wide settings |
+- ✅ **Centralizes** all lost and found operations
+- ✅ **Automates** status tracking and workflows
+- ✅ **Empowers** students with real-time updates
+- ✅ **Provides** powerful admin tools
 
 ---
 
 ## ✨ Features
 
-### 🎨 User Interface
-- **Glassmorphic Design** - Modern frosted glass aesthetics with backdrop blur
-- **Catppuccin Mocha Theme** - Cohesive dark mode color palette
-- **Smooth Animations** - Framer Motion powered transitions
-- **Scroll Stacking Effect** - Innovative section animations on landing page
-- **Responsive Design** - Mobile-first, works on all devices
-- **Custom Components** - Hand-crafted UI elements (Toast, DatePicker, ConfirmDialog)
+### 🎨 Premium UI/UX
+- **Glassmorphic Design** with backdrop blur effects
+- **Catppuccin Mocha** dark theme palette
+- **Scroll stacking animations** on landing page
+- **Mobile-optimized** bottom-sheet modals
+- **Custom components**: Toast, DatePicker, ConfirmDialog
 
 ### 🔐 Authentication & Security
-- **JWT-based Authentication** - Secure token-based sessions
-- **Role-based Access Control** - Student, Admin, Director roles
-- **Password Hashing** - bcrypt with salt rounds
-- **Protected Routes** - Server-side route protection
-- **Token Expiration** - Automatic session invalidation
+- JWT-based stateless authentication
+- Role-based access control (Student/Admin/Director)
+- Password hashing with bcrypt
+- Protected API routes
+- Auto token expiration
 
 ### 📦 Item Management
-- **Unique Item IDs** - Auto-generated tracking codes (e.g., LF-ABC123)
-- **Rich Item Details** - Name, category, description, location, date, contact info
-- **Status Workflow** - Lost → Found → Claimed → Returned
-- **Category System** - Electronics, Accessories, Clothing, Books, Keys, Bags, Sports, Other
-- **Search & Filter** - Full-text search across all item fields
+- Unique tracking IDs (e.g., `LF-ABC123`)
+- Status workflow: Lost → Found → Claimed → Returned
+- 8 category types
+- Full-text search across all fields
+- Filtering and sorting
 
-### 📊 Analytics Dashboard
-- **Real-time Statistics** - Total items, by status, by category
-- **Resolution Metrics** - Track success rates
-- **User Analytics** - Active users, submissions per user
-
-### 🚀 Performance
-- **In-memory Caching** - Reduces database load
-- **Singleton Database Pattern** - Connection reuse
-- **Optimistic UI Updates** - Instant feedback
-- **Lazy Loading** - Component-level code splitting
-
----
-
-## 🛠 Tech Stack
-
-### Frontend
-
-| Technology | Purpose |
-|------------|---------|
-| **Next.js 16** | React framework with App Router, Turbopack |
-| **React 19** | UI library with latest features |
-| **Framer Motion 12** | Animation library for smooth transitions |
-| **Lenis** | Smooth scrolling library |
-| **CSS Modules** | Scoped styling with no conflicts |
-
-### Backend
-
-| Technology | Purpose |
-|------------|---------|
-| **Next.js API Routes** | Serverless API endpoints |
-| **Supabase** | PostgreSQL database with real-time capabilities |
-| **JWT (jsonwebtoken)** | Token-based authentication |
-| **bcryptjs** | Password hashing |
-| **Custom Caching** | In-memory cache layer |
-
-### Database
-
-| Technology | Purpose |
-|------------|---------|
-| **Supabase PostgreSQL** | Managed PostgreSQL database |
-| **Row Level Security** | Database-level access control |
-| **Foreign Key Relations** | Referential integrity |
-
-### Development Tools
-
-| Tool | Purpose |
-|------|---------|
-| **Bun** | Fast JavaScript runtime & package manager |
-| **Turbopack** | Next.js bundler for fast dev builds |
-| **ESLint** | Code linting |
-
----
-
-## 🏗 Architecture
-
-### System Architecture
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                         CLIENT LAYER                             │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐  │
-│  │   Landing   │  │   Student   │  │  Admin/Director         │  │
-│  │    Page     │  │  Dashboard  │  │     Dashboards          │  │
-│  └─────────────┘  └─────────────┘  └─────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                      API LAYER (Next.js)                         │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────────────┐ │
-│  │  /auth   │  │ /student │  │  /admin  │  │    /director     │ │
-│  │  login   │  │ requests │  │  items   │  │   users/stats    │ │
-│  └──────────┘  └──────────┘  └──────────┘  └──────────────────┘ │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                      SERVICE LAYER                               │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────────┐   │
-│  │  Supabase    │  │     JWT      │  │      Cache           │   │
-│  │   Client     │  │   Handler    │  │      Layer           │   │
-│  │  (Singleton) │  │              │  │   (In-Memory)        │   │
-│  └──────────────┘  └──────────────┘  └──────────────────────┘   │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                      DATABASE LAYER                              │
-│                  ┌─────────────────────┐                         │
-│                  │  Supabase PostgreSQL │                        │
-│                  │  • users table       │                        │
-│                  │  • lost_items table  │                        │
-│                  └─────────────────────┘                         │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-### Component Architecture
-
-```
-src/
-├── app/                    # Next.js App Router
-│   ├── page.js            # Landing page
-│   ├── LogIn/             # Authentication page
-│   ├── StudentDashboard/  # Student portal
-│   ├── AdminDashboard/    # Staff portal
-│   ├── DirectorDashboard/ # Director portal
-│   ├── search/            # Public item search
-│   └── api/               # API endpoints
-│
-├── components/            # Reusable UI components
-│   ├── Hero/             # Landing hero section
-│   ├── Features/         # Feature showcase
-│   ├── Stats/            # Statistics display
-│   ├── CTA/              # Call to action
-│   ├── Navbar/           # Global navigation
-│   ├── StickyFooter/     # Footer component
-│   ├── ScrollSection/    # Scroll animation wrapper
-│   ├── Toast/            # Notification system
-│   ├── DatePicker/       # Custom date picker
-│   └── ConfirmDialog/    # Confirmation modals
-│
-└── lib/                   # Utility libraries
-    ├── supabase.js       # Database client (singleton)
-    ├── supabase-auth.js  # Auth helpers
-    └── cache.js          # Caching layer
-```
-
----
-
-## 📁 Project Structure
-
-```
-lost-and-found/
-├── 📂 lib/                         # Core libraries
-│   ├── supabase.js                 # Supabase client (singleton pattern)
-│   ├── supabase-auth.js            # JWT auth helpers
-│   └── cache.js                    # In-memory caching system
-│
-├── 📂 public/                      # Static assets
-│   └── fonts/                      # Custom fonts (Gilroy)
-│
-├── 📂 scripts/                     # Utility scripts
-│   └── seedDirector.js             # Database seeding
-│
-├── 📂 src/
-│   ├── 📂 app/                     # Next.js App Router
-│   │   ├── 📂 api/                 # API Routes
-│   │   │   ├── 📂 admin/           # Admin endpoints
-│   │   │   │   ├── claims/         # Claim management
-│   │   │   │   ├── items/          # Item CRUD
-│   │   │   │   ├── students/       # Student management
-│   │   │   │   ├── users/          # User management
-│   │   │   │   └── stats/          # Analytics
-│   │   │   ├── 📂 auth/            # Authentication
-│   │   │   │   ├── login/          # Login endpoint
-│   │   │   │   └── director/       # Director auth
-│   │   │   ├── 📂 director/        # Director endpoints
-│   │   │   ├── 📂 student/         # Student endpoints
-│   │   │   ├── 📂 health/          # Health checks
-│   │   │   └── 📂 setup/           # Database setup
-│   │   │
-│   │   ├── 📂 AdminDashboard/      # Admin UI
-│   │   ├── 📂 DirectorDashboard/   # Director UI
-│   │   ├── 📂 StudentDashboard/    # Student UI
-│   │   ├── 📂 LogIn/               # Login page
-│   │   ├── 📂 Director/            # Director login
-│   │   └── 📂 search/              # Public search
-│   │
-│   └── 📂 components/              # UI Components
-│       ├── Hero/                   # Landing hero
-│       ├── Features/               # Features section
-│       ├── Stats/                  # Statistics
-│       ├── CTA/                    # Call to action
-│       ├── Navbar/                 # Navigation
-│       ├── StickyFooter/           # Footer
-│       ├── ScrollSection/          # Scroll animations
-│       ├── PageLoader/             # Loading screen
-│       ├── PageTransition/         # Page transitions
-│       ├── Toast/                  # Notifications
-│       ├── DatePicker/             # Date picker
-│       ├── ConfirmDialog/          # Dialogs
-│       └── TransitionLink/         # Animated links
-│
-├── .env.local                      # Environment variables
-├── package.json                    # Dependencies
-└── next.config.mjs                 # Next.js config
-```
-
----
-
-## 🔌 API Documentation
-
-### Authentication Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/api/auth/login` | Student/Admin login |
-| `POST` | `/api/auth/director/login` | Director login |
-| `POST` | `/api/auth/director/verify` | Verify director token |
-
-### Student Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/api/student/requests` | Get student's reports |
-| `POST` | `/api/student/requests` | Create new report |
-| `DELETE` | `/api/student/requests` | Delete own report |
-
-### Admin Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/api/admin/items` | List all items (filterable) |
-| `POST` | `/api/admin/items-new` | Create new item |
-| `PUT` | `/api/admin/items-new` | Update item |
-| `DELETE` | `/api/admin/items-new` | Delete item |
-| `GET` | `/api/admin/students` | List students |
-| `POST` | `/api/admin/students` | Create student |
-| `GET` | `/api/admin/stats` | Get statistics |
-
-### Director Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/api/director/users` | List all users |
-| `POST` | `/api/director/users` | Create user |
-| `PUT` | `/api/director/users` | Update user |
-| `DELETE` | `/api/director/users` | Delete user |
-| `GET` | `/api/director/stats` | System statistics |
+### 📊 Analytics
+- Real-time statistics dashboard
+- Items by status/category
+- Resolution metrics
 
 ---
 
@@ -347,220 +207,174 @@ lost-and-found/
 
 ### Prerequisites
 
-- **Bun** (recommended) or Node.js 18+
-- **Supabase** account with project
-- **Git**
-
-### Installation
-
-1. **Clone the repository**
 ```bash
+# Required
+- Bun (or Node.js 18+)
+- Supabase account
+- Git
+```
+
+### Quick Start
+
+```bash
+# 1. Clone the repository
 git clone https://github.com/yourusername/lost-and-found.git
 cd lost-and-found
-```
 
-2. **Install dependencies**
-```bash
+# 2. Install dependencies
 bun install
-```
 
-3. **Configure environment variables**
-```bash
+# 3. Configure environment
 cp .env.local.example .env.local
+# Edit .env.local with your Supabase credentials
+
+# 4. Seed database (first time)
+bun run seed:director
+
+# 5. Start development server
+bun run dev
+
+# 6. Open http://localhost:3000
 ```
 
-Edit `.env.local`:
+### Environment Variables
+
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
-JWT_SECRET=your_jwt_secret
+JWT_SECRET=your_jwt_secret_here
 ```
-
-4. **Seed the database (first time)**
-```bash
-bun run seed:director
-```
-
-5. **Run development server**
-```bash
-bun run dev
-```
-
-6. **Open in browser**
-```
-http://localhost:3000
-```
-
-### Default Credentials
-
-| Role | Username | Password |
-|------|----------|----------|
-| Director | director | (set during seed) |
 
 ---
 
-## 🗄 Database Schema
+## 📚 Documentation
 
-### Users Table
+### API Endpoints
+
+<details>
+<summary><b>Authentication</b></summary>
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/auth/login` | Student/Admin login |
+| `POST` | `/api/auth/director/login` | Director login |
+| `POST` | `/api/auth/director/verify` | Verify token |
+
+</details>
+
+<details>
+<summary><b>Student Routes</b></summary>
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/student/requests` | Get own reports |
+| `POST` | `/api/student/requests` | Create report |
+| `DELETE` | `/api/student/requests` | Delete report |
+
+</details>
+
+<details>
+<summary><b>Admin Routes</b></summary>
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/admin/items` | List all items |
+| `POST` | `/api/admin/items-new` | Create item |
+| `PUT` | `/api/admin/items-new` | Update item |
+| `DELETE` | `/api/admin/items-new` | Delete item |
+| `GET` | `/api/admin/students` | List students |
+| `GET` | `/api/admin/stats` | Get statistics |
+
+</details>
+
+<details>
+<summary><b>Director Routes</b></summary>
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/director/users` | List all users |
+| `POST` | `/api/director/users` | Create user |
+| `PUT` | `/api/director/users` | Update user |
+| `DELETE` | `/api/director/users` | Delete user |
+
+</details>
+
+### Database Schema
+
+<details>
+<summary><b>Users Table</b></summary>
+
 ```sql
 CREATE TABLE users (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY,
   username VARCHAR(50) UNIQUE NOT NULL,
   email VARCHAR(255) UNIQUE NOT NULL,
   password_hash VARCHAR(255) NOT NULL,
-  first_name VARCHAR(50),
-  last_name VARCHAR(50),
-  role VARCHAR(20) DEFAULT 'student', -- student, admin, director
-  department VARCHAR(100),
-  phone VARCHAR(20),
+  role VARCHAR(20) DEFAULT 'student',
   is_active BOOLEAN DEFAULT true,
-  last_login TIMESTAMP,
-  created_at TIMESTAMP DEFAULT NOW(),
-  updated_at TIMESTAMP DEFAULT NOW()
+  created_at TIMESTAMP DEFAULT NOW()
 );
 ```
 
-### Lost Items Table
+</details>
+
+<details>
+<summary><b>Lost Items Table</b></summary>
+
 ```sql
 CREATE TABLE lost_items (
   id SERIAL PRIMARY KEY,
-  unique_item_id VARCHAR(20) UNIQUE, -- e.g., LF-ABC123
+  unique_item_id VARCHAR(20) UNIQUE,
   name VARCHAR(255) NOT NULL,
   description TEXT,
   category VARCHAR(50),
-  status VARCHAR(20) DEFAULT 'lost', -- lost, found, claimed, returned
-  location_lost VARCHAR(255),
-  location_found VARCHAR(255),
-  date_lost DATE,
-  date_found DATE,
-  date_returned DATE,
-  contact_info VARCHAR(255),
-  color VARCHAR(50),
-  brand VARCHAR(100),
-  image_url TEXT,
-  reward_amount DECIMAL(10,2),
-  notes TEXT,
+  status VARCHAR(20) DEFAULT 'lost',
   owner_user_id UUID REFERENCES users(id),
-  finder_user_id UUID REFERENCES users(id),
-  reported_by_user_id UUID REFERENCES users(id),
-  created_at TIMESTAMP DEFAULT NOW(),
-  updated_at TIMESTAMP DEFAULT NOW()
+  created_at TIMESTAMP DEFAULT NOW()
 );
 ```
 
----
-
-## 🔐 Authentication Flow
-
-```
-┌─────────┐       ┌─────────────┐       ┌──────────┐       ┌──────────┐
-│ Client  │──────▶│ Login Page  │──────▶│ API Route│──────▶│ Supabase │
-└─────────┘       └─────────────┘       └──────────┘       └──────────┘
-     │                   │                    │                  │
-     │  1. Enter creds   │                    │                  │
-     │──────────────────▶│                    │                  │
-     │                   │  2. POST /login    │                  │
-     │                   │───────────────────▶│                  │
-     │                   │                    │  3. Query user   │
-     │                   │                    │─────────────────▶│
-     │                   │                    │◀─────────────────│
-     │                   │                    │  4. Verify pass  │
-     │                   │                    │  (bcrypt.compare)│
-     │                   │  5. Return JWT     │                  │
-     │                   │◀───────────────────│                  │
-     │  6. Store token   │                    │                  │
-     │◀──────────────────│                    │                  │
-     │  (localStorage)   │                    │                  │
-     │                   │                    │                  │
-     │  7. Redirect to   │                    │                  │
-     │     Dashboard     │                    │                  │
-     └───────────────────┴────────────────────┴──────────────────┘
-```
+</details>
 
 ---
 
-## 🔮 Future Roadmap
+## 🔮 Roadmap
 
-### Phase 1: Enhanced Matching (v1.1)
-- [ ] **AI-powered Item Matching** - Use ML to suggest matches between lost/found items
-- [ ] **Image Upload** - Allow photo uploads for better identification
-- [ ] **Email Notifications** - Notify students when their item is found
-
-### Phase 2: Communication (v1.2)
-- [ ] **In-app Messaging** - Direct communication between finders and owners
-- [ ] **SMS Notifications** - Text alerts for urgent updates
-- [ ] **Push Notifications** - Browser/mobile push support
-
-### Phase 3: Integration (v1.3)
-- [ ] **Student ID Integration** - Link with campus ID systems
-- [ ] **QR Code Labels** - Generate trackable QR codes for items
-- [ ] **Campus Maps** - Visual location selection with maps
-
-### Phase 4: Mobile (v2.0)
-- [ ] **Progressive Web App** - Installable PWA with offline support
-- [ ] **React Native App** - Native mobile experience
-- [ ] **Camera Integration** - Direct photo capture
-
-### Phase 5: Enterprise (v3.0)
-- [ ] **Multi-campus Support** - Manage multiple institutions
-- [ ] **Analytics Dashboard** - Advanced reporting and insights
-- [ ] **Audit Logs** - Complete activity tracking
-- [ ] **SSO Integration** - SAML/OAuth for campus authentication
-
----
-
-## 📈 Scaling Considerations
-
-### Current Architecture Limits
-- **In-memory cache**: Lost on server restart, not shared across instances
-- **Single database**: Supabase free tier limits
-
-### Recommended Scaling Path
-
-1. **Horizontal Scaling**
-   - Replace in-memory cache with **Redis**
-   - Deploy multiple API instances behind load balancer
-
-2. **Database Optimization**
-   - Add indexes on frequently queried columns
-   - Implement connection pooling (pgBouncer)
-   - Consider read replicas for analytics
-
-3. **CDN & Static Assets**
-   - Serve static files via CDN (Vercel Edge, Cloudflare)
-   - Optimize images with Next.js Image component
-
-4. **Monitoring & Observability**
-   - Add APM (Application Performance Monitoring)
-   - Implement structured logging
-   - Set up alerting for errors/performance
-
-5. **Security Hardening**
-   - Implement rate limiting
-   - Add CSRF protection
-   - Security headers (CSP, HSTS)
-   - Regular dependency audits
-
-### Infrastructure Recommendations
-
-| Scale | Users | Recommended Setup |
-|-------|-------|-------------------|
-| Small | <100 | Vercel Free + Supabase Free |
-| Medium | 100-1000 | Vercel Pro + Supabase Pro + Redis |
-| Large | 1000+ | Self-hosted K8s + Managed PostgreSQL + Redis Cluster |
+- [ ] **v1.1** - AI-powered item matching
+- [ ] **v1.2** - Email/SMS notifications
+- [ ] **v1.3** - Image uploads & QR codes
+- [ ] **v2.0** - Progressive Web App (PWA)
+- [ ] **v3.0** - Multi-campus & SSO support
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please read our contributing guidelines before submitting PRs.
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a PR.
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
-<p align="center">
-  Built with ❤️ for educational institutions
-</p>
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+```
+MIT License - You are free to use, modify, and distribute this software
+with attribution. See LICENSE for full terms.
+```
+
+---
+
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=100&section=footer" width="100%"/>
+
+**Built with ❤️ for educational institutions**
+
+</div>
