@@ -33,37 +33,37 @@
 
 | Technology | Version | Purpose |
 |:-----------|:-------:|:--------|
-| <img src="https://cdn.simpleicons.org/nextdotjs/white" width="20" height="20"/> **Next.js** | `16.1` | React framework with App Router, server components, and Turbopack for blazing-fast development builds |
-| <img src="https://cdn.simpleicons.org/react/61DAFB" width="20" height="20"/> **React** | `19` | UI library with latest concurrent features, hooks, and server components support |
-| <img src="https://cdn.simpleicons.org/framer/FF0055" width="20" height="20"/> **Framer Motion** | `12` | Production-ready animation library for smooth transitions, gestures, and scroll-triggered effects |
-| <img src="https://cdn.simpleicons.org/css3/1572B6" width="20" height="20"/> **CSS Modules** | - | Scoped component styling with zero conflicts and full CSS features |
-| **Lenis** | `1.3` | Smooth scroll library for premium scrolling experience |
+| ![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat&logo=nextdotjs&logoColor=white) **Next.js** | `16.1` | React framework with App Router, server components, and Turbopack for blazing-fast development builds |
+| ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black) **React** | `19` | UI library with latest concurrent features, hooks, and server components support |
+| ![Framer](https://img.shields.io/badge/Framer_Motion-FF0055?style=flat&logo=framer&logoColor=white) **Framer Motion** | `12` | Production-ready animation library for smooth transitions, gestures, and scroll-triggered effects |
+| ![CSS3](https://img.shields.io/badge/CSS_Modules-1572B6?style=flat&logo=css3&logoColor=white) **CSS Modules** | - | Scoped component styling with zero conflicts and full CSS features |
+| 🌊 **Lenis** | `1.3` | Smooth scroll library for premium scrolling experience |
 
 ### Backend Technologies
 
 | Technology | Version | Purpose |
 |:-----------|:-------:|:--------|
-| <img src="https://cdn.simpleicons.org/nextdotjs/white" width="20" height="20"/> **Next.js API Routes** | `16.1` | Serverless API endpoints running on Edge/Node.js runtime |
-| <img src="https://cdn.simpleicons.org/supabase/3ECF8E" width="20" height="20"/> **Supabase** | `2.90` | PostgreSQL database with real-time subscriptions and Row Level Security |
-| <img src="https://cdn.simpleicons.org/jsonwebtokens/000000" width="20" height="20"/> **JWT (jsonwebtoken)** | `9.0` | Stateless authentication with signed tokens |
-| **bcryptjs** | `3.0` | Password hashing with configurable salt rounds |
-| **Custom Cache Layer** | - | In-memory caching with TTL for API response optimization |
+| ![Next.js](https://img.shields.io/badge/API_Routes-000000?style=flat&logo=nextdotjs&logoColor=white) **Next.js API Routes** | `16.1` | Serverless API endpoints running on Edge/Node.js runtime |
+| ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat&logo=supabase&logoColor=white) **Supabase** | `2.90` | PostgreSQL database with real-time subscriptions and Row Level Security |
+| ![JWT](https://img.shields.io/badge/JWT-000000?style=flat&logo=jsonwebtokens&logoColor=white) **JWT (jsonwebtoken)** | `9.0` | Stateless authentication with signed tokens |
+| 🔐 **bcryptjs** | `3.0` | Password hashing with configurable salt rounds |
+| ⚡ **Custom Cache Layer** | - | In-memory caching with TTL for API response optimization |
 
 ### Database
 
 | Technology | Purpose |
 |:-----------|:--------|
-| <img src="https://cdn.simpleicons.org/postgresql/4169E1" width="20" height="20"/> **PostgreSQL** | Relational database via Supabase with ACID compliance |
-| **Row Level Security** | Database-level access control policies |
-| **Foreign Key Relations** | Referential integrity between users and items |
+| ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white) **PostgreSQL** | Relational database via Supabase with ACID compliance |
+| 🔒 **Row Level Security** | Database-level access control policies |
+| 🔗 **Foreign Key Relations** | Referential integrity between users and items |
 
 ### Development & Build Tools
 
 | Tool | Purpose |
 |:-----|:--------|
-| <img src="https://cdn.simpleicons.org/bun/F9F1E1" width="20" height="20"/> **Bun** | Ultra-fast JavaScript runtime & package manager (3x faster than npm) |
-| **Turbopack** | Next.js bundler for instant HMR in development |
-| **ESLint** | Code quality and consistency enforcement |
+| ![Bun](https://img.shields.io/badge/Bun-000000?style=flat&logo=bun&logoColor=white) **Bun** | Ultra-fast JavaScript runtime & package manager (3x faster than npm) |
+| ⚡ **Turbopack** | Next.js bundler for instant HMR in development |
+| ![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=flat&logo=eslint&logoColor=white) **ESLint** | Code quality and consistency enforcement |
 
 ---
 
