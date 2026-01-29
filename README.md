@@ -1,27 +1,20 @@
 <div align="center">
-  
-<!-- Header Banner -->
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=200&section=header&text=Lost%20%26%20Found&fontSize=80&fontColor=fff&animation=twinkling&fontAlignY=35&desc=Campus%20Item%20Recovery%20System&descAlignY=52&descSize=20" width="100%"/>
 
-<!-- Animated SVG Badges -->
-<p>
-  <img src="https://img.shields.io/badge/Next.js-16.1-000000?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js"/>
-  <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React"/>
-  <img src="https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase"/>
-  <img src="https://img.shields.io/badge/Framer_Motion-12-FF0055?style=for-the-badge&logo=framer&logoColor=white" alt="Framer Motion"/>
-  <img src="https://img.shields.io/badge/Bun-Runtime-F9F1E1?style=for-the-badge&logo=bun&logoColor=black" alt="Bun"/>
-</p>
+# 🎓 Lost & Found Portal
 
-<p>
-  <img src="https://img.shields.io/github/license/yourusername/lost-and-found?style=flat-square&color=blue" alt="License"/>
-  <img src="https://img.shields.io/github/stars/yourusername/lost-and-found?style=flat-square" alt="Stars"/>
-  <img src="https://img.shields.io/github/forks/yourusername/lost-and-found?style=flat-square" alt="Forks"/>
-  <img src="https://img.shields.io/github/issues/yourusername/lost-and-found?style=flat-square" alt="Issues"/>
-</p>
+### Campus Item Recovery System
+
+[![Next.js](https://img.shields.io/badge/Next.js-16.1-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-12-FF0055?style=for-the-badge&logo=framer&logoColor=white)](https://motion.dev/)
+[![Bun](https://img.shields.io/badge/Bun-000000?style=for-the-badge&logo=bun&logoColor=white)](https://bun.sh/)
+
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue?style=flat-square)](LICENSE)
 
 **A modern, full-stack lost and found management system for educational institutions**
 
-[Demo](#) • [Documentation](#-documentation) • [Contributing](#-contributing) • [Report Bug](#)
+[Documentation](#-documentation) • [Contributing](#-contributing)
 
 </div>
 
@@ -362,18 +355,18 @@ Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) before
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **Apache License 2.0** - see the [LICENSE](LICENSE) file for details.
 
 ```
-MIT License - You are free to use, modify, and distribute this software
-with attribution. See LICENSE for full terms.
+Copyright 2024-2026 Aary
+
+Licensed under the Apache License, Version 2.0.
+You may use, modify, and distribute this software with attribution.
 ```
 
 ---
 
 <div align="center">
-
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=100&section=footer" width="100%"/>
 
 **Built with ❤️ for educational institutions**
 
